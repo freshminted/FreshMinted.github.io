@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blog | FreshMint</title>
+<link rel="stylesheet" href="/css/style.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',sans-serif;background:#0d0d0d;color:#c8c8c8;padding-top:80px}
+.blog-wrap{max-width:900px;margin:0 auto;padding:80px 24px 120px}
+.blog-eyebrow{font-size:11px;letter-spacing:4px;text-transform:uppercase;color:#4CAF50;font-family:'Syne',sans-serif;margin-bottom:20px;display:block;animation:fadeUp 0.5s ease both}
+.blog-title{font-family:'Syne',sans-serif;font-size:clamp(36px,7vw,60px);font-weight:800;color:#fff;line-height:1.05;margin-bottom:12px;animation:fadeUp 0.5s ease 0.1s both}
+.blog-title span{color:#4CAF50}
+.blog-sub{font-size:15px;color:rgba(255,255,255,0.4);margin-bottom:48px;font-weight:300;line-height:1.7;animation:fadeUp 0.5s ease 0.2s both}
+.blog-filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:48px;animation:fadeUp 0.5s ease 0.25s both}
+.filter-btn{padding:7px 16px;border-radius:20px;border:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.03);color:rgba(255,255,255,0.4);font-size:13px;cursor:pointer;transition:all 0.2s;font-family:'DM Sans',sans-serif}
+.filter-btn:hover{border-color:rgba(76,175,80,0.3);color:#fff}
+.filter-btn.active{background:rgba(76,175,80,0.12);border-color:rgba(76,175,80,0.4);color:#4CAF50;font-weight:500}
+.tag-video{background:rgba(239,68,68,0.12);color:#ef4444;border:1px solid rgba(239,68,68,0.2)}
+.tag-gaming{background:rgba(168,85,247,0.12);color:#c084fc;border:1px solid rgba(168,85,247,0.2)}
+.tag-business{background:rgba(59,130,246,0.12);color:#60a5fa;border:1px solid rgba(59,130,246,0.2)}
+.tag-personal{background:rgba(76,175,80,0.12);color:#4CAF50;border:1px solid rgba(76,175,80,0.2)}
+.tag-web{background:rgba(251,191,36,0.12);color:#fbbf24;border:1px solid rgba(251,191,36,0.2)}
+.featured-wrap{margin-bottom:48px;animation:fadeUp 0.5s ease 0.3s both}
+.featured-label{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.2);font-family:'Syne',sans-serif;margin-bottom:14px;display:block}
+.featured-card{display:grid;grid-template-columns:1fr 1fr;gap:0;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.07);border-radius:16px;overflow:hidden;cursor:pointer;transition:border-color 0.25s;text-decoration:none}
+.featured-card:hover{border-color:rgba(76,175,80,0.3)}
+.featured-thumb{height:280px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,0.02)}
+.featured-content{padding:32px;display:flex;flex-direction:column;justify-content:center;gap:12px}
+.post-topic-tag{display:inline-block;font-size:10px;padding:3px 10px;border-radius:20px;font-family:'Syne',sans-serif;letter-spacing:1px;text-transform:uppercase;font-weight:600;width:fit-content}
+.featured-post-title{font-family:'Syne',sans-serif;font-size:22px;font-weight:700;color:#fff;line-height:1.3}
+.featured-post-excerpt{font-size:14px;color:rgba(255,255,255,0.5);line-height:1.75}
+.post-meta{display:flex;gap:14px;align-items:center;font-size:12px;color:rgba(255,255,255,0.25)}
+.read-more{font-size:13px;color:#4CAF50;display:flex;align-items:center;gap:6px;margin-top:4px;transition:gap 0.2s}
+.featured-card:hover .read-more{gap:10px}
+.posts-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
+.post-card{background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.07);border-radius:14px;overflow:hidden;cursor:pointer;transition:border-color 0.25s,transform 0.25s;text-decoration:none;display:block;animation:fadeUp 0.5s ease both}
+.post-card:hover{border-color:rgba(76,175,80,0.25);transform:translateY(-3px)}
+.post-thumb{height:130px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,0.02)}
+.placeholder-img{font-size:44px;opacity:0.35}
+.post-info{padding:16px;display:flex;flex-direction:column;gap:8px}
+.post-title{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;color:#fff;line-height:1.3}
+.post-excerpt{font-size:13px;color:rgba(255,255,255,0.4);line-height:1.65}
+.post-footer{display:flex;justify-content:space-between;align-items:center;padding-top:10px;border-top:1px solid rgba(255,255,255,0.05);font-size:11px;color:rgba(255,255,255,0.2)}
+.post-footer .read-link{color:#4CAF50;font-size:12px}
+.blog-empty{display:none;text-align:center;padding:60px 20px;color:rgba(255,255,255,0.2);font-size:14px;grid-column:1/-1}
+.blog-cta{margin-top:64px;padding:32px;background:rgba(76,175,80,0.04);border:1px solid rgba(76,175,80,0.12);border-radius:16px;display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;animation:fadeUp 0.5s ease 0.5s both}
+.blog-cta-text h3{font-family:'Syne',sans-serif;font-size:18px;font-weight:700;color:#fff;margin-bottom:6px}
+.blog-cta-text p{font-size:14px;color:rgba(255,255,255,0.4);line-height:1.6}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:680px){.featured-card{grid-template-columns:1fr}.featured-thumb{height:180px}.posts-grid{grid-template-columns:1fr}.blog-cta{flex-direction:column}}
+</style>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="nav-container">
+    <h2 class="logo">FreshMint</h2>
+    <div class="menu-toggle"><span></span><span></span><span></span></div>
+    <ul class="nav-links">
+      <li><a href="/index.html"><span>Home</span></a></li>
+      <li><a href="/about.html"><span>About</span></a></li>
+      <li><a href="/portfolio.html"><span>Portfolio</span></a></li>
+      <li><a href="/services/"><span>Services</span></a></li>
+      <li><a href="/games.html"><span>Games</span></a></li>
+      <li><a href="/blog.html"><span>Blog</span></a></li>
+      <li><a href="/links.html"><span>Links</span></a></li>
+      <li><a href="/contact.html"><span>Contact</span></a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="blog-wrap">
+
+  <span class="blog-eyebrow">Thoughts & guides</span>
+  <h1 class="blog-title">The Fresh<span>Mint</span> Blog</h1>
+  <p class="blog-sub">Tips, guides, stories and strategy — from video editing to game chaos to building things on the internet.</p>
+
+  <div class="blog-filters">
+    <button class="filter-btn active" onclick="filterPosts('all',this)">All</button>
+    <button class="filter-btn" onclick="filterPosts('video',this)">🎬 Video Editing</button>
+    <button class="filter-btn" onclick="filterPosts('gaming',this)">🎮 Game Strategy</button>
+    <button class="filter-btn" onclick="filterPosts('business',this)">📊 Business</button>
+    <button class="filter-btn" onclick="filterPosts('personal',this)">🌿 Personal</button>
+    <button class="filter-btn" onclick="filterPosts('web',this)">💻 Web / Code</button>
+  </div>
+
+  <!-- FEATURED -->
+  <div class="featured-wrap" id="featured-wrap" data-category="personal">
+    <span class="featured-label">Featured post</span>
+    <a href="#" class="featured-card">
+      <div class="featured-thumb"><div style="font-size:72px;opacity:0.35">🌿</div></div>
+      <div class="featured-content">
+        <span class="post-topic-tag tag-personal">Personal</span>
+        <h2 class="featured-post-title">Building FreshMint — From MS Paint to a Full Services Platform</h2>
+        <p class="featured-post-excerpt">How a 4-year-old with a business laptop and MS Paint ended up building a full freelance platform at 18. The honest story of what went wrong, what surprised me, and what's next.</p>
+        <div class="post-meta"><span>📅 Coming soon</span><span>⏱ 5 min read</span></div>
+        <div class="read-more">Read post →</div>
+      </div>
+    </a>
+  </div>
+
+  <!-- GRID -->
+  <div class="posts-grid" id="posts-grid">
+
+    <a href="#" class="post-card" data-category="video" style="animation-delay:0.1s">
+      <div class="post-thumb"><div class="placeholder-img">🎬</div></div>
+      <div class="post-info">
+        <span class="post-topic-tag tag-video">Video Editing</span>
+        <div class="post-title">5 Cuts That Make Any Video Feel Cinematic</div>
+        <div class="post-excerpt">The specific editing techniques that separate amateur cuts from professional ones — in Premiere and DaVinci.</div>
+        <div class="post-footer"><span>Coming soon · 4 min</span><span class="read-link">Read →</span></div>
+      </div>
+    </a>
+
+    <a href="#" class="post-card" data-category="gaming" style="animation-delay:0.15s">
+      <div class="post-thumb"><div class="placeholder-img">🏙️</div></div>
+      <div class="post-info">
+        <span class="post-topic-tag tag-gaming">Game Strategy</span>
+        <div class="post-title">Why Your Cities: Skylines Traffic Is Always a Disaster</div>
+        <div class="post-excerpt">3 specific mistakes most players make in their first 50k population — and exactly how to fix each one.</div>
+        <div class="post-footer"><span>Coming soon · 6 min</span><span class="read-link">Read →</span></div>
+      </div>
+    </a>
+
+    <a href="#" class="post-card" data-category="business" style="animation-delay:0.2s">
+      <div class="post-thumb"><div class="placeholder-img">📊</div></div>
+      <div class="post-info">
+        <span class="post-topic-tag tag-business">Business</span>
+        <div class="post-title">Why Cheap Pricing Kills Your Freelance Career Before It Starts</div>
+        <div class="post-excerpt">Charging ₹11 for a gig doesn't make you approachable — it makes you look like a scam. The psychology of pricing.</div>
+        <div class="post-footer"><span>Coming soon · 5 min</span><span class="read-link">Read →</span></div>
+      </div>
+    </a>
+
+    <a href="#" class="post-card" data-category="web" style="animation-delay:0.25s">
+      <div class="post-thumb"><div class="placeholder-img">💻</div></div>
+      <div class="post-info">
+        <span class="post-topic-tag tag-web">Web / Code</span>
+        <div class="post-title">How I Built a Persistent Music Player That Works Across Every Page</div>
+        <div class="post-excerpt">No iframes. No React. Just localStorage and a single script.js. The full technical breakdown.</div>
+        <div class="post-footer"><span>Coming soon · 8 min</span><span class="read-link">Read →</span></div>
+      </div>
+    </a>
+
+    <a href="#" class="post-card" data-category="gaming" style="animation-delay:0.3s">
+      <div class="post-thumb"><div class="placeholder-img">🍗</div></div>
+      <div class="post-info">
+        <span class="post-topic-tag tag-gaming">Game Strategy</span>
+        <div class="post-title">Definitely Not Fried Chicken — A Beginner's Survival Guide</div>
+        <div class="post-excerpt">This game will break. Your kitchen will catch fire. Your staff will stand in a corner. Here's how to survive.</div>
+        <div class="post-footer"><span>Coming soon · 5 min</span><span class="read-link">Read →</span></div>
+      </div>
+    </a>
+
+    <a href="#" class="post-card" data-category="video" style="animation-delay:0.35s">
+      <div class="post-thumb"><div class="placeholder-img">🎵</div></div>
+      <div class="post-info">
+        <span class="post-topic-tag tag-video">Video Editing</span>
+        <div class="post-title">NCS Music — How to Pick the Right Track for Any Edit</div>
+        <div class="post-excerpt">Which NCS genres work for which edit styles — and how to sync cuts to the beat properly.</div>
+        <div class="post-footer"><span>Coming soon · 4 min</span><span class="read-link">Read →</span></div>
+      </div>
+    </a>
+
+    <a href="#" class="post-card" data-category="personal" style="animation-delay:0.4s">
+      <div class="post-thumb"><div class="placeholder-img">🪙</div></div>
+      <div class="post-info">
+        <span class="post-topic-tag tag-personal">Personal</span>
+        <div class="post-title">What Getting My First Client Actually Felt Like</div>
+        <div class="post-excerpt">The money was the smallest part of it. An honest post about getting paid for something you built yourself.</div>
+        <div class="post-footer"><span>Coming soon · 3 min</span><span class="read-link">Read →</span></div>
+      </div>
+    </a>
+
+    <a href="#" class="post-card" data-category="business" style="animation-delay:0.45s">
+      <div class="post-thumb"><div class="placeholder-img">📱</div></div>
+      <div class="post-info">
+        <span class="post-topic-tag tag-business">Business</span>
+        <div class="post-title">The Only Social Media Strategy That Actually Works in 2026</div>
+        <div class="post-excerpt">Consistency beats virality every time. The exact content framework I use to build brand accounts from zero.</div>
+        <div class="post-footer"><span>Coming soon · 6 min</span><span class="read-link">Read →</span></div>
+      </div>
+    </a>
+
+    <a href="#" class="post-card" data-category="web" style="animation-delay:0.5s">
+      <div class="post-thumb"><div class="placeholder-img">🌐</div></div>
+      <div class="post-info">
+        <span class="post-topic-tag tag-web">Web / Code</span>
+        <div class="post-title">PPP Pricing — How I Show Different Prices to Different Countries</div>
+        <div class="post-excerpt">IP detection, exchange rates and a simple floor formula — all in a static HTML site with no backend.</div>
+        <div class="post-footer"><span>Coming soon · 7 min</span><span class="read-link">Read →</span></div>
+      </div>
+    </a>
+
+    <div class="blog-empty" id="blog-empty">No posts in this category yet — check back soon!</div>
+
+  </div>
+
+  <div class="blog-cta">
+    <div class="blog-cta-text">
+      <h3>Want to be notified when posts go live?</h3>
+      <p>Drop me a message on the contact page or follow on YouTube — new posts get announced there first.</p>
+    </div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;">
+      <a href="/contact.html" class="btn" style="font-size:14px">Contact Me</a>
+      <a href="https://youtube.com/@FreshMinted" target="_blank" class="btn secondary" style="font-size:14px">YouTube →</a>
+    </div>
+  </div>
+
+</div>
+<script src="/js/navigation.js"></script>
+
+<script src="/js/script.js"></script>
+<script>
+function filterPosts(cat, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const cards = document.querySelectorAll('.post-card');
+  let visible = 0;
+  cards.forEach(card => {
+    const match = cat === 'all' || card.dataset.category === cat;
+    card.style.display = match ? '' : 'none';
+    if (match) visible++;
+    
+  });
+  const featured = document.getElementById('featured-wrap');
+  featured.style.display = (cat === 'all' || cat === featured.dataset.category) ? '' : 'none';
+  document.getElementById('blog-empty').style.display = visible === 0 ? 'block' : 'none';
+}
+</script>
+</body>
+</html>

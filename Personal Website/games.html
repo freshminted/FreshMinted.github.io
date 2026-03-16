@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Games | FreshMint</title>
+<link rel="stylesheet" href="/css/style.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',sans-serif;background:#0d0d0d;color:#c8c8c8;padding-top:80px}
+
+.games-wrap{max-width:960px;margin:0 auto;padding:80px 24px 120px}
+
+.games-eyebrow{font-size:11px;letter-spacing:4px;text-transform:uppercase;color:#4CAF50;font-family:'Syne',sans-serif;margin-bottom:20px;display:block;animation:fadeUp 0.5s ease both}
+.games-title{font-family:'Syne',sans-serif;font-size:clamp(36px,7vw,60px);font-weight:800;color:#fff;line-height:1.05;margin-bottom:12px;animation:fadeUp 0.5s ease 0.1s both}
+.games-title span{color:#4CAF50}
+.games-sub{font-size:15px;color:rgba(255,255,255,0.4);margin-bottom:64px;font-weight:300;animation:fadeUp 0.5s ease 0.2s both}
+
+/* ── SECTION HEADERS ── */
+.sec-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px}
+.sec-title{font-family:'Syne',sans-serif;font-size:20px;font-weight:700;color:#fff}
+.sec-badge{font-size:11px;padding:4px 10px;border-radius:20px;background:rgba(76,175,80,0.1);border:1px solid rgba(76,175,80,0.2);color:#4CAF50;letter-spacing:1px}
+.sec-badge.two{background:rgba(168,85,247,0.1);border-color:rgba(168,85,247,0.2);color:#c084fc}
+
+/* ── GAME TABS ── */
+.game-tabs{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap}
+.game-tab{padding:8px 16px;border-radius:8px;border:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.03);color:rgba(255,255,255,0.45);font-size:13px;cursor:pointer;transition:all 0.2s;font-family:'DM Sans',sans-serif}
+.game-tab:hover{border-color:rgba(76,175,80,0.3);color:#fff}
+.game-tab.active{background:rgba(76,175,80,0.12);border-color:rgba(76,175,80,0.4);color:#4CAF50;font-weight:500}
+.game-tab.two-player.active{background:rgba(168,85,247,0.12);border-color:rgba(168,85,247,0.4);color:#c084fc}
+
+/* ── GAME CANVAS AREA ── */
+.game-area{background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.07);border-radius:16px;overflow:hidden;margin-bottom:56px;animation:fadeUp 0.5s ease 0.3s both}
+.game-topbar{display:flex;justify-content:space-between;align-items:center;padding:14px 20px;border-bottom:1px solid rgba(255,255,255,0.06)}
+.game-current-name{font-family:'Syne',sans-serif;font-size:15px;font-weight:600;color:#fff}
+.game-score-row{display:flex;gap:20px;align-items:center}
+.game-score{font-size:13px;color:rgba(255,255,255,0.4)}
+.game-score span{color:#4CAF50;font-weight:600;font-family:'Syne',sans-serif}
+.game-canvas-wrap{display:flex;justify-content:center;align-items:center;padding:24px;min-height:420px;position:relative}
+canvas{display:block;border-radius:8px;image-rendering:pixelated}
+.game-controls-hint{padding:12px 20px;border-top:1px solid rgba(255,255,255,0.05);font-size:12px;color:rgba(255,255,255,0.25);text-align:center;letter-spacing:0.5px}
+.game-hidden{display:none}
+
+/* ── COLLECTION ── */
+.collection-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;margin-bottom:80px}
+.coll-card{background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.07);border-radius:14px;overflow:hidden;transition:border-color 0.25s,transform 0.25s}
+.coll-card:hover{border-color:rgba(76,175,80,0.25);transform:translateY(-4px)}
+.coll-thumb{height:140px;display:flex;align-items:center;justify-content:center;font-size:52px;background:rgba(255,255,255,0.02);position:relative}
+.coll-coming{position:absolute;top:10px;right:10px;font-size:10px;padding:3px 8px;border-radius:10px;background:rgba(76,175,80,0.15);color:#4CAF50;letter-spacing:1px;font-family:'Syne',sans-serif}
+.coll-info{padding:16px}
+.coll-name{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;color:#fff;margin-bottom:4px}
+.coll-genre{font-size:11px;color:#4CAF50;letter-spacing:1px;text-transform:uppercase;margin-bottom:8px}
+.coll-desc{font-size:13px;color:rgba(255,255,255,0.4);line-height:1.6}
+
+/* ── TWITCH CTA ── */
+.twitch-cta{background:rgba(145,70,255,0.05);border:1px solid rgba(145,70,255,0.15);border-radius:14px;padding:28px;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.twitch-cta-text h3{font-family:'Syne',sans-serif;font-size:18px;font-weight:700;color:#fff;margin-bottom:6px}
+.twitch-cta-text p{font-size:14px;color:rgba(255,255,255,0.4);line-height:1.6}
+.btn-twitch{background:rgba(145,70,255,0.2);border:1px solid rgba(145,70,255,0.4);color:#c084fc;padding:11px 22px;border-radius:10px;text-decoration:none;font-size:14px;font-weight:500;transition:all 0.2s;white-space:nowrap}
+.btn-twitch:hover{background:rgba(145,70,255,0.3);color:#fff}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+
+@media(max-width:600px){
+  .game-canvas-wrap{padding:12px;min-height:340px}
+  .collection-grid{grid-template-columns:1fr}
+  .twitch-cta{flex-direction:column}
+}
+</style>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="nav-container">
+    <h2 class="logo">FreshMint</h2>
+    <div class="menu-toggle"><span></span><span></span><span></span></div>
+    <ul class="nav-links">
+      <li><a href="/index.html"><span>Home</span></a></li>
+      <li><a href="/about.html"><span>About</span></a></li>
+      <li><a href="/portfolio.html"><span>Portfolio</span></a></li>
+      <li><a href="/services/"><span>Services</span></a></li>
+      <li><a href="/games.html"><span>Games</span></a></li>
+      <li><a href="/links.html"><span>Links</span></a></li>
+      <li><a href="/contact.html"><span>Contact</span></a></li>
+            <li><a href="/blog.html"><span>Blog</span></a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="games-wrap">
+
+  <span class="games-eyebrow">Play something</span>
+  <h1 class="games-title">Mini <span>Games</span></h1>
+  <p class="games-sub">Zero downloads, zero bandwidth. Pure browser fun — 1 player or 2 players on the same keyboard.</p>
+
+  <!-- GAME SELECTOR -->
+  <div class="sec-header">
+    <span class="sec-title">Choose a game</span>
+    <span class="sec-badge" id="mode-badge">1 Player</span>
+  </div>
+
+  <div class="game-tabs">
+    <button class="game-tab active" onclick="switchGame('snake')">🐍 Snake</button>
+    <button class="game-tab" onclick="switchGame('tetris')">🟦 Tetris</button>
+    <button class="game-tab" onclick="switchGame('2048')">🔢 2048</button>
+    <button class="game-tab" onclick="switchGame('flappy')">🐦 Flappy Bird</button>
+    <button class="game-tab two-player" onclick="switchGame('pong')">🏓 Pong</button>
+    <button class="game-tab two-player" onclick="switchGame('tictactoe')">❌ Tic Tac Toe</button>
+    <button class="game-tab two-player" onclick="switchGame('connect4')">🔴 Connect Four</button>
+  </div>
+
+  <!-- GAME AREA -->
+  <div class="game-area">
+    <div class="game-topbar">
+      <span class="game-current-name" id="game-name">Snake</span>
+      <div class="game-score-row">
+        <div class="game-score" id="score-display">Score: <span id="score-val">0</span></div>
+        <div class="game-score" id="score2-display" style="display:none">P2: <span id="score2-val">0</span></div>
+        <button onclick="restartGame()" style="background:rgba(76,175,80,0.12);border:1px solid rgba(76,175,80,0.25);color:#4CAF50;padding:5px 14px;border-radius:6px;cursor:pointer;font-size:12px;font-family:'DM Sans',sans-serif">Restart</button>
+      </div>
+    </div>
+    <div class="game-canvas-wrap" id="game-canvas-wrap">
+      <canvas id="gameCanvas" width="400" height="400"></canvas>
+    </div>
+    <div class="game-controls-hint" id="controls-hint">Arrow Keys to move · Space to pause/start</div>
+  </div>
+
+  <!-- COLLECTION -->
+  <div class="sec-header" style="margin-bottom:24px">
+    <span class="sec-title">My game collection</span>
+  </div>
+
+  <div class="collection-grid">
+    <div class="coll-card">
+      <div class="coll-thumb">🍗<span class="coll-coming">Layout dropping soon</span></div>
+      <div class="coll-info">
+        <div class="coll-name">Definitely Not Fried Chicken</div>
+        <div class="coll-genre">Simulation · Chaos</div>
+        <div class="coll-desc">Running a totally-legal pharmaceutical business. Nothing suspicious here. My full kitchen layout coming soon.</div>
+      </div>
+    </div>
+    <div class="coll-card">
+      <div class="coll-thumb">🏙️<span class="coll-coming">Layout dropping soon</span></div>
+      <div class="coll-info">
+        <div class="coll-name">Cities: Skylines</div>
+        <div class="coll-genre">City Builder · Strategy</div>
+        <div class="coll-desc">Traffic is a personal enemy. My most optimised city layout and traffic flow guide coming soon.</div>
+      </div>
+    </div>
+    <div class="coll-card">
+      <div class="coll-thumb">🏭<span class="coll-coming">Layout dropping soon</span></div>
+      <div class="coll-info">
+        <div class="coll-name">Rise of Industries</div>
+        <div class="coll-genre">Factory · Strategy</div>
+        <div class="coll-desc">Supply chain mastery. My full factory layout and production chain guide coming soon.</div>
+      </div>
+    </div>
+    <div class="coll-card">
+      <div class="coll-thumb">🚜</div>
+      <div class="coll-info">
+        <div class="coll-name">Ranch Simulator</div>
+        <div class="coll-genre">Simulation · Sandbox</div>
+        <div class="coll-desc">Running a ranch, surviving bugs, doing ranch things. Chaotically satisfying.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TWITCH CTA -->
+  <div class="twitch-cta">
+    <div class="twitch-cta-text">
+      <h3>Watch me play live</h3>
+      <p>Strategy sessions, chaos runs and game coaching — all live on Twitch. Come hang out.</p>
+    </div>
+    <a href="https://twitch.tv/FreshMinted" target="_blank" rel="noopener" class="btn-twitch">Follow on Twitch →</a>
+  </div>
+
+</div>
+
+<script src="/js/script.js"></script>
+<script>
+/* ══════════════════════════════════════
+   GAME ENGINE — all games in one file
+   Zero external dependencies, zero bandwidth
+══════════════════════════════════════ */
+
+const canvas = document.getElementById('gameCanvas');
+const ctx    = canvas.getContext('2d');
+
+let currentGame = 'snake';
+let animFrame;
+let score = 0, score2 = 0;
+
+const COLORS = {
+  bg:      '#0d0d0d',
+  grid:    'rgba(255,255,255,0.03)',
+  green:   '#4CAF50',
+  green2:  '#7CFF7C',
+  purple:  '#c084fc',
+  red:     '#ef4444',
+  yellow:  '#fbbf24',
+  white:   '#ffffff',
+  dim:     'rgba(255,255,255,0.15)'
+};
+
+function setScore(s, s2) {
+  score = s; score2 = s2 || 0;
+  document.getElementById('score-val').textContent  = s;
+  document.getElementById('score2-val').textContent = s2 || 0;
+}
+
+function switchGame(name) {
+  // ✅ FIX 1: Always clear Tetris interval when switching away
+  clearInterval(tetDropInterval);
+  cancelAnimationFrame(animFrame);
+  document.querySelectorAll('.game-tab').forEach(t => t.classList.remove('active'));
+  event.target.classList.add('active');
+  currentGame = name;
+
+  const twoPlayer = ['pong','tictactoe','connect4'].includes(name);
+  document.getElementById('mode-badge').textContent = twoPlayer ? '2 Players' : '1 Player';
+  document.getElementById('mode-badge').className   = twoPlayer ? 'sec-badge two' : 'sec-badge';
+  document.getElementById('score2-display').style.display = twoPlayer ? '' : 'none';
+
+  const names = {snake:'Snake',tetris:'Tetris',2048:'2048',flappy:'Flappy Bird',pong:'Pong',tictactoe:'Tic Tac Toe',connect4:'Connect Four'};
+  const hints = {
+    snake:     'Arrow Keys · Space to start',
+    tetris:    'Arrow Keys · Up to rotate · Space to drop',
+    2048:      'Arrow Keys to slide tiles',
+    flappy:    'Space / Click to flap',
+    pong:      'P1: W/S  ·  P2: ↑/↓',
+    tictactoe: 'Click to place · P1 = X  P2 = O',
+    connect4:  'Click column to drop · P1 = Red  P2 = Yellow'
+  };
+  document.getElementById('game-name').textContent   = names[name];
+  document.getElementById('controls-hint').textContent = hints[name];
+
+  setScore(0, 0);
+  restartGame();
+}
+
+function restartGame() {
+  // Always clear tetris interval + animation frame before starting any game
+  clearInterval(tetDropInterval);
+  cancelAnimationFrame(animFrame);
+  setScore(0, 0);
+  const games = {snake:initSnake,tetris:initTetris,2048:init2048,flappy:initFlappy,pong:initPong,tictactoe:initTicTacToe,connect4:initConnect4};
+  games[currentGame]();
+}
+
+/* ─── DRAW HELPERS ─── */
+function clearCanvas() {
+  ctx.fillStyle = COLORS.bg;
+  ctx.fillRect(0,0,canvas.width,canvas.height);
+}
+
+function drawGrid(size) {
+  ctx.strokeStyle = COLORS.grid;
+  ctx.lineWidth = 0.5;
+  for(let x=0;x<=canvas.width;x+=size){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,canvas.height);ctx.stroke()}
+  for(let y=0;y<=canvas.height;y+=size){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(canvas.width,y);ctx.stroke()}
+}
+
+function drawText(text, x, y, size, color, align='center') {
+  ctx.fillStyle = color;
+  ctx.font = `${size}px 'Syne', sans-serif`;
+  ctx.textAlign = align;
+  ctx.fillText(text, x, y);
+}
+
+function roundRect(x, y, w, h, r, color) {
+  ctx.fillStyle = color;
+  ctx.beginPath();
+  ctx.roundRect(x,y,w,h,r);
+  ctx.fill();
+}
+
+/* ════════════════════════
+   🐍 SNAKE
+════════════════════════ */
+let snake, snakeDir, snakeFood, snakePaused, snakeStarted, snakeInterval;
+const SZ = 20;
+
+function initSnake() {
+  snake = [{x:10,y:10},{x:9,y:10},{x:8,y:10}];
+  snakeDir = {x:1,y:0};
+  snakeFood = randomFood();
+  snakePaused = true; snakeStarted = false;
+  clearInterval(snakeInterval);
+  snakeInterval = setInterval(snakeTick, 130);
+  drawSnake();
+}
+
+function randomFood() {
+  return {x:Math.floor(Math.random()*20), y:Math.floor(Math.random()*20)};
+}
+
+function snakeTick() {
+  if(snakePaused) return;
+  const head = {x:snake[0].x+snakeDir.x, y:snake[0].y+snakeDir.y};
+  if(head.x<0||head.x>=20||head.y<0||head.y>=20||snake.some(s=>s.x===head.x&&s.y===head.y)){
+    snakePaused=true;
+    drawSnake();
+    drawText('Game Over',200,180,28,COLORS.white);
+    drawText('Score: '+score,200,215,16,COLORS.dim);
+    drawText('Space to restart',200,245,14,COLORS.green);
+    return;
+  }
+  snake.unshift(head);
+  if(head.x===snakeFood.x&&head.y===snakeFood.y){
+    setScore(score+10,0); snakeFood=randomFood();
+  } else { snake.pop(); }
+  drawSnake();
+}
+
+function drawSnake() {
+  clearCanvas(); drawGrid(SZ);
+  // food
+  roundRect(snakeFood.x*SZ+2, snakeFood.y*SZ+2, SZ-4, SZ-4, 4, COLORS.red);
+  // snake
+  snake.forEach((s,i)=>{
+    const alpha = 1 - (i/snake.length)*0.5;
+    roundRect(s.x*SZ+1, s.y*SZ+1, SZ-2, SZ-2, 4, i===0?COLORS.green:`rgba(76,175,80,${alpha})`);
+  });
+  if(!snakeStarted) {
+    ctx.fillStyle='rgba(13,13,13,0.7)';ctx.fillRect(80,140,240,120);
+    drawText('Snake',200,180,28,COLORS.green);
+    drawText('Press Space to start',200,215,14,COLORS.dim);
+  }
+}
+
+/* ════════════════════════
+   🟦 TETRIS
+════════════════════════ */
+let tetBoard, tetPiece, tetNextPiece, tetRunning, tetDropInterval;
+const TW=10, TH=20, TS=20;
+const PIECES=[
+  {shape:[[1,1,1,1]],color:'#06b6d4'},
+  {shape:[[1,1],[1,1]],color:'#fbbf24'},
+  {shape:[[1,1,1],[0,1,0]],color:'#c084fc'},
+  {shape:[[1,1,1],[1,0,0]],color:'#f97316'},
+  {shape:[[1,1,1],[0,0,1]],color:'#3b82f6'},
+  {shape:[[1,1,0],[0,1,1]],color:'#4CAF50'},
+  {shape:[[0,1,1],[1,1,0]],color:'#ef4444'}
+];
+
+function initTetris() {
+  tetBoard=Array.from({length:TH},()=>Array(TW).fill(0));
+  tetRunning=true;
+  spawnTetPiece(); drawTetris();
+  clearInterval(tetDropInterval);
+  tetDropInterval=setInterval(()=>{if(tetRunning)tetDrop()},500);
+}
+
+function randPiece(){return JSON.parse(JSON.stringify(PIECES[Math.floor(Math.random()*PIECES.length)]))}
+
+function spawnTetPiece(){
+  tetPiece=randPiece();
+  tetPiece.x=Math.floor(TW/2)-Math.floor(tetPiece.shape[0].length/2);
+  tetPiece.y=0;
+  if(tetCollide()){tetRunning=false;}
+}
+
+function tetCollide(ox=0,oy=0,shape=tetPiece.shape){
+  return shape.some((row,r)=>row.some((v,c)=>v&&(
+    tetPiece.x+c+ox<0||tetPiece.x+c+ox>=TW||
+    tetPiece.y+r+oy>=TH||
+    (tetBoard[tetPiece.y+r+oy]&&tetBoard[tetPiece.y+r+oy][tetPiece.x+c+ox])
+  )));
+}
+
+function tetDrop(){
+  if(!tetCollide(0,1)){tetPiece.y++;}
+  else{
+    tetPiece.shape.forEach((row,r)=>row.forEach((v,c)=>{if(v)tetBoard[tetPiece.y+r][tetPiece.x+c]=tetPiece.color}));
+    let lines=0;
+    for(let r=TH-1;r>=0;r--){
+      if(tetBoard[r].every(c=>c)){tetBoard.splice(r,1);tetBoard.unshift(Array(TW).fill(0));lines++;r++;}
+    }
+    if(lines) setScore(score+lines*100*lines,0);
+    spawnTetPiece();
+  }
+  drawTetris();
+  if(!tetRunning){drawText('Game Over',TW*TS/2,TH*TS/2,24,COLORS.white);drawText('Space to restart',TW*TS/2,TH*TS/2+30,14,COLORS.green);}
+}
+
+function rotateTet(){
+  const rot=tetPiece.shape[0].map((_,i)=>tetPiece.shape.map(r=>r[i]).reverse());
+  if(!tetCollide(0,0,rot)) tetPiece.shape=rot;
+  drawTetris();
+}
+
+function drawTetris(){
+  clearCanvas();
+  tetBoard.forEach((row,r)=>row.forEach((v,c)=>{
+    if(v){roundRect(c*TS+1,r*TS+1,TS-2,TS-2,3,v);}
+    else{ctx.strokeStyle=COLORS.grid;ctx.strokeRect(c*TS,r*TS,TS,TS);}
+  }));
+  tetPiece.shape.forEach((row,r)=>row.forEach((v,c)=>{
+    if(v) roundRect((tetPiece.x+c)*TS+1,(tetPiece.y+r)*TS+1,TS-2,TS-2,3,tetPiece.color);
+  }));
+}
+
+/* ════════════════════════
+   🔢 2048
+════════════════════════ */
+let board2048, moved2048;
+const G=4, CS=90, GAP=8;
+
+function init2048(){
+  board2048=Array.from({length:G},()=>Array(G).fill(0));
+  addTile(); addTile(); draw2048();
+}
+
+function addTile(){
+  const empty=[];
+  board2048.forEach((r,ri)=>r.forEach((v,ci)=>{if(!v)empty.push([ri,ci])}));
+  if(empty.length){const[r,c]=empty[Math.floor(Math.random()*empty.length)];board2048[r][c]=Math.random()<0.9?2:4;}
+}
+
+function slide(row){
+  let r=row.filter(v=>v);
+  for(let i=0;i<r.length-1;i++){if(r[i]===r[i+1]){r[i]*=2;setScore(score+r[i],0);r.splice(i+1,1);i++;}}
+  while(r.length<G)r.push(0);
+  return r;
+}
+
+function move2048(dir){
+  let changed=false;
+  const old=JSON.stringify(board2048);
+  if(dir==='left') board2048=board2048.map(r=>slide(r));
+  if(dir==='right') board2048=board2048.map(r=>slide(r.reverse()).reverse());
+  if(dir==='up'){
+    for(let c=0;c<G;c++){let col=board2048.map(r=>r[c]);col=slide(col);board2048.forEach((r,i)=>r[c]=col[i]);}
+  }
+  if(dir==='down'){
+    for(let c=0;c<G;c++){let col=board2048.map(r=>r[c]).reverse();col=slide(col).reverse();board2048.forEach((r,i)=>r[c]=col[i]);}
+  }
+  if(JSON.stringify(board2048)!==old){addTile();}
+  draw2048();
+}
+
+const TILE_COLORS={0:'rgba(255,255,255,0.03)',2:'#3B6D11',4:'#27500A',8:'#639922',16:'#97C459',32:'#C0DD97',64:'#fbbf24',128:'#f97316',256:'#ef4444',512:'#ec4899',1024:'#a855f7',2048:'#4CAF50'};
+
+function draw2048(){
+  clearCanvas();
+  const off=(canvas.width-G*(CS+GAP)+GAP)/2;
+  board2048.forEach((row,r)=>row.forEach((v,c)=>{
+    const x=off+c*(CS+GAP), y=off+r*(CS+GAP);
+    roundRect(x,y,CS,CS,8,TILE_COLORS[v]||'#4CAF50');
+    if(v){
+      const fs=v>=1000?20:v>=100?24:28;
+      drawText(v,x+CS/2,y+CS/2+fs/3,fs,v<=4?'rgba(255,255,255,0.9)':COLORS.white);
+    }
+  }));
+}
+
+/* ════════════════════════
+   🐦 FLAPPY BIRD
+════════════════════════ */
+let bird, pipes, flapRunning, flapStarted;
+
+function initFlappy(){
+  bird={x:80,y:200,vy:0,r:12};
+  pipes=[];flapRunning=false;flapStarted=false;
+  cancelAnimationFrame(animFrame);
+  flapLoop();
+}
+
+function flapLoop(){
+  clearCanvas();
+  // bg gradient suggestion via solid blocks
+  ctx.fillStyle='#0a1628';ctx.fillRect(0,0,canvas.width,canvas.height);
+  // ground
+  ctx.fillStyle='#1a2a1a';ctx.fillRect(0,380,canvas.width,20);
+
+  if(!flapStarted){
+    drawText('Flappy Bird',200,160,28,COLORS.green);
+    drawText('Space / Click to flap',200,200,14,COLORS.dim);
+    // draw bird
+    ctx.fillStyle=COLORS.yellow;ctx.beginPath();ctx.arc(bird.x,bird.y,bird.r,0,Math.PI*2);ctx.fill();
+    ctx.fillStyle=COLORS.red;ctx.fillRect(bird.x+4,bird.y-4,10,6);
+    animFrame=requestAnimationFrame(flapLoop);return;
+  }
+
+  // physics
+  bird.vy+=0.45; bird.y+=bird.vy;
+  if(bird.y>368){bird.y=368;flapRunning=false;}
+  if(bird.y<0){bird.y=0;bird.vy=0;}
+
+  // pipes
+  if(flapRunning){
+    if(pipes.length===0||pipes[pipes.length-1].x<canvas.width-180) pipes.push({x:canvas.width,gap:Math.floor(Math.random()*180)+80,passed:false});
+    pipes.forEach(p=>{p.x-=2.5;});
+    pipes=pipes.filter(p=>p.x>-60);
+  }
+
+  // draw pipes
+  pipes.forEach(p=>{
+    ctx.fillStyle='#166534';
+    roundRect(p.x-20,0,40,p.gap-20,4,'#166534');
+    roundRect(p.x-24,p.gap-30,48,30,4,'#15803d');
+    roundRect(p.x-20,p.gap+60,40,canvas.width,4,'#166534');
+    roundRect(p.x-24,p.gap+60,48,30,4,'#15803d');
+    // score
+    if(!p.passed&&bird.x>p.x){p.passed=true;setScore(score+1,0);}
+    // collision
+    if(bird.x+bird.r>p.x-20&&bird.x-bird.r<p.x+20){
+      if(bird.y-bird.r<p.gap-20||bird.y+bird.r>p.gap+60){flapRunning=false;}
+    }
+  });
+
+  // bird
+  ctx.save();ctx.translate(bird.x,bird.y);ctx.rotate(Math.min(bird.vy*0.08,0.5));
+  ctx.fillStyle=COLORS.yellow;ctx.beginPath();ctx.arc(0,0,bird.r,0,Math.PI*2);ctx.fill();
+  ctx.fillStyle=COLORS.red;ctx.fillRect(4,-4,10,6);
+  ctx.restore();
+
+  if(!flapRunning&&flapStarted){
+    ctx.fillStyle='rgba(13,13,13,0.7)';ctx.fillRect(60,130,280,140);
+    drawText('Game Over',200,175,24,COLORS.white);
+    drawText('Score: '+score,200,208,16,COLORS.dim);
+    drawText('Space to restart',200,238,14,COLORS.green);
+  }
+
+  animFrame=requestAnimationFrame(flapLoop);
+}
+
+/* ════════════════════════
+   🏓 PONG
+════════════════════════ */
+let pong;
+
+function initPong(){
+  pong={
+    ball:{x:200,y:200,vx:3,vy:2,r:8},
+    p1:{y:180,score:0},p2:{y:180,score:0},
+    keys:{},running:true,PH:80,PW:10
+  };
+  cancelAnimationFrame(animFrame);
+  pongLoop();
+}
+
+function pongLoop(){
+  const p=pong;
+  clearCanvas();
+  // centre line
+  ctx.setLineDash([8,8]);ctx.strokeStyle='rgba(255,255,255,0.06)';ctx.lineWidth=2;
+  ctx.beginPath();ctx.moveTo(200,0);ctx.lineTo(200,400);ctx.stroke();ctx.setLineDash([]);
+
+  if(p.running){
+    // move ball
+    p.ball.x+=p.ball.vx; p.ball.y+=p.ball.vy;
+    if(p.ball.y<p.ball.r||p.ball.y>400-p.ball.r) p.ball.vy*=-1;
+    // paddles
+    if(p.keys['w']&&p.p1.y>4)  p.p1.y-=4;
+    if(p.keys['s']&&p.p1.y<400-p.PH-4) p.p1.y+=4;
+    if(p.keys['ArrowUp']&&p.p2.y>4)    p.p2.y-=4;
+    if(p.keys['ArrowDown']&&p.p2.y<400-p.PH-4) p.p2.y+=4;
+    // ball-paddle collision
+    if(p.ball.x-p.ball.r<20+p.PW&&p.ball.y>p.p1.y&&p.ball.y<p.p1.y+p.PH&&p.ball.vx<0){p.ball.vx*=-1.05;p.ball.vy+=(Math.random()-0.5)*2;}
+    if(p.ball.x+p.ball.r>380-p.PW&&p.ball.y>p.p2.y&&p.ball.y<p.p2.y+p.PH&&p.ball.vx>0){p.ball.vx*=-1.05;p.ball.vy+=(Math.random()-0.5)*2;}
+    p.ball.vx=Math.max(-8,Math.min(8,p.ball.vx));
+    // scoring
+    if(p.ball.x<0){p.p2.score++;setScore(p.p1.score,p.p2.score);p.ball={x:200,y:200,vx:3,vy:2,r:8};}
+    if(p.ball.x>400){p.p1.score++;setScore(p.p1.score,p.p2.score);p.ball={x:200,y:200,vx:-3,vy:2,r:8};}
+  }
+
+  // draw paddles
+  roundRect(20,p.p1.y,p.PW,p.PH,4,COLORS.green);
+  roundRect(370,p.p2.y,p.PW,p.PH,4,COLORS.purple);
+  // draw ball
+  ctx.fillStyle=COLORS.white;ctx.beginPath();ctx.arc(p.ball.x,p.ball.y,p.ball.r,0,Math.PI*2);ctx.fill();
+
+  animFrame=requestAnimationFrame(pongLoop);
+}
+
+/* ════════════════════════
+   ❌ TIC TAC TOE
+════════════════════════ */
+let ttt;
+
+function initTicTacToe(){
+  ttt={board:Array(9).fill(null),turn:1,over:false};
+  drawTTT();
+}
+
+function drawTTT(){
+  clearCanvas();
+  const S=100,OFF=50;
+  // grid
+  ctx.strokeStyle='rgba(255,255,255,0.15)';ctx.lineWidth=2;
+  [1,2].forEach(i=>{
+    ctx.beginPath();ctx.moveTo(OFF+i*S,OFF);ctx.lineTo(OFF+i*S,OFF+3*S);ctx.stroke();
+    ctx.beginPath();ctx.moveTo(OFF,OFF+i*S);ctx.lineTo(OFF+3*S,OFF+i*S);ctx.stroke();
+  });
+  // pieces
+  ttt.board.forEach((v,i)=>{
+    const x=OFF+(i%3)*S+S/2, y=OFF+Math.floor(i/3)*S+S/2;
+    if(v===1){ctx.strokeStyle=COLORS.green;ctx.lineWidth=4;ctx.beginPath();ctx.moveTo(x-24,y-24);ctx.lineTo(x+24,y+24);ctx.moveTo(x+24,y-24);ctx.lineTo(x-24,y+24);ctx.stroke();}
+    if(v===2){ctx.strokeStyle=COLORS.purple;ctx.lineWidth=4;ctx.beginPath();ctx.arc(x,y,26,0,Math.PI*2);ctx.stroke();}
+  });
+  if(!ttt.over){
+    const color=ttt.turn===1?COLORS.green:COLORS.purple;
+    drawText(`P${ttt.turn}'s turn (${ttt.turn===1?'X':'O'})`,200,380,14,color);
+  }
+}
+
+function clickTTT(e){
+  if(ttt.over) return;
+  const rect=canvas.getBoundingClientRect();
+  const mx=(e.clientX-rect.left)*(canvas.width/rect.width);
+  const my=(e.clientY-rect.top)*(canvas.height/rect.height);
+  const S=100,OFF=50;
+  const col=Math.floor((mx-OFF)/S), row=Math.floor((my-OFF)/S);
+  if(col<0||col>2||row<0||row>2) return;
+  const idx=row*3+col;
+  if(ttt.board[idx]) return;
+  ttt.board[idx]=ttt.turn;
+  const wins=[[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+  const winner=wins.find(w=>ttt.board[w[0]]&&ttt.board[w[0]]===ttt.board[w[1]]&&ttt.board[w[1]]===ttt.board[w[2]]);
+  drawTTT();
+  if(winner){
+    ttt.over=true;
+    ctx.fillStyle='rgba(13,13,13,0.75)';ctx.fillRect(60,140,280,120);
+    drawText(`P${ttt.turn} Wins!`,200,185,28,ttt.turn===1?COLORS.green:COLORS.purple);
+    drawText('Space to restart',200,225,14,COLORS.dim);
+  } else if(ttt.board.every(v=>v)){
+    ttt.over=true;
+    ctx.fillStyle='rgba(13,13,13,0.75)';ctx.fillRect(60,140,280,120);
+    drawText("It's a Draw!",200,185,24,COLORS.white);
+    drawText('Space to restart',200,225,14,COLORS.dim);
+  } else {
+    ttt.turn=ttt.turn===1?2:1;
+  }
+}
+
+/* ════════════════════════
+   🔴 CONNECT FOUR
+════════════════════════ */
+let c4;
+
+function initConnect4(){
+  c4={board:Array.from({length:6},()=>Array(7).fill(0)),turn:1,over:false};
+  drawC4();
+}
+
+function dropC4(col){
+  if(c4.over) return;
+  for(let r=5;r>=0;r--){
+    if(!c4.board[r][col]){
+      c4.board[r][col]=c4.turn;
+      if(checkC4Win(r,col)){
+        drawC4();
+        ctx.fillStyle='rgba(13,13,13,0.8)';ctx.fillRect(40,140,320,120);
+        const color=c4.turn===1?COLORS.red:COLORS.yellow;
+        drawText(`P${c4.turn} Wins!`,200,188,28,color);
+        drawText('Space to restart',200,228,14,COLORS.dim);
+        c4.over=true;
+      } else {
+        c4.turn=c4.turn===1?2:1;
+        drawC4();
+      }
+      return;
+    }
+  }
+}
+
+function checkC4Win(row,col){
+  const b=c4.board, v=c4.turn;
+  const dirs=[[0,1],[1,0],[1,1],[1,-1]];
+  return dirs.some(([dr,dc])=>{
+    let count=1;
+    for(let d=1;d<4;d++){const r=row+dr*d,c=col+dc*d;if(r>=0&&r<6&&c>=0&&c<7&&b[r][c]===v)count++;else break;}
+    for(let d=1;d<4;d++){const r=row-dr*d,c=col-dc*d;if(r>=0&&r<6&&c>=0&&c<7&&b[r][c]===v)count++;else break;}
+    return count>=4;
+  });
+}
+
+function drawC4(){
+  clearCanvas();
+  const CW=50,CH=50,OFFX=25,OFFY=25;
+  ctx.fillStyle='rgba(0,0,100,0.15)';ctx.fillRect(OFFX-5,OFFY-5,7*CW+10,6*CH+10);
+  c4.board.forEach((row,r)=>row.forEach((v,c)=>{
+    const x=OFFX+c*CW+CW/2, y=OFFY+r*CH+CH/2;
+    ctx.fillStyle=v===0?'rgba(255,255,255,0.05)':v===1?COLORS.red:COLORS.yellow;
+    ctx.beginPath();ctx.arc(x,y,20,0,Math.PI*2);ctx.fill();
+    if(!v){ctx.strokeStyle='rgba(255,255,255,0.06)';ctx.lineWidth=1;ctx.stroke();}
+  }));
+  if(!c4.over){
+    const color=c4.turn===1?COLORS.red:COLORS.yellow;
+    drawText(`P${c4.turn}'s turn`,200,385,13,color);
+  }
+}
+
+function clickC4(e){
+  if(c4.over) return;
+  const rect=canvas.getBoundingClientRect();
+  const mx=(e.clientX-rect.left)*(canvas.width/rect.width);
+  const col=Math.floor((mx-25)/50);
+  if(col>=0&&col<7) dropC4(col);
+}
+
+/* ════════════════════════
+   GLOBAL INPUT
+════════════════════════ */
+
+document.addEventListener('keydown', e=>{
+  // prevent page scroll on arrow/space
+  if(['Space','ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(e.code)) e.preventDefault();
+
+  // Pong keys
+  if(currentGame==='pong'&&pong) pong.keys[e.key]=true;
+
+  // Snake
+  if(currentGame==='snake'){
+    if(e.code==='Space'){
+      if(!snakeStarted){snakeStarted=true;snakePaused=false;}
+      else if(snakePaused){clearInterval(snakeInterval);initSnake();}
+      else snakePaused=!snakePaused;
+    }
+    const dirs={ArrowUp:{x:0,y:-1},ArrowDown:{x:0,y:1},ArrowLeft:{x:-1,y:0},ArrowRight:{x:1,y:0}};
+    if(dirs[e.code]){const d=dirs[e.code];if(!(d.x===-snakeDir.x&&d.y===-snakeDir.y)){snakeDir=d;snakePaused=false;snakeStarted=true;}}
+  }
+
+  // Tetris
+  if(currentGame==='tetris'){
+    if(e.code==='ArrowLeft'&&!tetCollide(-1,0)){tetPiece.x--;drawTetris();}
+    if(e.code==='ArrowRight'&&!tetCollide(1,0)){tetPiece.x++;drawTetris();}
+    if(e.code==='ArrowDown'){tetDrop();}
+    if(e.code==='ArrowUp'){rotateTet();}
+    if(e.code==='Space'){while(!tetCollide(0,1))tetPiece.y++;tetDrop();}
+  }
+
+  // 2048
+  if(currentGame==='2048'){
+    const map={ArrowLeft:'left',ArrowRight:'right',ArrowUp:'up',ArrowDown:'down'};
+    if(map[e.code]) move2048(map[e.code]);
+  }
+
+  // Flappy
+  if(currentGame==='flappy'&&e.code==='Space'){
+    if(!flapStarted){flapStarted=true;flapRunning=true;}
+    else if(!flapRunning){cancelAnimationFrame(animFrame);initFlappy();}
+    else bird.vy=-7;
+  }
+
+  // TTT / C4 restart
+  if(e.code==='Space'){
+    if(currentGame==='tictactoe'&&ttt?.over) initTicTacToe();
+    if(currentGame==='connect4'&&c4?.over) initConnect4();
+  }
+});
+
+document.addEventListener('keyup', e=>{
+  if(currentGame==='pong'&&pong) pong.keys[e.key]=false;
+});
+
+canvas.addEventListener('click', e=>{
+  // ✅ FIX: use if/else so only ONE game handles the click
+  if(currentGame==='flappy'){
+    if(!flapStarted){flapStarted=true;flapRunning=true;}
+    else if(!flapRunning){cancelAnimationFrame(animFrame);initFlappy();}
+    else bird.vy=-7;
+  } else if(currentGame==='tictactoe'){
+    clickTTT(e);
+  } else if(currentGame==='connect4'){
+    clickC4(e);
+  }
+});
+
+// Start default game
+initSnake();
+</script>
+</body>
+</html>
+<script src="/js/navigation.js"></script>

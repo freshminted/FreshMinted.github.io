@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<link rel="stylesheet" href="player.css">
+
+</head>
+
+<body>
+
+<div class="player" id="player">
+
+<div class="header">
+
+<span id="song-title">Loading...</span>
+
+<div class="buttons">
+<button id="min">—</button>
+<button id="circle">◉</button>
+</div>
+
+</div>
+
+<canvas id="wave"></canvas>
+
+<div class="progress">
+<div class="bar" id="progress-bar"></div>
+</div>
+
+<div class="controls">
+
+<button id="prev">⏮</button>
+<button id="play">▶</button>
+<button id="next">⏭</button>
+
+</div>
+
+<div class="sliders">
+
+<input type="range" id="volume" min="0" max="1" step="0.01">
+
+<select id="speed">
+<option value="0.75">0.75x</option>
+<option value="1">1x</option>
+<option value="1.25">1.25x</option>
+<option value="1.5">1.5x</option>
+</select>
+
+</div>
+
+<div class="orb" id="orb"></div>
+
+<audio id="audio"></audio>
+
+</div>
+
+<script src="player-engine.js"></script>
+
+</body>
+</html>
+/* This is the HTML structure for a music player interface. It includes a header with the song title and control buttons, a canvas for visualizing the audio waveform, a progress bar, playback controls (previous, play/pause, next), sliders for volume and speed control, and an orb for visual effects. The audio element is used to play the music. The player-engine.js script will handle the functionality of the music player. *

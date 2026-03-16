@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FreshMint — Kartikey Mishra</title>
+<link rel="stylesheet" href="css/style.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: #0d0d0d;
+  color: #c8c8c8;
+  overflow-x: hidden;
+}
+
+/* ── HERO ── */
+.hero {
+  position: relative;
+  height: 100vh;
+  min-height: 600px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.hero-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+  opacity: 0.35;
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(13,13,13,0.3) 0%,
+    rgba(13,13,13,0.15) 40%,
+    rgba(13,13,13,0.85) 100%
+  );
+  z-index: 1;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  padding: 0 24px;
+  max-width: 800px;
+  animation: fadeUp 0.8s ease both;
+}
+
+.hero-eyebrow {
+  font-size: 11px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: #4CAF50;
+  font-family: 'Syne', sans-serif;
+  margin-bottom: 20px;
+  display: block;
+}
+
+.hero-name {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(14px, 2.5vw, 18px);
+  font-weight: 400;
+  color: rgba(255,255,255,0.5);
+  letter-spacing: 6px;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+
+.hero-title {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(48px, 9vw, 96px);
+  font-weight: 800;
+  color: #fff;
+  line-height: 1.0;
+  margin-bottom: 20px;
+  letter-spacing: -1px;
+}
+
+.hero-title span { color: #4CAF50; }
+
+.hero-roles {
+  font-size: 15px;
+  color: rgba(255,255,255,0.4);
+  letter-spacing: 2px;
+  font-weight: 300;
+  margin-bottom: 40px;
+}
+
+.hero-roles span {
+  color: rgba(255,255,255,0.2);
+  margin: 0 8px;
+}
+
+.hero-btns {
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* ── SCROLL INDICATOR ── */
+.scroll-hint {
+  position: absolute;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.2);
+  animation: fadeUp 1s ease 0.5s both;
+}
+
+.scroll-line {
+  width: 1px;
+  height: 40px;
+  background: linear-gradient(to bottom, rgba(76,175,80,0.6), transparent);
+  animation: scrollPulse 2s ease infinite;
+}
+
+@keyframes scrollPulse {
+  0%, 100% { opacity: 0.4; transform: scaleY(1); }
+  50% { opacity: 1; transform: scaleY(1.2); }
+}
+
+/* ── STATS ── */
+.stats-section {
+  padding: 80px 24px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.stats-eyebrow {
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.2);
+  font-family: 'Syne', sans-serif;
+  margin-bottom: 40px;
+  display: block;
+  animation: fadeUp 0.6s ease both;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.stat-item {
+  background: #0d0d0d;
+  padding: 32px 24px;
+  text-align: center;
+  transition: background 0.2s;
+}
+
+.stat-item:hover { background: rgba(76,175,80,0.04); }
+
+.stat-number {
+  font-family: 'Syne', sans-serif;
+  font-size: 36px;
+  font-weight: 800;
+  color: #fff;
+  margin-bottom: 6px;
+  display: block;
+}
+
+.stat-number em {
+  color: #4CAF50;
+  font-style: normal;
+}
+
+.stat-desc {
+  font-size: 12px;
+  color: rgba(255,255,255,0.3);
+  letter-spacing: 0.5px;
+}
+
+/* ── WHAT I DO ── */
+.services-preview {
+  padding: 0 24px 80px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 32px;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.section-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 28px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.section-link {
+  font-size: 13px;
+  color: #4CAF50;
+  text-decoration: none;
+  letter-spacing: 0.5px;
+  transition: opacity 0.2s;
+}
+
+.section-link:hover { opacity: 0.7; }
+
+.services-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+
+.service-card {
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 14px;
+  padding: 24px;
+  text-decoration: none;
+  transition: border-color 0.25s, transform 0.25s, background 0.25s;
+  display: block;
+}
+
+.service-card:hover {
+  border-color: rgba(76,175,80,0.3);
+  transform: translateY(-4px);
+  background: rgba(76,175,80,0.03);
+}
+
+.service-icon {
+  font-size: 28px;
+  margin-bottom: 14px;
+  display: block;
+}
+
+.service-name {
+  font-family: 'Syne', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 6px;
+}
+
+.service-desc {
+  font-size: 13px;
+  color: rgba(255,255,255,0.4);
+  line-height: 1.6;
+  margin-bottom: 14px;
+}
+
+.service-from {
+  font-size: 12px;
+  color: #4CAF50;
+  font-weight: 500;
+}
+
+/* ── ABOUT STRIP ── */
+.about-strip {
+  margin: 0 24px 80px;
+  max-width: 852px;
+  margin-left: auto;
+  margin-right: auto;
+  background: rgba(76,175,80,0.04);
+  border: 1px solid rgba(76,175,80,0.12);
+  border-radius: 16px;
+  padding: 40px 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+
+.about-strip-text h3 {
+  font-family: 'Syne', sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 8px;
+}
+
+.about-strip-text p {
+  font-size: 14px;
+  color: rgba(255,255,255,0.45);
+  line-height: 1.7;
+  max-width: 480px;
+}
+
+/* ── FOOTER ── */
+.footer {
+  background: #080808;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  padding: 60px 24px 40px;
+}
+
+.footer-inner {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.footer-top {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 40px;
+  margin-bottom: 48px;
+}
+
+.footer-brand .footer-logo {
+  font-family: 'Syne', sans-serif;
+  font-size: 22px;
+  font-weight: 800;
+  color: #fff;
+  margin-bottom: 10px;
+}
+
+.footer-brand p {
+  font-size: 13px;
+  color: rgba(255,255,255,0.3);
+  line-height: 1.7;
+  max-width: 220px;
+}
+
+.footer-col h4 {
+  font-family: 'Syne', sans-serif;
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.25);
+  margin-bottom: 16px;
+}
+
+.footer-col a {
+  display: block;
+  font-size: 14px;
+  color: rgba(255,255,255,0.45);
+  text-decoration: none;
+  margin-bottom: 10px;
+  transition: color 0.2s;
+}
+
+.footer-col a:hover { color: #4CAF50; }
+
+.footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 24px;
+  border-top: 1px solid rgba(255,255,255,0.05);
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.footer-copy {
+  font-size: 12px;
+  color: rgba(255,255,255,0.2);
+}
+
+.footer-copy span { color: #4CAF50; }
+
+.footer-tagline {
+  font-size: 12px;
+  color: rgba(255,255,255,0.15);
+  font-style: italic;
+}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  .stats-grid { grid-template-columns: repeat(2, 1fr); }
+  .services-row { grid-template-columns: 1fr; }
+  .footer-top { grid-template-columns: 1fr 1fr; }
+  .about-strip { padding: 28px 24px; }
+}
+
+@media (max-width: 480px) {
+  .footer-top { grid-template-columns: 1fr; }
+  .stats-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="nav-container">
+    <h2 class="logo">FreshMint</h2>
+    <div class="menu-toggle"><span></span><span></span><span></span></div>
+    <ul class="nav-links">
+      <li><a href="/index.html"><span>Home</span></a></li>
+      <li><a href="/about.html"><span>About</span></a></li>
+      <li><a href="/portfolio.html"><span>Portfolio</span></a></li>
+      <li><a href="/services/"><span>Services</span></a></li>
+      <li><a href="/games.html"><span>Games</span></a></li>
+      <li><a href="/links.html"><span>Links</span></a></li>
+      <li><a href="/contact.html"><span>Contact</span></a></li>
+      <li><a href="/blog.html"><span>Blog</span></a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <video autoplay muted loop playsinline class="hero-video">
+    <source src="assets/videos/Background.mp4" type="video/mp4">
+  </video>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <span class="hero-eyebrow">Welcome to FreshMint</span>
+    <p class="hero-name">Kartikey Mishra</p>
+    <h1 class="hero-title">Fresh<span>Mint</span></h1>
+    <p class="hero-roles">
+      Video Editor
+      <span>·</span>
+      Strategist
+      <span>·</span>
+      Gamer
+      <span>·</span>
+      Creator
+    </p>
+    <div class="hero-btns">
+      <a href="/services/" class="btn">View Services</a>
+      <a href="/about.html" class="btn secondary">About Me</a>
+    </div>
+  </div>
+  <div class="scroll-hint">
+    <div class="scroll-line"></div>
+    <span>Scroll</span>
+  </div>
+</section>
+
+<!-- STATS -->
+<section class="stats-section">
+  <span class="stats-eyebrow">By the numbers</span>
+  <div class="stats-grid">
+    <div class="stat-item">
+      <span class="stat-number">50<em>+</em></span>
+      <span class="stat-desc">Videos Edited</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-number">3</span>
+      <span class="stat-desc">Services Offered</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-number">500<em>+</em></span>
+      <span class="stat-desc">Gaming Hours</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-number"><em>∞</em></span>
+      <span class="stat-desc">MS Paint Hours</span>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES PREVIEW -->
+<section class="services-preview">
+  <div class="section-header">
+    <h2 class="section-title">What I do</h2>
+    <a href="/services/" class="section-link">All services →</a>
+  </div>
+  <div class="services-row">
+    <a href="/services/video-editing.html" class="service-card">
+      <span class="service-icon">🎬</span>
+      <div class="service-name">Video Editing</div>
+      <div class="service-desc">Cinematic edits, reels, long-form content — cut with purpose.</div>
+      <div class="service-from">From $10</div>
+    </a>
+    <a href="/services/business-advice.html" class="service-card">
+      <span class="service-icon">📊</span>
+      <div class="service-name">Business Strategy</div>
+      <div class="service-desc">Social media growth plans and brand strategy that actually works.</div>
+      <div class="service-from">From $30</div>
+    </a>
+    <a href="/services/game-strategy.html" class="service-card">
+      <span class="service-icon">🎮</span>
+      <div class="service-name">Game Strategy</div>
+      <div class="service-desc">VOD reviews and guides for strategy, simulation & chaos games.</div>
+      <div class="service-from">From $15</div>
+    </a>
+  </div>
+</section>
+
+<!-- ABOUT STRIP -->
+<div class="about-strip">
+  <div class="about-strip-text">
+    <h3>Built from curiosity, driven by craft.</h3>
+    <p>18 years old. From Kanpur, India. Started with MS Paint at age 4. Now building FreshMint — a creative services platform that connects quality work with people who need it.</p>
+  </div>
+  <a href="/about.html" class="btn">Read my story</a>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="footer-logo">FreshMint</div>
+        <p>Creative services, honest pricing, real connections. Built from Kanpur, India.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Pages</h4>
+        <a href="/about.html">About</a>
+        <a href="/portfolio.html">Portfolio</a>
+        <a href="/games.html">Games</a>
+        <a href="/links.html">Links</a>
+        <a href="/contact.html">Contact</a>
+      </div>
+      <div class="footer-col">
+        <h4>Services</h4>
+        <a href="/services/">All Services</a>
+        <a href="/services/video-editing.html">Video Editing</a>
+        <a href="/services/business-advice.html">Business Advice</a>
+        <a href="/services/game-strategy.html">Game Strategy</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copy">© 2026 <span>FreshMint</span>. All rights reserved.</p>
+      <p class="footer-tagline">Freshly minted — like a brand new coin.</p>
+    </div>
+  </div>
+</footer>
+<script src="/js/navigation.js"></script>
+<script src="js/script.js"></script>
+</body>
+</html>

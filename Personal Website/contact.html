@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact | FreshMint</title>
+<link rel="stylesheet" href="/css/style.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',sans-serif;background:#0d0d0d;color:#c8c8c8;padding-top:80px}
+.contact-wrap{max-width:720px;margin:0 auto;padding:80px 24px 120px}
+.contact-eyebrow{font-size:11px;letter-spacing:4px;text-transform:uppercase;color:#4CAF50;font-family:'Syne',sans-serif;margin-bottom:20px;display:block;animation:fadeUp 0.5s ease both}
+.contact-title{font-family:'Syne',sans-serif;font-size:clamp(36px,7vw,60px);font-weight:800;color:#fff;line-height:1.05;margin-bottom:24px;animation:fadeUp 0.5s ease 0.1s both}
+.contact-title span{color:#4CAF50}
+.contact-why{background:rgba(255,255,255,0.02);border-left:2px solid rgba(76,175,80,0.4);border-radius:0 10px 10px 0;padding:20px 24px;margin-bottom:56px;animation:fadeUp 0.5s ease 0.2s both}
+.contact-why p{font-size:15px;line-height:1.85;color:rgba(255,255,255,0.55);margin-bottom:12px}
+.contact-why p:last-child{margin-bottom:0}
+.contact-why strong{color:rgba(255,255,255,0.8);font-weight:500}
+.contact-divider{width:40px;height:1px;background:rgba(76,175,80,0.4);margin:0 0 48px}
+.direct-email{display:flex;align-items:center;gap:14px;margin-bottom:56px;animation:fadeUp 0.5s ease 0.3s both}
+.email-icon{width:44px;height:44px;border-radius:10px;background:rgba(76,175,80,0.1);border:1px solid rgba(76,175,80,0.2);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.email-label{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.25);margin-bottom:4px}
+.email-address{font-size:16px;font-weight:500;color:#fff;text-decoration:none;transition:color 0.2s}
+.email-address:hover{color:#4CAF50}
+.contact-form{animation:fadeUp 0.5s ease 0.4s both}
+.form-label{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.25);font-family:'Syne',sans-serif;margin-bottom:24px;display:block}
+.field-group{margin-bottom:18px}
+.field-group label{display:block;font-size:12px;color:rgba(255,255,255,0.35);margin-bottom:7px}
+.field-group input,.field-group textarea,.field-group select{width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:12px 16px;color:#fff;font-size:15px;font-family:'DM Sans',sans-serif;outline:none;transition:border-color 0.2s,background 0.2s}
+.field-group input:focus,.field-group textarea:focus,.field-group select:focus{border-color:rgba(76,175,80,0.4);background:rgba(76,175,80,0.03)}
+.field-group textarea{min-height:130px;resize:vertical}
+.field-group select option{background:#1a1a1a}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.form-submit{display:flex;align-items:center;justify-content:space-between;margin-top:24px;flex-wrap:wrap;gap:14px}
+.form-note{font-size:12px;color:rgba(255,255,255,0.25)}
+.form-note span{color:#4CAF50}
+#send-btn{background:#4CAF50;color:#fff;border:none;border-radius:10px;padding:12px 28px;font-size:15px;font-weight:500;font-family:'DM Sans',sans-serif;cursor:pointer;transition:background 0.2s,transform 0.15s}
+#send-btn:hover{background:#43a047;transform:translateY(-1px)}
+#send-btn:disabled{background:rgba(76,175,80,0.3);cursor:not-allowed;transform:none}
+.form-success{display:none;text-align:center;padding:40px 20px}
+.form-success.show{display:block}
+.success-circle{width:56px;height:56px;border-radius:50%;background:rgba(76,175,80,0.12);border:1.5px solid #4CAF50;color:#4CAF50;font-size:22px;display:flex;align-items:center;justify-content:center;margin:0 auto 20px}
+.form-success h3{font-family:'Syne',sans-serif;font-size:20px;color:#fff;margin-bottom:8px}
+.form-success p{font-size:14px;color:rgba(255,255,255,0.45)}
+.response-note{margin-top:48px;padding:16px 20px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.06);border-radius:10px;display:flex;align-items:center;gap:12px;font-size:13px;color:rgba(255,255,255,0.4);animation:fadeUp 0.5s ease 0.5s both}
+.response-note span{font-size:18px}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:520px){.field-row{grid-template-columns:1fr}.form-submit{flex-direction:column;align-items:stretch}#send-btn{text-align:center}}
+</style>
+</head>
+<body>
+<nav class="navbar">
+  <div class="nav-container">
+    <h2 class="logo">FreshMint</h2>
+    <div class="menu-toggle"><span></span><span></span><span></span></div>
+    <ul class="nav-links">
+      <li><a href="/index.html"><span>Home</span></a></li>
+      <li><a href="/about.html"><span>About</span></a></li>
+      <li><a href="/portfolio.html"><span>Portfolio</span></a></li>
+      <li><a href="/services/"><span>Services</span></a></li>
+      <li><a href="/games.html"><span>Games</span></a></li>
+      <li><a href="/links.html"><span>Links</span></a></li>
+      <li><a href="/contact.html"><span>Contact</span></a></li>
+            <li><a href="/blog.html"><span>Blog</span></a></li>
+    </ul>
+  </div>
+</nav>
+<div class="contact-wrap">
+  <span class="contact-eyebrow">Get in touch</span>
+  <h1 class="contact-title">Let's talk<br>about <span>your project</span></h1>
+  <div class="contact-why">
+    <p>Whether you have a <strong>project in mind</strong>, a question about my services, or just want to say hi — my inbox is always open. I read every message personally and reply within 24 hours.</p>
+    <p>FreshMint was built on the idea that <strong>real connections matter more than transactions</strong>. So don't hesitate to reach out — even if you're not sure what you need yet. Sometimes the best projects start with just a conversation.</p>
+    <p>For <strong>service orders</strong>, head over to the <a href="/services/" style="color:#4CAF50;text-decoration:none;">Services page</a> and use the order form there — it keeps everything organised and gets to me faster.</p>
+  </div>
+  <div class="contact-divider"></div>
+  <div class="direct-email">
+    <div class="email-icon">✉</div>
+    <div>
+      <div class="email-label">Direct email</div>
+      <a href="mailto:freshmint.work@gmail.com" class="email-address">freshmint.work@gmail.com</a>
+    </div>
+  </div>
+  <div class="contact-form">
+    <span class="form-label">Or send a message</span>
+    <div id="contact-fields">
+      <div class="field-row">
+        <div class="field-group">
+          <label>Your Name *</label>
+          <input type="text" id="c-name" placeholder="John Smith">
+        </div>
+        <div class="field-group">
+          <label>Your Email *</label>
+          <input type="email" id="c-email" placeholder="you@email.com">
+        </div>
+      </div>
+      <div class="field-group">
+        <label>Subject</label>
+        <select id="c-subject">
+          <option value="General Inquiry">General Inquiry</option>
+          <option value="Video Editing">Video Editing</option>
+          <option value="Business Advice">Business Advice</option>
+          <option value="Game Strategy">Game Strategy</option>
+          <option value="Collaboration">Collaboration</option>
+          <option value="Just saying hi">Just saying hi</option>
+        </select>
+      </div>
+      <div class="field-group">
+        <label>Message *</label>
+        <textarea id="c-message" placeholder="Tell me what's on your mind..."></textarea>
+      </div>
+      <div class="form-submit">
+        <p class="form-note">Usually replies within <span>24 hours</span></p>
+        <button id="send-btn" onclick="sendContact()">Send Message</button>
+      </div>
+    </div>
+    <div class="form-success" id="form-success">
+      <div class="success-circle">✓</div>
+      <h3>Message sent!</h3>
+      <p>Thanks for reaching out! I'll get back to you at <strong id="confirm-contact-email"></strong> within 24 hours.</p>
+    </div>
+  </div>
+  <div class="response-note">
+    <span>⏱</span>
+    Average response time is under 24 hours. For urgent orders use the service pages directly.
+  </div>
+</div>
+<script src="/js/navigation.js"></script>
+<script src="/js/script.js"></script>
+<script>
+emailjs.init("bk2Xr38vMo_Ekp6C_");
+async function sendContact(){
+  const name=document.getElementById("c-name").value.trim();
+  const email=document.getElementById("c-email").value.trim();
+  const subject=document.getElementById("c-subject").value;
+  const message=document.getElementById("c-message").value.trim();
+  if(!name){alert("Please enter your name.");return;}
+  if(!email||!email.includes("@")){alert("Please enter a valid email.");return;}
+  if(!message){alert("Please write a message.");return;}
+  const btn=document.getElementById("send-btn");
+  btn.textContent="Sending...";
+  btn.disabled=true;
+  try{
+    await emailjs.send("service_9ciuxid","template_p462zgr",{
+      from_name:name,from_email:email,gig:"Contact Form",
+      tier:subject,delivery:"N/A",total:"N/A",
+      country:navigator.language,extra:"N/A",
+      message:message,reply_to:email
+    });
+    document.getElementById("contact-fields").style.display="none";
+    document.getElementById("form-success").classList.add("show");
+    document.getElementById("confirm-contact-email").textContent=email;
+  }catch(err){
+    console.error("EmailJS error:",err);
+    alert("Something went wrong. Please email freshmint.work@gmail.com directly.");
+    btn.textContent="Send Message";
+    btn.disabled=false;
+  }
+}
+</script>
+</body>
+</html>

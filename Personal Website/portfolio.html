@@ -1,0 +1,1161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portfolio | FreshMint</title>
+<link rel="stylesheet" href="/css/style.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: #0d0d0d;
+  color: #c8c8c8;
+  padding-top: 80px;
+}
+
+.port-wrap {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 80px 24px 120px;
+}
+
+/* ── HEADER ── */
+.port-eyebrow {
+  font-size: 11px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: #4CAF50;
+  font-family: 'Syne', sans-serif;
+  margin-bottom: 20px;
+  display: block;
+  animation: fadeUp 0.5s ease both;
+}
+
+.port-title {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(36px, 7vw, 60px);
+  font-weight: 800;
+  color: #fff;
+  line-height: 1.05;
+  margin-bottom: 12px;
+  animation: fadeUp 0.5s ease 0.1s both;
+}
+
+.port-title span { color: #4CAF50; }
+
+.port-sub {
+  font-size: 15px;
+  color: rgba(255,255,255,0.4);
+  margin-bottom: 16px;
+  font-weight: 300;
+  max-width: 520px;
+  line-height: 1.7;
+  animation: fadeUp 0.5s ease 0.2s both;
+}
+
+.port-note {
+  font-size: 12px;
+  color: rgba(255,255,255,0.2);
+  margin-bottom: 56px;
+  padding: 10px 14px;
+  background: rgba(255,255,255,0.02);
+  border-left: 2px solid rgba(76,175,80,0.3);
+  border-radius: 0 6px 6px 0;
+  animation: fadeUp 0.5s ease 0.25s both;
+}
+
+.port-note span { color: #4CAF50; }
+
+/* ── FILTER TABS ── */
+.port-filters {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 40px;
+  animation: fadeUp 0.5s ease 0.3s both;
+}
+
+.filter-btn {
+  padding: 7px 16px;
+  border-radius: 20px;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.03);
+  color: rgba(255,255,255,0.4);
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.filter-btn:hover {
+  border-color: rgba(76,175,80,0.3);
+  color: #fff;
+}
+
+.filter-btn.active {
+  background: rgba(76,175,80,0.12);
+  border-color: rgba(76,175,80,0.4);
+  color: #4CAF50;
+  font-weight: 500;
+}
+
+/* ── PORTFOLIO GRID ── */
+.port-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 16px;
+}
+
+/* ── CASE STUDY CARD ── */
+.case-card {
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 14px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: border-color 0.25s, transform 0.25s;
+  animation: fadeUp 0.5s ease both;
+}
+
+.case-card:hover {
+  border-color: rgba(76,175,80,0.25);
+  transform: translateY(-3px);
+}
+
+.case-card.open {
+  border-color: rgba(76,175,80,0.4);
+  transform: none;
+  grid-column: 1 / -1;
+}
+
+/* Card thumbnail */
+.case-thumb {
+  height: 160px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 48px;
+  position: relative;
+  overflow: hidden;
+  background: rgba(255,255,255,0.02);
+}
+
+.case-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.7;
+  transition: opacity 0.3s;
+}
+
+.case-card:hover .case-thumb img { opacity: 0.9; }
+
+.case-thumb-placeholder {
+  font-size: 52px;
+  opacity: 0.4;
+}
+
+.case-category {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  font-size: 10px;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-family: 'Syne', sans-serif;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.cat-video    { background: rgba(239,68,68,0.2);   color: #ef4444; border: 1px solid rgba(239,68,68,0.3); }
+.cat-business { background: rgba(59,130,246,0.2);  color: #60a5fa; border: 1px solid rgba(59,130,246,0.3); }
+.cat-gaming   { background: rgba(168,85,247,0.2);  color: #c084fc; border: 1px solid rgba(168,85,247,0.3); }
+.cat-web      { background: rgba(251,191,36,0.2);  color: #fbbf24; border: 1px solid rgba(251,191,36,0.3); }
+.cat-creative { background: rgba(76,175,80,0.2);   color: #4CAF50; border: 1px solid rgba(76,175,80,0.3); }
+
+.placeholder-badge {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  font-size: 10px;
+  padding: 3px 8px;
+  border-radius: 10px;
+  background: rgba(0,0,0,0.5);
+  color: rgba(255,255,255,0.3);
+  border: 1px solid rgba(255,255,255,0.1);
+  letter-spacing: 0.5px;
+}
+
+/* Card info (collapsed) */
+.case-info {
+  padding: 16px;
+}
+
+.case-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 5px;
+}
+
+.case-desc {
+  font-size: 13px;
+  color: rgba(255,255,255,0.4);
+  line-height: 1.6;
+  margin-bottom: 12px;
+}
+
+.case-tags {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.case-tag {
+  font-size: 11px;
+  padding: 3px 8px;
+  border-radius: 10px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.07);
+  color: rgba(255,255,255,0.35);
+}
+
+.case-expand-hint {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255,255,255,0.05);
+  font-size: 12px;
+  color: rgba(255,255,255,0.25);
+}
+
+.case-expand-hint .arrow {
+  transition: transform 0.3s;
+  color: #4CAF50;
+}
+
+.case-card.open .case-expand-hint .arrow { transform: rotate(180deg); }
+
+/* ── EXPANDED CONTENT ── */
+.case-expanded {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s cubic-bezier(0.4,0,0.2,1);
+  border-top: 0 solid rgba(255,255,255,0.05);
+}
+
+.case-card.open .case-expanded {
+  max-height: 800px;
+  border-top-width: 1px;
+}
+
+.case-expanded-inner {
+  padding: 24px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+}
+
+.expand-section h4 {
+  font-family: 'Syne', sans-serif;
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.25);
+  margin-bottom: 12px;
+}
+
+.expand-section p,
+.expand-section li {
+  font-size: 14px;
+  color: rgba(255,255,255,0.55);
+  line-height: 1.75;
+  margin-bottom: 6px;
+}
+
+.expand-section ul { padding-left: 16px; }
+
+.expand-section strong { color: rgba(255,255,255,0.8); font-weight: 500; }
+
+.expand-result {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+
+.result-pill {
+  padding: 6px 14px;
+  border-radius: 20px;
+  background: rgba(76,175,80,0.1);
+  border: 1px solid rgba(76,175,80,0.2);
+  font-size: 12px;
+  color: #4CAF50;
+  font-weight: 500;
+}
+
+/* ── MEDIA EMBEDS ── */
+.expand-media {
+  margin-top: 12px;
+  border-radius: 12px;
+  overflow: hidden;
+  background: rgba(0,0,0,0.4);
+  position: relative;
+}
+
+/* YouTube embed */
+.yt-embed {
+  position: relative;
+  padding-bottom: 56.25%;
+  height: 0;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.yt-embed iframe {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  border: none;
+  border-radius: 12px;
+}
+
+/* YouTube placeholder — loads iframe on click (saves bandwidth) */
+.yt-placeholder {
+  position: relative;
+  padding-bottom: 56.25%;
+  height: 0;
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  background: #000;
+}
+
+.yt-placeholder img {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+}
+
+.yt-placeholder:hover img { opacity: 0.9; }
+
+.yt-play-btn {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 64px; height: 64px;
+  background: rgba(255,0,0,0.85);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  color: #fff;
+  transition: transform 0.2s, background 0.2s;
+  pointer-events: none;
+}
+
+.yt-placeholder:hover .yt-play-btn {
+  transform: translate(-50%, -50%) scale(1.1);
+  background: #ff0000;
+}
+
+.yt-title-overlay {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  padding: 28px 14px 10px;
+  background: linear-gradient(transparent, rgba(0,0,0,0.8));
+  font-size: 12px;
+  color: rgba(255,255,255,0.7);
+}
+
+/* Drive image embed */
+.drive-img {
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: zoom-in;
+  position: relative;
+}
+
+.drive-img img {
+  width: 100%;
+  display: block;
+  border-radius: 12px;
+  transition: transform 0.3s;
+}
+
+.drive-img:hover img { transform: scale(1.02); }
+
+.drive-img-caption {
+  font-size: 11px;
+  color: rgba(255,255,255,0.3);
+  text-align: center;
+  padding: 6px 0 0;
+}
+
+/* Placeholder when no media yet */
+.media-placeholder {
+  background: rgba(255,255,255,0.03);
+  border: 1px dashed rgba(255,255,255,0.1);
+  border-radius: 12px;
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  text-align: center;
+}
+
+.media-placeholder span { font-size: 28px; opacity: 0.3; }
+.media-placeholder p { font-size: 12px; color: rgba(255,255,255,0.2); }
+.media-placeholder code {
+  font-size: 11px;
+  color: rgba(76,175,80,0.6);
+  background: rgba(76,175,80,0.06);
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-family: monospace;
+}
+
+/* ── LIGHTBOX ── */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.92);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s;
+}
+
+.lightbox.open {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.lightbox img {
+  max-width: 100%;
+  max-height: 90vh;
+  border-radius: 8px;
+  box-shadow: 0 0 60px rgba(0,0,0,0.8);
+}
+
+.lightbox-close {
+  position: absolute;
+  top: 20px; right: 20px;
+  background: rgba(255,255,255,0.1);
+  border: none;
+  color: #fff;
+  font-size: 18px;
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.lightbox-close:hover { background: rgba(255,255,255,0.2); }
+
+/* ── SHARE / COPY LINK ── */
+.case-share {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.copy-link-btn {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08);
+  color: rgba(255,255,255,0.4);
+  font-size: 11px;
+  padding: 4px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: 'DM Sans', sans-serif;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.copy-link-btn:hover {
+  border-color: rgba(76,175,80,0.3);
+  color: #4CAF50;
+}
+
+.copy-link-btn.copied {
+  background: rgba(76,175,80,0.1);
+  border-color: rgba(76,175,80,0.4);
+  color: #4CAF50;
+}
+
+.expand-cta {
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255,255,255,0.05);
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* ── EMPTY STATE ── */
+.port-empty {
+  display: none;
+  text-align: center;
+  padding: 60px 20px;
+  color: rgba(255,255,255,0.2);
+  font-size: 14px;
+}
+
+/* ── COMING SOON BANNER ── */
+.port-coming {
+  margin-top: 60px;
+  padding: 24px;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 14px;
+  text-align: center;
+}
+
+.port-coming p {
+  font-size: 14px;
+  color: rgba(255,255,255,0.3);
+  line-height: 1.7;
+  margin-bottom: 16px;
+}
+
+.port-coming p strong { color: rgba(255,255,255,0.6); }
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 640px) {
+  .case-expanded-inner { grid-template-columns: 1fr; gap: 20px; }
+  .port-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="nav-container">
+    <h2 class="logo">FreshMint</h2>
+    <div class="menu-toggle"><span></span><span></span><span></span></div>
+    <ul class="nav-links">
+      <li><a href="/index.html"><span>Home</span></a></li>
+      <li><a href="/about.html"><span>About</span></a></li>
+      <li><a href="/portfolio.html"><span>Portfolio</span></a></li>
+      <li><a href="/services/"><span>Services</span></a></li>
+      <li><a href="/games.html"><span>Games</span></a></li>
+      <li><a href="/blog.html"><span>Blog</span></a></li>
+      <li><a href="/links.html"><span>Links</span></a></li>
+      <li><a href="/contact.html"><span>Contact</span></a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="port-wrap">
+
+  <span class="port-eyebrow">My work</span>
+  <h1 class="port-title">Port<span>folio</span></h1>
+  <p class="port-sub">A collection of projects, case studies and work across video editing, strategy, gaming and web development.</p>
+  <p class="port-note">
+    <span>Note:</span> Placeholder content below — real projects being added soon. Structure is ready for your work.
+  </p>
+
+  <!-- FILTER TABS -->
+  <div class="port-filters">
+    <button class="filter-btn active" onclick="filterCards('all', this)">All</button>
+    <button class="filter-btn" onclick="filterCards('video', this)">🎬 Video Editing</button>
+    <button class="filter-btn" onclick="filterCards('business', this)">📊 Business</button>
+    <button class="filter-btn" onclick="filterCards('gaming', this)">🎮 Game Strategy</button>
+    <button class="filter-btn" onclick="filterCards('web', this)">💻 Web / Code</button>
+    <button class="filter-btn" onclick="filterCards('creative', this)">✦ Creative</button>
+  </div>
+
+  <!-- PORTFOLIO GRID -->
+  <div class="port-grid" id="port-grid">
+
+    <!-- ══ VIDEO EDITING 1 ══ -->
+    <div class="case-card" data-category="video" onclick="toggleCard(this)">
+      <div class="case-thumb">
+        <div class="case-thumb-placeholder">🎬</div>
+        <!-- Replace with: <img src="/assets/images/portfolio/edit1.jpg" alt="School Reel"> -->
+        <span class="case-category cat-video">Video</span>
+        <span class="placeholder-badge">Placeholder</span>
+      </div>
+      <div class="case-info">
+        <div class="case-title">School Annual Competition Reel</div>
+        <div class="case-desc">High-energy event highlights reel edited for the annual school competition. Power cuts, music sync, transitions.</div>
+        <div class="case-tags">
+          <span class="case-tag">Adobe Premiere</span>
+          <span class="case-tag">NCS Music</span>
+          <span class="case-tag">Reels</span>
+        </div>
+        <div class="case-expand-hint">
+          <span>View case study</span>
+          <span class="arrow">↓</span>
+        </div>
+      </div>
+      <div class="case-expanded">
+        <div class="case-expanded-inner">
+          <div class="expand-section">
+            <h4>The Brief</h4>
+            <p>Edit a highlight reel for the school annual competition. Needed to be <strong>energetic, punchy and under 3 minutes</strong>. Raw footage was 45 minutes of unedited event recording.</p>
+            <h4 style="margin-top:20px">What I Did</h4>
+            <ul>
+              <li>Trimmed 45 min down to 2:40 of highlights</li>
+              <li>Synced cuts to NCS music beats</li>
+              <li>Added lower thirds for event names</li>
+              <li>Color graded for warm, energetic tone</li>
+            </ul>
+          </div>
+          <div class="expand-section">
+            <h4>Result</h4>
+            <div class="expand-result">
+              <span class="result-pill">2:40 final cut</span>
+              <span class="result-pill">45 min → highlights</span>
+              <span class="result-pill">1 revision</span>
+            </div>
+            <div class="expand-media">
+              <!-- ✅ HOW TO ADD YOUR VIDEO:
+                   1. Upload to YouTube as Unlisted
+                   2. Copy the video ID from the URL (the part after ?v=)
+                   3. Replace YOUR_VIDEO_ID below
+                   4. Remove the media-placeholder div
+              -->
+              <div class="media-placeholder">
+                <span>▶</span>
+                <p>Upload to YouTube → paste ID below</p>
+                <code>data-yt="YOUR_VIDEO_ID"</code>
+              </div>
+              <!-- PASTE THIS when ready:
+              <div class="yt-placeholder" data-yt="YOUR_VIDEO_ID" onclick="loadYT(this)">
+                <img src="https://img.youtube.com/vi/YOUR_VIDEO_ID/maxresdefault.jpg" alt="School Reel">
+                <div class="yt-play-btn">▶</div>
+                <div class="yt-title-overlay">School Annual Competition Reel</div>
+              </div>
+              -->
+            </div>
+            <div class="expand-cta">
+              <a href="/services/video-editing.html" class="btn" style="font-size:13px;padding:9px 18px">Order Similar</a>
+              <button class="copy-link-btn" onclick="copyLink(this,'video-editing')">🔗 Share</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ VIDEO EDITING 2 ══ -->
+    <div class="case-card" data-category="video" onclick="toggleCard(this)">
+      <div class="case-thumb">
+        <div class="case-thumb-placeholder">🎮</div>
+        <span class="case-category cat-video">Video</span>
+        <span class="placeholder-badge">Placeholder</span>
+      </div>
+      <div class="case-info">
+        <div class="case-title">Gameplay Montage — Cities: Skylines</div>
+        <div class="case-desc">Cinematic gameplay edit showcasing city-building highlights with smooth transitions and ambient soundtrack.</div>
+        <div class="case-tags">
+          <span class="case-tag">DaVinci Resolve</span>
+          <span class="case-tag">Cinematic</span>
+          <span class="case-tag">Gameplay</span>
+        </div>
+        <div class="case-expand-hint">
+          <span>View case study</span>
+          <span class="arrow">↓</span>
+        </div>
+      </div>
+      <div class="case-expanded">
+        <div class="case-expanded-inner">
+          <div class="expand-section">
+            <h4>The Brief</h4>
+            <p>Create a cinematic showcase of a <strong>Cities: Skylines city build</strong> — smooth, calm, visually impressive. Highlight the city's traffic systems and skyline.</p>
+            <h4 style="margin-top:20px">What I Did</h4>
+            <ul>
+              <li>Captured 2 hrs of gameplay footage</li>
+              <li>Selected best aerial and ground shots</li>
+              <li>Applied Kinetic Sync Editing™ transitions</li>
+              <li>Color graded for golden hour look</li>
+              <li>Ambient NCS soundtrack layered</li>
+            </ul>
+          </div>
+          <div class="expand-section">
+            <h4>Result</h4>
+            <div class="expand-result">
+              <span class="result-pill">4 min final cut</span>
+              <span class="result-pill">Cinematic grade</span>
+              <span class="result-pill">Zero revisions</span>
+            </div>
+            <div class="expand-media">
+              <div class="media-placeholder">
+                <span>▶</span>
+                <p>Upload to YouTube → paste ID below</p>
+                <code>data-yt="YOUR_VIDEO_ID"</code>
+              </div>
+              <!-- PASTE THIS when ready:
+              <div class="yt-placeholder" data-yt="YOUR_VIDEO_ID" onclick="loadYT(this)">
+                <img src="https://img.youtube.com/vi/YOUR_VIDEO_ID/maxresdefault.jpg" alt="Cities Montage">
+                <div class="yt-play-btn">▶</div>
+                <div class="yt-title-overlay">Gameplay Montage — Cities: Skylines</div>
+              </div>
+              -->
+            </div>
+            <div class="expand-cta">
+              <a href="/services/video-editing.html" class="btn" style="font-size:13px;padding:9px 18px">Order Similar</a>
+              <button class="copy-link-btn" onclick="copyLink(this,'gameplay-montage')">🔗 Share</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ BUSINESS 1 ══ -->
+    <div class="case-card" data-category="business" onclick="toggleCard(this)">
+      <div class="case-thumb">
+        <div class="case-thumb-placeholder">📊</div>
+        <span class="case-category cat-business">Business</span>
+        <span class="placeholder-badge">Placeholder</span>
+      </div>
+      <div class="case-info">
+        <div class="case-title">Instagram Growth Strategy — Sample Brand</div>
+        <div class="case-desc">Full social media audit and 30-day content roadmap for a sample fashion brand. Real framework, fictional client.</div>
+        <div class="case-tags">
+          <span class="case-tag">Instagram</span>
+          <span class="case-tag">Content Plan</span>
+          <span class="case-tag">Growth</span>
+        </div>
+        <div class="case-expand-hint">
+          <span>View case study</span>
+          <span class="arrow">↓</span>
+        </div>
+      </div>
+      <div class="case-expanded">
+        <div class="case-expanded-inner">
+          <div class="expand-section">
+            <h4>The Brief</h4>
+            <p>Sample case study: A fictional fashion brand with <strong>800 Instagram followers</strong>, posting inconsistently, no content strategy. Goal: grow to 5k in 3 months.</p>
+            <h4 style="margin-top:20px">Strategy Applied</h4>
+            <ul>
+              <li>Full audit of existing 60 posts</li>
+              <li>Identified top 3 performing content types</li>
+              <li>Built 30-day content calendar</li>
+              <li>Hashtag strategy (20 targeted sets)</li>
+              <li>Competitor gap analysis — 3 brands</li>
+            </ul>
+          </div>
+          <div class="expand-section">
+            <h4>Projected Outcome</h4>
+            <div class="expand-result">
+              <span class="result-pill">30-day plan</span>
+              <span class="result-pill">3 competitors analyzed</span>
+              <span class="result-pill">Full PDF report</span>
+            </div>
+            <div class="expand-media">
+              <div class="media-placeholder">
+                <span>📄</span>
+                <p>Screenshot your strategy doc → upload to Drive → paste link</p>
+                <code>drive-img src="DRIVE_DIRECT_LINK"</code>
+              </div>
+              <!-- PASTE THIS when ready:
+              <div class="drive-img" onclick="openLightbox(this)">
+                <img src="DRIVE_DIRECT_IMAGE_URL" alt="Strategy Document" loading="lazy">
+                <p class="drive-img-caption">30-Day Instagram Growth Strategy — Sample Brand</p>
+              </div>
+              -->
+            </div>
+            <div class="expand-cta">
+              <a href="/services/business-advice.html" class="btn" style="font-size:13px;padding:9px 18px">Order Similar</a>
+              <button class="copy-link-btn" onclick="copyLink(this,'instagram-strategy')">🔗 Share</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ GAMING 1 ══ -->
+    <div class="case-card" data-category="gaming" onclick="toggleCard(this)">
+      <div class="case-thumb">
+        <div class="case-thumb-placeholder">🏙️</div>
+        <span class="case-category cat-gaming">Gaming</span>
+        <span class="placeholder-badge">Placeholder</span>
+      </div>
+      <div class="case-info">
+        <div class="case-title">Cities: Skylines — Traffic Fix Guide</div>
+        <div class="case-desc">Full traffic system overhaul guide. Roundabouts, highway interchanges, public transit integration.</div>
+        <div class="case-tags">
+          <span class="case-tag">Cities: Skylines</span>
+          <span class="case-tag">Strategy Guide</span>
+          <span class="case-tag">Traffic</span>
+        </div>
+        <div class="case-expand-hint">
+          <span>View case study</span>
+          <span class="arrow">↓</span>
+        </div>
+      </div>
+      <div class="case-expanded">
+        <div class="case-expanded-inner">
+          <div class="expand-section">
+            <h4>The Problem</h4>
+            <p>City of 80,000 citizens. <strong>Traffic congestion at 65%</strong>. Main highway interchange backing up 2km. Public transit unused by residents.</p>
+            <h4 style="margin-top:20px">Solution Applied</h4>
+            <ul>
+              <li>Redesigned highway exits to 4-lane diverging</li>
+              <li>Added 3 roundabouts at key intersections</li>
+              <li>Rerouted metro lines to cover dead zones</li>
+              <li>Rezoned industrial area away from city core</li>
+            </ul>
+          </div>
+          <div class="expand-section">
+            <h4>Result</h4>
+            <div class="expand-result">
+              <span class="result-pill">Traffic: 65% → 82%</span>
+              <span class="result-pill">City pop: 80k → 120k</span>
+              <span class="result-pill">Full guide PDF</span>
+            </div>
+            <div class="expand-media">
+              <div class="media-placeholder">
+                <span>🗺️</span>
+                <p>Screenshot your city layout → upload to Drive → paste link</p>
+                <code>drive-img src="DRIVE_DIRECT_LINK"</code>
+              </div>
+              <!-- PASTE THIS when ready:
+              <div class="drive-img" onclick="openLightbox(this)">
+                <img src="DRIVE_DIRECT_IMAGE_URL" alt="Cities Skylines Layout" loading="lazy">
+                <p class="drive-img-caption">Traffic system overhaul — before &amp; after</p>
+              </div>
+              -->
+            </div>
+            <div class="expand-cta">
+              <a href="/services/game-strategy.html" class="btn" style="font-size:13px;padding:9px 18px">Order Similar</a>
+              <button class="copy-link-btn" onclick="copyLink(this,'cities-traffic-fix')">🔗 Share</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ GAMING 2 ══ -->
+    <div class="case-card" data-category="gaming" onclick="toggleCard(this)">
+      <div class="case-thumb">
+        <div class="case-thumb-placeholder">🍗</div>
+        <span class="case-category cat-gaming">Gaming</span>
+        <span class="placeholder-badge">Placeholder</span>
+      </div>
+      <div class="case-info">
+        <div class="case-title">DNFC — Chaos Survival Handbook</div>
+        <div class="case-desc">Complete beginner-to-advanced guide for Definitely Not Fried Chicken. Kitchen layouts, staff routing, the works.</div>
+        <div class="case-tags">
+          <span class="case-tag">DNFC</span>
+          <span class="case-tag">Strategy Guide</span>
+          <span class="case-tag">Layout</span>
+        </div>
+        <div class="case-expand-hint">
+          <span>View case study</span>
+          <span class="arrow">↓</span>
+        </div>
+      </div>
+      <div class="case-expanded">
+        <div class="case-expanded-inner">
+          <div class="expand-section">
+            <h4>What This Covers</h4>
+            <p>A comprehensive survival guide for DNFC — the <strong>beautifully chaotic simulation game</strong> that breaks constantly and rewards lateral thinking.</p>
+            <h4 style="margin-top:20px">Topics Covered</h4>
+            <ul>
+              <li>Optimal kitchen layout for 3 product lines</li>
+              <li>Staff routing to avoid bottlenecks</li>
+              <li>Known bug workarounds (there are many)</li>
+              <li>Profit maximization per square meter</li>
+              <li>Chaos recovery when everything breaks</li>
+            </ul>
+          </div>
+          <div class="expand-section">
+            <h4>Guide Stats</h4>
+            <div class="expand-result">
+              <span class="result-pill">40+ tips</span>
+              <span class="result-pill">5 layout diagrams</span>
+              <span class="result-pill">Bug workarounds</span>
+            </div>
+            <div class="expand-media">
+              <div class="media-placeholder">
+                <span>🍗</span>
+                <p>Screenshot your kitchen layout → upload to Drive → paste link</p>
+                <code>drive-img src="DRIVE_DIRECT_LINK"</code>
+              </div>
+              <!-- PASTE THIS when ready:
+              <div class="drive-img" onclick="openLightbox(this)">
+                <img src="DRIVE_DIRECT_IMAGE_URL" alt="DNFC Kitchen Layout" loading="lazy">
+                <p class="drive-img-caption">Optimal 3-product kitchen layout</p>
+              </div>
+              -->
+            </div>
+            <div class="expand-cta">
+              <a href="/services/game-strategy.html" class="btn" style="font-size:13px;padding:9px 18px">Order Similar</a>
+              <button class="copy-link-btn" onclick="copyLink(this,'dnfc-chaos-guide')">🔗 Share</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ WEB / CODE ══ -->
+    <div class="case-card" data-category="web" onclick="toggleCard(this)">
+      <div class="case-thumb">
+        <div class="case-thumb-placeholder">💻</div>
+        <span class="case-category cat-web">Web</span>
+        <span class="placeholder-badge">Placeholder</span>
+      </div>
+      <div class="case-info">
+        <div class="case-title">FreshMint Website</div>
+        <div class="case-desc">This website. Built from scratch in HTML/CSS/JS — persistent music player, PPP pricing, EmailJS orders, 8 pages.</div>
+        <div class="case-tags">
+          <span class="case-tag">HTML/CSS/JS</span>
+          <span class="case-tag">EmailJS</span>
+          <span class="case-tag">GitHub Pages</span>
+        </div>
+        <div class="case-expand-hint">
+          <span>View case study</span>
+          <span class="arrow">↓</span>
+        </div>
+      </div>
+      <div class="case-expanded">
+        <div class="case-expanded-inner">
+          <div class="expand-section">
+            <h4>Project Overview</h4>
+            <p>A full personal portfolio + freelance platform built <strong>entirely from scratch</strong> with no frameworks. Started as a basic personal site, evolved into a full service platform.</p>
+            <h4 style="margin-top:20px">Features Built</h4>
+            <ul>
+              <li>Persistent cross-page music player with visualizer</li>
+              <li>PPP dynamic pricing for 20+ countries</li>
+              <li>3-step order popup with EmailJS + reCAPTCHA</li>
+              <li>7 browser games (zero external dependencies)</li>
+              <li>Responsive hamburger navigation</li>
+              <li>Hosted on GitHub Pages</li>
+            </ul>
+          </div>
+          <div class="expand-section">
+            <h4>Stack</h4>
+            <div class="expand-result">
+              <span class="result-pill">HTML/CSS/JS</span>
+              <span class="result-pill">GitHub Pages</span>
+              <span class="result-pill">EmailJS</span>
+              <span class="result-pill">8 pages</span>
+            </div>
+            <div class="expand-media">
+              <div class="media-placeholder">
+                <span>🌐</span>
+                <p>Screenshot homepage → upload to Drive → paste link</p>
+                <code>drive-img src="DRIVE_DIRECT_LINK"</code>
+              </div>
+              <!-- PASTE THIS when ready:
+              <div class="drive-img" onclick="openLightbox(this)">
+                <img src="DRIVE_DIRECT_IMAGE_URL" alt="FreshMint Website" loading="lazy">
+                <p class="drive-img-caption">FreshMint — homepage design</p>
+              </div>
+              -->
+            </div>
+            <div class="expand-cta">
+              <a href="https://github.com/FreshMinted" target="_blank" class="btn secondary" style="font-size:13px;padding:9px 18px">View on GitHub</a>
+              <button class="copy-link-btn" onclick="copyLink(this,'freshmint-website')">🔗 Share</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ CREATIVE ══ -->
+    <div class="case-card" data-category="creative" onclick="toggleCard(this)">
+      <div class="case-thumb">
+        <div class="case-thumb-placeholder">🎨</div>
+        <span class="case-category cat-creative">Creative</span>
+        <span class="placeholder-badge">Placeholder</span>
+      </div>
+      <div class="case-info">
+        <div class="case-title">FreshMint Brand Identity</div>
+        <div class="case-desc">The FreshMint logo concept, brand story and visual identity — built around the freshly minted coin narrative.</div>
+        <div class="case-tags">
+          <span class="case-tag">Canva</span>
+          <span class="case-tag">Branding</span>
+          <span class="case-tag">Identity</span>
+        </div>
+        <div class="case-expand-hint">
+          <span>View case study</span>
+          <span class="arrow">↓</span>
+        </div>
+      </div>
+      <div class="case-expanded">
+        <div class="case-expanded-inner">
+          <div class="expand-section">
+            <h4>The Concept</h4>
+            <p>FreshMint = <strong>freshly minted coin</strong>. Clean. Valuable. New. A brand that feels like something just pressed — crisp, precise, worth something.</p>
+            <h4 style="margin-top:20px">Elements Created</h4>
+            <ul>
+              <li>Logo mark — mint leaves + coin combination</li>
+              <li>Color palette — #0d0d0d dark + #4CAF50 mint green</li>
+              <li>Typography — Syne (display) + DM Sans (body)</li>
+              <li>Brand story — the freshly minted coin narrative</li>
+            </ul>
+          </div>
+          <div class="expand-section">
+            <h4>Brand Assets</h4>
+            <div class="expand-result">
+              <span class="result-pill">Logo mark</span>
+              <span class="result-pill">Color system</span>
+              <span class="result-pill">Typography</span>
+            </div>
+            <div class="expand-media">
+              <div class="media-placeholder">
+                <span>🪙</span>
+                <p>Export brand sheet from Canva → upload to Drive → paste link</p>
+                <code>drive-img src="DRIVE_DIRECT_LINK"</code>
+              </div>
+              <!-- PASTE THIS when ready:
+              <div class="drive-img" onclick="openLightbox(this)">
+                <img src="DRIVE_DIRECT_IMAGE_URL" alt="FreshMint Brand Identity" loading="lazy">
+                <p class="drive-img-caption">FreshMint — brand identity sheet</p>
+              </div>
+              -->
+            </div>
+            <div class="expand-cta">
+              <a href="/contact.html" class="btn" style="font-size:13px;padding:9px 18px">Work With Me</a>
+              <button class="copy-link-btn" onclick="copyLink(this,'freshmint-brand')">🔗 Share</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="port-empty" id="port-empty">No projects in this category yet — check back soon!</div>
+
+  <!-- COMING SOON -->
+  <div class="port-coming">
+    <p>More work being added regularly. Have a project in mind? <strong>Let's work together.</strong></p>
+    <a href="/contact.html" class="btn secondary" style="font-size:14px">Get in Touch</a>
+  </div>
+
+</div>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+  <img id="lightbox-img" src="" alt="">
+</div>
+
+<script src="/js/navigation.js"></script>
+<script src="/js/navbar-patch.js"></script>
+<script src="/js/script.js"></script>
+<script>
+/* ── YOUTUBE LAZY LOAD ──
+   Thumbnail shown first — iframe only loads on click.
+   Saves bandwidth, faster page load.
+── */
+function loadYT(el) {
+  const id = el.dataset.yt;
+  if (!id) return;
+  const iframe = document.createElement("iframe");
+  iframe.src         = `https://www.youtube.com/embed/${id}?autoplay=1&rel=0`;
+  iframe.allow       = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
+  iframe.allowFullscreen = true;
+  iframe.style.cssText   = "position:absolute;top:0;left:0;width:100%;height:100%;border:none;border-radius:12px;";
+  el.innerHTML = "";
+  el.style.cssText = "position:relative;padding-bottom:56.25%;height:0;border-radius:12px;overflow:hidden;";
+  el.appendChild(iframe);
+}
+
+/* ── LIGHTBOX for Drive images ── */
+function openLightbox(el) {
+  const img = el.querySelector("img");
+  if (!img) return;
+  document.getElementById("lightbox-img").src = img.src;
+  document.getElementById("lightbox").classList.add("open");
+  document.body.style.overflow = "hidden";
+}
+
+function closeLightbox() {
+  document.getElementById("lightbox").classList.remove("open");
+  document.body.style.overflow = "";
+}
+
+document.addEventListener("keydown", e => {
+  if (e.key === "Escape") closeLightbox();
+});
+
+/* ── COPY SHARE LINK ──
+   Copies a direct link to this project to clipboard.
+   Client can share with others.
+── */
+function copyLink(btn, slug) {
+  const url = `${location.origin}/portfolio.html#${slug}`;
+  navigator.clipboard.writeText(url).then(() => {
+    btn.textContent = "✓ Copied!";
+    btn.classList.add("copied");
+    setTimeout(() => {
+      btn.textContent = "🔗 Share";
+      btn.classList.remove("copied");
+    }, 2000);
+  }).catch(() => {
+    btn.textContent = "✓ Copied!";
+    setTimeout(() => btn.textContent = "🔗 Share", 2000);
+  });
+}
+
+/* ── FILTER ── */
+function filterCards(cat, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+
+  const cards = document.querySelectorAll('.case-card');
+  let visible = 0;
+
+  cards.forEach(card => {
+    const match = cat === 'all' || card.dataset.category === cat;
+    card.style.display = match ? '' : 'none';
+    if (match) visible++;
+    // close any open cards when filtering
+    card.classList.remove('open');
+  });
+
+  document.getElementById('port-empty').style.display = visible === 0 ? 'block' : 'none';
+}
+
+/* ── TOGGLE CARD ── */
+function toggleCard(card) {
+  const wasOpen = card.classList.contains('open');
+
+  // Close all cards first
+  document.querySelectorAll('.case-card.open').forEach(c => c.classList.remove('open'));
+
+  // Open clicked card if it wasn't already open
+  if (!wasOpen) {
+    card.classList.add('open');
+    // Smooth scroll to card
+    setTimeout(() => {
+      card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }, 100);
+  }
+}
+</script>
+</body>
+</html>
