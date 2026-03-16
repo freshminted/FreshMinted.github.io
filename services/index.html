@@ -13,7 +13,6 @@ body{font-family:'DM Sans',sans-serif;background:#0d0d0d;color:#c8c8c8;padding-t
 
 .services-wrap{max-width:900px;margin:0 auto;padding:80px 24px 120px}
 
-
 /* ── HEADER ── */
 .svc-eyebrow{font-size:11px;letter-spacing:4px;text-transform:uppercase;color:#4CAF50;font-family:'Syne',sans-serif;margin-bottom:20px;display:block;animation:fadeUp 0.5s ease both}
 .svc-title{font-family:'Syne',sans-serif;font-size:clamp(36px,7vw,60px);font-weight:800;color:#fff;line-height:1.05;margin-bottom:12px;animation:fadeUp 0.5s ease 0.1s both}
@@ -386,7 +385,7 @@ body{font-family:'DM Sans',sans-serif;background:#0d0d0d;color:#c8c8c8;padding-t
           <div class="svc-price">
             <span class="svc-price-label">Starting from</span>
             <div class="svc-price-amount">
-              <span class="gig-price" data-price="10">$10</span>
+              <span class="gig-price" data-price="15">$15</span>
             </div>
           </div>
           <a href="/services/video-editing.html" class="svc-btn">View Packages →</a>
@@ -438,10 +437,10 @@ body{font-family:'DM Sans',sans-serif;background:#0d0d0d;color:#c8c8c8;padding-t
           <div class="svc-price">
             <span class="svc-price-label">Starting from</span>
             <div class="svc-price-amount">
-              <span class="gig-price" data-price="15">$15</span>
+              <span class="gig-price" data-price="10">$10</span>
             </div>
           </div>
-          <a href="/services/game-advice.html" class="svc-btn">View Packages →</a>
+          <a href="/services/game-strategy.html" class="svc-btn">View Packages →</a>
         </div>
       </div>
     </div>
@@ -533,10 +532,13 @@ body{font-family:'DM Sans',sans-serif;background:#0d0d0d;color:#c8c8c8;padding-t
   </div>
 
 </div>
-<script src="/js/navigation.js"></script>
 
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+<script src="https://www.google.com/recaptcha/api.js?render=6Ld9MYssAAAAACoKomRGa0pJ6zdGtqQplIxwXbj2"></script>
 <script src="/js/navbar-patch.js"></script>
 <script src="/js/script.js"></script>
+<script src="/js/gig.js"></script>
+<script>const GIG_ID = "";</script>
 <script>
 /* PPP pricing on services page */
 const PPP = {

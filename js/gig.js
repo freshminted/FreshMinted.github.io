@@ -3,21 +3,23 @@
    Handles: PPP pricing, order popup, EmailJS
 ========================= */
 
-// Reset gig init flag on each load (SPA navigation)
-window.__fmGigInit = false;
+// Wrap entire gig.js to prevent double-init issues
+(function() {
 
 // ── EmailJS config ──────────────────────────────
 // 1. Go to emailjs.com and create a free account
 // 2. Add Gmail service → copy Service ID below
 // 3. Create an email template → copy Template ID below
 // 4. Copy your Public Key below
-emailjs.init("bk2Xr38vMo_Ekp6C_");
+if (typeof emailjs !== 'undefined') {
+  emailjs.init("bk2Xr38vMo_Ekp6C_");
+}
 
-const EMAILJS_SERVICE  = "service_9ciuxid";
-const EMAILJS_TEMPLATE = "template_p462zgr";
-const OWNER_EMAIL      = "freshmint.work@gmail.com";
-const RECAPTCHA_SITE        = "6Ld9MYssAAAAACoKomRGa0pJ6zdGtqQplIxwXbj2";
-const EMAILJS_TEMPLATE_CLIENT = "template_16o1lai"; // confirmation to client
+var EMAILJS_SERVICE  = "service_9ciuxid";
+var EMAILJS_TEMPLATE = "template_p462zgr";
+var OWNER_EMAIL      = "freshmint.work@gmail.com";
+var RECAPTCHA_SITE        = "6Ld9MYssAAAAACoKomRGa0pJ6zdGtqQplIxwXbj2";
+var EMAILJS_TEMPLATE_CLIENT = "template_16o1lai"; // confirmation to client
 
 /* =========================
    PPP PRICING
@@ -186,17 +188,53 @@ function showSaleBanner() {
 
 // Detect country via free IP geolocation
 async function detectCountry() {
+  // Step 1 — instant language fallback (works everywhere)
+  try {
+    const lang = navigator.language || "";
+    if (lang.includes("-")) {
+      const code = lang.split("-")[1].toUpperCase();
+      if (PPP[code]) {
+        userCountry   = code;
+        pppMultiplier = PPP[code];
+        userCurrency  = CURRENCY[code] || "$";
+      }
+    }
+  } catch(e) {}
+
+  // Step 2 — check localStorage cache first (avoids hammering API)
+  try {
+    const cached = JSON.parse(localStorage.getItem("fmCountry") || "null");
+    const now    = Date.now();
+    // Cache valid for 24 hours
+    if (cached && cached.code && (now - cached.ts) < 86400000) {
+      userCountry   = cached.code;
+      pppMultiplier = PPP[userCountry]  || 0.80;
+      userCurrency  = CURRENCY[userCountry] || "$";
+      applyPPP();
+      showSaleBanner();
+      return; // skip API call entirely
+    }
+  } catch(e) {}
+
+  // Step 3 — IP API (only called once per day, skipped on localhost)
   try {
     const res  = await fetch("https://ipapi.co/json/");
+    if (!res.ok) throw new Error("ipapi " + res.status);
     const data = await res.json();
-    userCountry   = data.country_code || "US";
-    pppMultiplier = PPP[userCountry]  || 0.80;
-    userCurrency  = CURRENCY[userCountry] || "$";
+    if (data.country_code) {
+      userCountry   = data.country_code;
+      pppMultiplier = PPP[userCountry]  || 0.80;
+      userCurrency  = CURRENCY[userCountry] || "$";
+      // Cache result for 24 hours
+      localStorage.setItem("fmCountry", JSON.stringify({
+        code: userCountry,
+        ts:   Date.now()
+      }));
+    }
   } catch {
-    userCountry   = "US";
-    pppMultiplier = 1;
-    userCurrency  = "$";
+    // CORS on localhost or rate limited — language fallback already applied
   }
+
   applyPPP();
   showSaleBanner();
 }
@@ -262,7 +300,7 @@ let orderState = {
    OPEN / CLOSE POPUP
 ========================= */
 
-function openOrder(gig, tier, price, days) {
+window.openOrder = function(gig, tier, price, days) {
   orderState.gig          = gig;
   orderState.tier         = tier;
   orderState.basePrice    = price;
@@ -292,11 +330,11 @@ function openOrder(gig, tier, price, days) {
   document.body.style.overflow = "hidden";
 }
 
-function closeOrder(e) {
+window.closeOrder = function(e) {
   if (e.target === document.getElementById("order-overlay")) closeOrderDirect();
 }
 
-function closeOrderDirect() {
+window.closeOrderDirect = function() {
   document.getElementById("order-overlay").classList.remove("active");
   document.body.style.overflow = "";
 }
@@ -331,7 +369,7 @@ function buildPackageSummary() {
    DELIVERY TOGGLE
 ========================= */
 
-function setDelivery(type) {
+window.setDelivery = function(type) {
   orderState.delivery = type;
 
   document.getElementById("btn-standard").classList.toggle("active", type === "standard");
@@ -361,7 +399,7 @@ function updatePriceDisplay() {
    STEP NAVIGATION
 ========================= */
 
-function nextStep(n) {
+window.nextStep = function(n) {
   // Validate before moving forward
   if (n === 3) {
     const name    = document.getElementById("client-name").value.trim();
@@ -416,7 +454,7 @@ function buildReview() {
    SUBMIT ORDER via EmailJS
 ========================= */
 
-async function submitOrder() {
+window.submitOrder = async function() {
   const btn = document.getElementById("submit-btn");
   btn.textContent = "Verifying...";
   btn.disabled    = true;
@@ -489,12 +527,27 @@ document.querySelectorAll(".faq-item").forEach(item => {
   const a = item.querySelector(".faq-a");
   a.style.maxHeight = "0";
   a.style.overflow  = "hidden";
-  a.style.transition= "max-height 0.3s ease, padding 0.3s ease";
+  a.style.transition= "max-height 0.4s ease, padding 0.3s ease";
 
   q.style.cursor = "pointer";
   q.addEventListener("click", () => {
     const isOpen = item.classList.toggle("open");
-    a.style.maxHeight = isOpen ? a.scrollHeight + "px" : "0";
-    a.style.paddingTop = isOpen ? "10px" : "0";
+    if (isOpen) {
+      // Temporarily remove overflow:hidden to measure true height
+      a.style.overflow  = "visible";
+      a.style.maxHeight = "none";
+      const h = a.scrollHeight;
+      a.style.maxHeight = "0";
+      a.style.overflow  = "hidden";
+      // Force reflow then animate
+      requestAnimationFrame(() => {
+        a.style.maxHeight  = h + 20 + "px"; // +20px buffer
+        a.style.paddingTop = "10px";
+      });
+    } else {
+      a.style.maxHeight  = "0";
+      a.style.paddingTop = "0";
+    }
   });
 });
+})();

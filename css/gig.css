@@ -385,7 +385,6 @@ body {
 .faq-item {
   border: 1px solid rgba(255,255,255,0.06);
   border-radius: 10px;
-  overflow: hidden;
 }
 
 .faq-q {
@@ -835,26 +834,28 @@ body {
 @media (max-width: 860px) {
   .gig-layout-wrap {
     grid-template-columns: 1fr;
+    gap: 0;
   }
 
   .gig-sidebar {
     position: static;
-    order: -1;
+    order: 2;
+    margin-top: 40px;
   }
 
+  /* Full form sticky note on mobile — just remove the rotation */
   .order-note {
     transform: none;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-    align-items: center;
+    border-radius: 12px;
+    padding: 22px 20px 18px;
+    display: block;
+    width: 100%;
+    max-width: 100%;
   }
 
-  .order-note h3,
-  .order-note hr,
   .tape { display: none; }
 
-  .note-btn { margin-top: 0; }
+  .note-btn { width: 100%; text-align: center; }
 }
 
 @media (max-width: 560px) {

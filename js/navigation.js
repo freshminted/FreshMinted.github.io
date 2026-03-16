@@ -88,11 +88,15 @@
     const newLinks = Array.from(newDoc.querySelectorAll('link[rel="stylesheet"]'));
 
     const promises = newLinks.map(link => {
-      if (existing.includes(link.href)) return Promise.resolve(); // already loaded
+      // Always resolve href against origin to avoid services/ path issues
+      const resolvedHref = link.getAttribute('href').startsWith('/')
+        ? location.origin + link.getAttribute('href')
+        : new URL(link.getAttribute('href'), location.origin).href;
+      if (existing.includes(resolvedHref)) return Promise.resolve();
       return new Promise(resolve => {
         const el    = document.createElement("link");
         el.rel      = "stylesheet";
-        el.href     = link.href;
+        el.href     = resolvedHref;
         el.onload   = resolve;
         el.onerror  = resolve;
         document.head.appendChild(el);

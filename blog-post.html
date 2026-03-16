@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blog | FreshMint</title>
+<link rel="stylesheet" href="/css/style.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',sans-serif;background:#0d0d0d;color:#c8c8c8;padding-top:80px}
+
+.post-wrap{max-width:720px;margin:0 auto;padding:60px 24px 120px}
+
+/* ── BACK LINK ── */
+.post-back{display:inline-flex;align-items:center;gap:8px;font-size:13px;color:rgba(255,255,255,0.35);text-decoration:none;margin-bottom:40px;transition:color 0.2s}
+.post-back:hover{color:#4CAF50}
+
+/* ── HEADER ── */
+.post-header{margin-bottom:40px;animation:fadeUp 0.5s ease both}
+.post-category-tag{display:inline-block;font-size:10px;padding:3px 10px;border-radius:20px;font-family:'Syne',sans-serif;letter-spacing:1px;text-transform:uppercase;font-weight:600;margin-bottom:16px}
+.tag-video   {background:rgba(239,68,68,0.12);   color:#ef4444; border:1px solid rgba(239,68,68,0.2)}
+.tag-gaming  {background:rgba(168,85,247,0.12);  color:#c084fc; border:1px solid rgba(168,85,247,0.2)}
+.tag-business{background:rgba(59,130,246,0.12);  color:#60a5fa; border:1px solid rgba(59,130,246,0.2)}
+.tag-personal{background:rgba(76,175,80,0.12);   color:#4CAF50; border:1px solid rgba(76,175,80,0.2)}
+.tag-web     {background:rgba(251,191,36,0.12);  color:#fbbf24; border:1px solid rgba(251,191,36,0.2)}
+
+.post-title{font-family:'Syne',sans-serif;font-size:clamp(28px,5vw,48px);font-weight:800;color:#fff;line-height:1.1;margin-bottom:16px}
+.post-meta-row{display:flex;gap:16px;font-size:13px;color:rgba(255,255,255,0.3);flex-wrap:wrap;margin-bottom:32px}
+
+/* ── HERO IMAGE / EMOJI ── */
+.post-hero{width:100%;border-radius:14px;overflow:hidden;margin-bottom:40px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.06);min-height:200px;display:flex;align-items:center;justify-content:center;font-size:80px;animation:fadeUp 0.5s ease 0.1s both}
+.post-hero img{width:100%;height:320px;object-fit:cover;display:block}
+
+/* ── CONTENT ── */
+.post-content{animation:fadeUp 0.5s ease 0.2s both;line-height:1.85;font-size:16px;color:rgba(255,255,255,0.7)}
+.post-content h2{font-family:'Syne',sans-serif;font-size:22px;font-weight:700;color:#fff;margin:36px 0 14px}
+.post-content h3{font-family:'Syne',sans-serif;font-size:18px;font-weight:600;color:#fff;margin:28px 0 10px}
+.post-content p{margin-bottom:18px}
+.post-content ul,.post-content ol{padding-left:24px;margin-bottom:18px}
+.post-content li{margin-bottom:8px}
+.post-content strong{color:rgba(255,255,255,0.9);font-weight:500}
+.post-content em{color:#4CAF50;font-style:normal}
+.post-content blockquote{border-left:3px solid rgba(76,175,80,0.4);padding:12px 20px;margin:24px 0;background:rgba(76,175,80,0.04);border-radius:0 8px 8px 0;font-style:italic;color:rgba(255,255,255,0.55)}
+.post-content code{background:rgba(255,255,255,0.06);padding:2px 7px;border-radius:4px;font-family:monospace;font-size:14px;color:#4CAF50}
+.post-content pre{background:rgba(0,0,0,0.4);border:1px solid rgba(255,255,255,0.07);border-radius:10px;padding:20px;overflow-x:auto;margin-bottom:18px}
+.post-content pre code{background:none;padding:0;color:#7CFF7C}
+.post-content a{color:#4CAF50;text-decoration:none}
+.post-content a:hover{text-decoration:underline}
+.post-content img{width:100%;border-radius:10px;margin:10px 0}
+
+/* ── DIVIDER ── */
+.post-divider{width:40px;height:1px;background:rgba(76,175,80,0.4);margin:48px 0}
+
+/* ── AUTHOR ── */
+.post-author{display:flex;align-items:center;gap:16px;padding:24px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.06);border-radius:14px;margin-bottom:40px}
+.author-avatar{width:50px;height:50px;border-radius:50%;background:rgba(76,175,80,0.12);border:1.5px solid rgba(76,175,80,0.25);display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:16px;font-weight:700;color:#4CAF50;flex-shrink:0}
+.author-name{font-size:15px;font-weight:500;color:#fff;margin-bottom:3px}
+.author-bio{font-size:13px;color:rgba(255,255,255,0.35)}
+
+/* ── RELATED / CTA ── */
+.post-cta{display:flex;align-items:center;justify-content:space-between;padding:28px;background:rgba(76,175,80,0.04);border:1px solid rgba(76,175,80,0.12);border-radius:14px;gap:20px;flex-wrap:wrap}
+.post-cta h3{font-family:'Syne',sans-serif;font-size:17px;font-weight:700;color:#fff;margin-bottom:5px}
+.post-cta p{font-size:13px;color:rgba(255,255,255,0.4)}
+
+/* ── 404 ── */
+.post-404{text-align:center;padding:80px 20px}
+.post-404 h2{font-family:'Syne',sans-serif;font-size:28px;color:#fff;margin-bottom:12px}
+.post-404 p{color:rgba(255,255,255,0.4);margin-bottom:24px}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:520px){.post-cta{flex-direction:column}}
+</style>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="nav-container">
+    <h2 class="logo">FreshMint</h2>
+    <div class="menu-toggle"><span></span><span></span><span></span></div>
+    <ul class="nav-links">
+      <li><a href="/index.html"><span>Home</span></a></li>
+      <li><a href="/about.html"><span>About</span></a></li>
+      <li><a href="/portfolio.html"><span>Portfolio</span></a></li>
+      <li><a href="/services/"><span>Services</span></a></li>
+      <li><a href="/games.html"><span>Games</span></a></li>
+      <li><a href="/blog.html"><span>Blog</span></a></li>
+      <li><a href="/links.html"><span>Links</span></a></li>
+      <li><a href="/contact.html"><span>Contact</span></a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="post-wrap" id="post-wrap">
+  <!-- Rendered by JS -->
+</div>
+
+<script src="/js/blog-data.js"></script>
+<script src="/js/navigation.js"></script>
+<script src="/js/navbar-patch.js"></script>
+<script src="/js/script.js"></script>
+<script>
+const CAT_LABELS = {
+  video:'Video Editing', gaming:'Game Strategy',
+  business:'Business', personal:'Personal', web:'Web / Code'
+};
+
+const CAT_SERVICE = {
+  video:    '/services/video-editing.html',
+  gaming:   '/services/game-strategy.html',
+  business: '/services/business-advice.html',
+  personal: '/contact.html',
+  web:      '/contact.html'
+};
+
+function renderPost() {
+  const params = new URLSearchParams(window.location.search);
+  const id     = params.get('id');
+  const wrap   = document.getElementById('post-wrap');
+
+  const post = BLOG_POSTS.find(p => p.id === id);
+
+  if (!post) {
+    wrap.innerHTML = `
+      <div class="post-404">
+        <h2>Post not found</h2>
+        <p>This post doesn't exist or may have been removed.</p>
+        <a href="/blog.html" class="btn">Back to Blog</a>
+      </div>
+    `;
+    return;
+  }
+
+  // Update page title
+  document.title = post.title + ' | FreshMint Blog';
+
+  const hero = post.image
+    ? `<div class="post-hero"><img src="${post.image}" alt="${post.title}"></div>`
+    : `<div class="post-hero"><span>${post.emoji}</span></div>`;
+
+  wrap.innerHTML = `
+    <a href="/blog.html" class="post-back">← Back to Blog</a>
+
+    <div class="post-header">
+      <span class="post-category-tag tag-${post.category}">${CAT_LABELS[post.category]}</span>
+      <h1 class="post-title">${post.title}</h1>
+      <div class="post-meta-row">
+        <span>📅 ${post.date}</span>
+        <span>⏱ ${post.readTime}</span>
+        <span>✍ Kartikey Mishra</span>
+      </div>
+    </div>
+
+    ${hero}
+
+    <div class="post-content">
+      ${post.content}
+    </div>
+
+    <div class="post-divider"></div>
+
+    <div class="post-author">
+      <div class="author-avatar">FM</div>
+      <div>
+        <div class="author-name">Kartikey Mishra</div>
+        <div class="author-bio">18 · Kanpur, India · Video editor, strategist, gamer & builder of FreshMint.</div>
+      </div>
+    </div>
+
+    <div class="post-cta">
+      <div>
+        <h3>Enjoyed this post?</h3>
+        <p>Check out the related service or get in touch for a project.</p>
+      </div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <a href="${CAT_SERVICE[post.category] || '/services/'}" class="btn" style="font-size:13px">View Service</a>
+        <a href="/blog.html" class="btn secondary" style="font-size:13px">More Posts</a>
+      </div>
+    </div>
+  `;
+}
+
+renderPost();
+</script>
+</body>
+</html>

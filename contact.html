@@ -7,7 +7,6 @@
 <link rel="stylesheet" href="/css/style.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'DM Sans',sans-serif;background:#0d0d0d;color:#c8c8c8;padding-top:80px}
@@ -52,6 +51,7 @@ body{font-family:'DM Sans',sans-serif;background:#0d0d0d;color:#c8c8c8;padding-t
 </style>
 </head>
 <body>
+
 <nav class="navbar">
   <div class="nav-container">
     <h2 class="logo">FreshMint</h2>
@@ -62,21 +62,26 @@ body{font-family:'DM Sans',sans-serif;background:#0d0d0d;color:#c8c8c8;padding-t
       <li><a href="/portfolio.html"><span>Portfolio</span></a></li>
       <li><a href="/services/"><span>Services</span></a></li>
       <li><a href="/games.html"><span>Games</span></a></li>
+      <li><a href="/blog.html"><span>Blog</span></a></li>
       <li><a href="/links.html"><span>Links</span></a></li>
       <li><a href="/contact.html"><span>Contact</span></a></li>
-            <li><a href="/blog.html"><span>Blog</span></a></li>
     </ul>
   </div>
 </nav>
+
 <div class="contact-wrap">
+
   <span class="contact-eyebrow">Get in touch</span>
   <h1 class="contact-title">Let's talk<br>about <span>your project</span></h1>
+
   <div class="contact-why">
     <p>Whether you have a <strong>project in mind</strong>, a question about my services, or just want to say hi — my inbox is always open. I read every message personally and reply within 24 hours.</p>
     <p>FreshMint was built on the idea that <strong>real connections matter more than transactions</strong>. So don't hesitate to reach out — even if you're not sure what you need yet. Sometimes the best projects start with just a conversation.</p>
     <p>For <strong>service orders</strong>, head over to the <a href="/services/" style="color:#4CAF50;text-decoration:none;">Services page</a> and use the order form there — it keeps everything organised and gets to me faster.</p>
   </div>
+
   <div class="contact-divider"></div>
+
   <div class="direct-email">
     <div class="email-icon">✉</div>
     <div>
@@ -84,6 +89,7 @@ body{font-family:'DM Sans',sans-serif;background:#0d0d0d;color:#c8c8c8;padding-t
       <a href="mailto:freshmint.work@gmail.com" class="email-address">freshmint.work@gmail.com</a>
     </div>
   </div>
+
   <div class="contact-form">
     <span class="form-label">Or send a message</span>
     <div id="contact-fields">
@@ -117,49 +123,70 @@ body{font-family:'DM Sans',sans-serif;background:#0d0d0d;color:#c8c8c8;padding-t
         <button id="send-btn" onclick="sendContact()">Send Message</button>
       </div>
     </div>
+
     <div class="form-success" id="form-success">
       <div class="success-circle">✓</div>
       <h3>Message sent!</h3>
       <p>Thanks for reaching out! I'll get back to you at <strong id="confirm-contact-email"></strong> within 24 hours.</p>
     </div>
   </div>
+
   <div class="response-note">
     <span>⏱</span>
     Average response time is under 24 hours. For urgent orders use the service pages directly.
   </div>
+
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 <script src="/js/navigation.js"></script>
+<script src="/js/navbar-patch.js"></script>
 <script src="/js/script.js"></script>
 <script>
-emailjs.init("bk2Xr38vMo_Ekp6C_");
-async function sendContact(){
-  const name=document.getElementById("c-name").value.trim();
-  const email=document.getElementById("c-email").value.trim();
-  const subject=document.getElementById("c-subject").value;
-  const message=document.getElementById("c-message").value.trim();
-  if(!name){alert("Please enter your name.");return;}
-  if(!email||!email.includes("@")){alert("Please enter a valid email.");return;}
-  if(!message){alert("Please write a message.");return;}
-  const btn=document.getElementById("send-btn");
-  btn.textContent="Sending...";
-  btn.disabled=true;
-  try{
-    await emailjs.send("service_9ciuxid","template_p462zgr",{
-      from_name:name,from_email:email,gig:"Contact Form",
-      tier:subject,delivery:"N/A",total:"N/A",
-      country:navigator.language,extra:"N/A",
-      message:message,reply_to:email
-    });
-    document.getElementById("contact-fields").style.display="none";
-    document.getElementById("form-success").classList.add("show");
-    document.getElementById("confirm-contact-email").textContent=email;
-  }catch(err){
-    console.error("EmailJS error:",err);
-    alert("Something went wrong. Please email freshmint.work@gmail.com directly.");
-    btn.textContent="Send Message";
-    btn.disabled=false;
-  }
+if (!window.__contactInit) {
+  window.__contactInit = true;
+  emailjs.init("bk2Xr38vMo_Ekp6C_");
 }
+
+window.sendContact = async function() {
+  const name    = document.getElementById("c-name").value.trim();
+  const email   = document.getElementById("c-email").value.trim();
+  const subject = document.getElementById("c-subject").value;
+  const message = document.getElementById("c-message").value.trim();
+
+  if (!name)                          { alert("Please enter your name.");         return; }
+  if (!email || !email.includes("@")) { alert("Please enter a valid email.");     return; }
+  if (!message)                       { alert("Please write a message.");         return; }
+
+  const btn       = document.getElementById("send-btn");
+  btn.textContent = "Sending...";
+  btn.disabled    = true;
+
+  try {
+    await emailjs.send("service_9ciuxid", "template_p462zgr", {
+      from_name:  name,
+      from_email: email,
+      gig:        "Contact Form",
+      tier:       subject,
+      delivery:   "N/A",
+      total:      "N/A",
+      country:    navigator.language,
+      extra:      "N/A",
+      message:    message,
+      reply_to:   email
+    });
+
+    document.getElementById("contact-fields").style.display = "none";
+    document.getElementById("form-success").classList.add("show");
+    document.getElementById("confirm-contact-email").textContent = email;
+
+  } catch(err) {
+    console.error("EmailJS error:", err);
+    alert("Something went wrong. Please email freshmint.work@gmail.com directly.");
+    btn.textContent = "Send Message";
+    btn.disabled    = false;
+  }
+};
 </script>
 </body>
 </html>

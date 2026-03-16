@@ -38,7 +38,7 @@ body{font-family:'DM Sans',sans-serif;background:#0d0d0d;color:#c8c8c8;padding-t
 .game-score-row{display:flex;gap:20px;align-items:center}
 .game-score{font-size:13px;color:rgba(255,255,255,0.4)}
 .game-score span{color:#4CAF50;font-weight:600;font-family:'Syne',sans-serif}
-.game-canvas-wrap{display:flex;justify-content:center;align-items:center;padding:24px;min-height:420px;position:relative}
+.game-canvas-wrap{display:flex;justify-content:center;align-items:center;padding:16px;min-height:300px;position:relative;overflow:hidden}
 canvas{display:block;border-radius:8px;image-rendering:pixelated}
 .game-controls-hint{padding:12px 20px;border-top:1px solid rgba(255,255,255,0.05);font-size:12px;color:rgba(255,255,255,0.25);text-align:center;letter-spacing:0.5px}
 .game-hidden{display:none}
@@ -63,6 +63,21 @@ canvas{display:block;border-radius:8px;image-rendering:pixelated}
 
 @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
 
+/* ── MOBILE GAME CONTROLS ── */
+.mobile-controls{display:none;flex-direction:column;align-items:center;gap:8px;padding:12px;border-top:1px solid rgba(255,255,255,0.05)}
+.mobile-controls-row{display:flex;gap:8px;justify-content:center}
+.mobile-btn{width:52px;height:52px;border-radius:12px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);color:white;font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.15s;-webkit-tap-highlight-color:transparent;user-select:none}
+.mobile-btn:active{background:rgba(76,175,80,0.2);border-color:rgba(76,175,80,0.4);transform:scale(0.92)}
+.mobile-btn.action{background:rgba(76,175,80,0.12);border-color:rgba(76,175,80,0.3);color:#4CAF50;width:110px}
+.mobile-controls-hint{font-size:11px;color:rgba(255,255,255,0.2);text-align:center;padding:0 16px 8px}
+@media(max-width:600px){
+  .mobile-controls{display:flex}
+  .game-controls-hint{display:none}
+  canvas{width:100% !important;height:auto !important}
+  .game-tabs{gap:6px}
+  .game-tab{padding:6px 10px;font-size:12px}
+}
+
 @media(max-width:600px){
   .game-canvas-wrap{padding:12px;min-height:340px}
   .collection-grid{grid-template-columns:1fr}
@@ -82,9 +97,9 @@ canvas{display:block;border-radius:8px;image-rendering:pixelated}
       <li><a href="/portfolio.html"><span>Portfolio</span></a></li>
       <li><a href="/services/"><span>Services</span></a></li>
       <li><a href="/games.html"><span>Games</span></a></li>
+      <li><a href="/blog.html"><span>Blog</span></a></li>
       <li><a href="/links.html"><span>Links</span></a></li>
       <li><a href="/contact.html"><span>Contact</span></a></li>
-            <li><a href="/blog.html"><span>Blog</span></a></li>
     </ul>
   </div>
 </nav>
@@ -122,9 +137,40 @@ canvas{display:block;border-radius:8px;image-rendering:pixelated}
       </div>
     </div>
     <div class="game-canvas-wrap" id="game-canvas-wrap">
-      <canvas id="gameCanvas" width="400" height="400"></canvas>
+      <canvas id="gameCanvas" width="400" height="400" style="max-width:100%;touch-action:none;"></canvas>
     </div>
     <div class="game-controls-hint" id="controls-hint">Arrow Keys to move · Space to pause/start</div>
+
+    <!-- MOBILE CONTROLS — shown only on small screens -->
+    <div class="mobile-controls" id="mobile-controls">
+      <!-- D-pad for directional games -->
+      <div id="dpad">
+        <div class="mobile-controls-row">
+          <button class="mobile-btn" id="m-up"    ontouchstart="mobileBtn('up')"   onmousedown="mobileBtn('up')">↑</button>
+        </div>
+        <div class="mobile-controls-row">
+          <button class="mobile-btn" id="m-left"  ontouchstart="mobileBtn('left')"  onmousedown="mobileBtn('left')">←</button>
+          <button class="mobile-btn action" id="m-action" ontouchstart="mobileBtn('action')" onmousedown="mobileBtn('action')">▶ Play</button>
+          <button class="mobile-btn" id="m-right" ontouchstart="mobileBtn('right')" onmousedown="mobileBtn('right')">→</button>
+        </div>
+        <div class="mobile-controls-row">
+          <button class="mobile-btn" id="m-down"  ontouchstart="mobileBtn('down')"  onmousedown="mobileBtn('down')">↓</button>
+        </div>
+      </div>
+      <!-- Pong touch zones -->
+      <div id="pong-zones" style="display:none;width:100%;gap:8px;display:none">
+        <div style="display:flex;gap:8px;width:100%">
+          <div style="flex:1;background:rgba(76,175,80,0.08);border:1px solid rgba(76,175,80,0.2);border-radius:10px;padding:14px;text-align:center;font-size:12px;color:rgba(76,175,80,0.7)">
+            P1 ↑↓<br><span style="font-size:10px;opacity:0.5">Touch here</span>
+          </div>
+          <div style="flex:1;background:rgba(192,132,252,0.08);border:1px solid rgba(192,132,252,0.2);border-radius:10px;padding:14px;text-align:center;font-size:12px;color:rgba(192,132,252,0.7)">
+            P2 ↑↓<br><span style="font-size:10px;opacity:0.5">Touch here</span>
+          </div>
+        </div>
+      </div>
+      <!-- Tap hint for click-based games -->
+      <div class="mobile-controls-hint" id="mobile-hint">Tap the canvas to play</div>
+    </div>
   </div>
 
   <!-- COLLECTION -->
@@ -178,12 +224,15 @@ canvas{display:block;border-radius:8px;image-rendering:pixelated}
 
 </div>
 
+<script src="/js/navigation.js"></script>
+<script src="/js/navbar-patch.js"></script>
 <script src="/js/script.js"></script>
 <script>
 /* ══════════════════════════════════════
-   GAME ENGINE — all games in one file
-   Zero external dependencies, zero bandwidth
+   GAME ENGINE
 ══════════════════════════════════════ */
+if (window.__gamesInit) { initSnake(); }
+window.__gamesInit = true;
 
 const canvas = document.getElementById('gameCanvas');
 const ctx    = canvas.getContext('2d');
@@ -210,13 +259,63 @@ function setScore(s, s2) {
   document.getElementById('score2-val').textContent = s2 || 0;
 }
 
-function switchGame(name) {
-  // ✅ FIX 1: Always clear Tetris interval when switching away
+/* ── MOBILE BUTTON HANDLER ── */
+window.mobileBtn = function(dir) {
+  switch(dir) {
+    case 'up':
+      if(currentGame==='snake')  { snakeDir={x:0,y:-1}; snakePaused=false; snakeStarted=true; }
+      if(currentGame==='tetris') { rotateTet(); }
+      if(currentGame==='2048')   { move2048('up'); }
+      if(currentGame==='pong'&&pong) pong.keys['w']=true; setTimeout(()=>{if(pong)pong.keys['w']=false},150);
+      break;
+    case 'down':
+      if(currentGame==='snake')  { snakeDir={x:0,y:1}; snakePaused=false; snakeStarted=true; }
+      if(currentGame==='tetris') { tetDrop(); }
+      if(currentGame==='2048')   { move2048('down'); }
+      if(currentGame==='pong'&&pong) pong.keys['s']=true; setTimeout(()=>{if(pong)pong.keys['s']=false},150);
+      break;
+    case 'left':
+      if(currentGame==='snake')  { snakeDir={x:-1,y:0}; snakePaused=false; snakeStarted=true; }
+      if(currentGame==='tetris') { if(!tetCollide(-1,0)){tetPiece.x--;drawTetris();} }
+      if(currentGame==='2048')   { move2048('left'); }
+      if(currentGame==='pong'&&pong) { prevBtn && prevBtn.click && prevBtn.click(); }
+      break;
+    case 'right':
+      if(currentGame==='snake')  { snakeDir={x:1,y:0}; snakePaused=false; snakeStarted=true; }
+      if(currentGame==='tetris') { if(!tetCollide(1,0)){tetPiece.x++;drawTetris();} }
+      if(currentGame==='2048')   { move2048('right'); }
+      break;
+    case 'action':
+      if(currentGame==='snake')  { if(!snakeStarted){snakeStarted=true;snakePaused=false;}else snakePaused=!snakePaused; }
+      if(currentGame==='tetris') { while(!tetCollide(0,1))tetPiece.y++;tetDrop(); }
+      if(currentGame==='flappy') { if(!flapStarted){flapStarted=true;flapRunning=true;}else if(!flapRunning){cancelAnimationFrame(animFrame);initFlappy();}else bird.vy=-7; }
+      if(currentGame==='pong')   { } // auto-playing
+      break;
+  }
+};
+
+window.switchGame = function(name) {
   clearInterval(tetDropInterval);
   cancelAnimationFrame(animFrame);
   document.querySelectorAll('.game-tab').forEach(t => t.classList.remove('active'));
   event.target.classList.add('active');
   currentGame = name;
+
+  // Update mobile controls visibility
+  const dpad   = document.getElementById('dpad');
+  const mhint  = document.getElementById('mobile-hint');
+  const mAction = document.getElementById('m-action');
+  const clickGames = ['tictactoe','connect4'];
+  const tapGames   = ['flappy'];
+  const pongZ = document.getElementById('pong-zones');
+  if (pongZ) pongZ.style.display = name === 'pong' ? 'flex' : 'none';
+  if (dpad) dpad.style.display = (clickGames.includes(name) || name === 'pong') ? 'none' : '';
+  if (mhint) mhint.style.display = clickGames.includes(name) ? 'block' : 'none';
+  if (mAction) {
+    const labels = {snake:'⏸ Pause',tetris:'⬇ Drop',flappy:'🐦 Flap',pong:'',2048:''};
+    mAction.textContent = labels[name] || '▶ Play';
+    mAction.style.display = ['pong','2048','tictactoe','connect4'].includes(name) ? 'none' : '';
+  }
 
   const twoPlayer = ['pong','tictactoe','connect4'].includes(name);
   document.getElementById('mode-badge').textContent = twoPlayer ? '2 Players' : '1 Player';
@@ -240,7 +339,7 @@ function switchGame(name) {
   restartGame();
 }
 
-function restartGame() {
+window.restartGame = function() {
   // Always clear tetris interval + animation frame before starting any game
   clearInterval(tetDropInterval);
   cancelAnimationFrame(animFrame);
@@ -775,4 +874,3 @@ initSnake();
 </script>
 </body>
 </html>
-<script src="/js/navigation.js"></script>

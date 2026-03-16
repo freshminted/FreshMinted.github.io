@@ -24,34 +24,39 @@ body{font-family:'DM Sans',sans-serif;background:#0d0d0d;color:#c8c8c8;padding-t
 .tag-business{background:rgba(59,130,246,0.12);color:#60a5fa;border:1px solid rgba(59,130,246,0.2)}
 .tag-personal{background:rgba(76,175,80,0.12);color:#4CAF50;border:1px solid rgba(76,175,80,0.2)}
 .tag-web{background:rgba(251,191,36,0.12);color:#fbbf24;border:1px solid rgba(251,191,36,0.2)}
+
+/* Featured */
 .featured-wrap{margin-bottom:48px;animation:fadeUp 0.5s ease 0.3s both}
 .featured-label{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.2);font-family:'Syne',sans-serif;margin-bottom:14px;display:block}
-.featured-card{display:grid;grid-template-columns:1fr 1fr;gap:0;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.07);border-radius:16px;overflow:hidden;cursor:pointer;transition:border-color 0.25s;text-decoration:none}
+.featured-card{display:grid;grid-template-columns:1fr 1fr;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.07);border-radius:16px;overflow:hidden;cursor:pointer;transition:border-color 0.25s;text-decoration:none}
 .featured-card:hover{border-color:rgba(76,175,80,0.3)}
-.featured-thumb{height:280px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,0.02)}
+.featured-thumb{min-height:280px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,0.02);font-size:72px;position:relative;overflow:hidden}
+.featured-thumb img{width:100%;height:100%;object-fit:cover;opacity:0.7;position:absolute;inset:0}
 .featured-content{padding:32px;display:flex;flex-direction:column;justify-content:center;gap:12px}
 .post-topic-tag{display:inline-block;font-size:10px;padding:3px 10px;border-radius:20px;font-family:'Syne',sans-serif;letter-spacing:1px;text-transform:uppercase;font-weight:600;width:fit-content}
 .featured-post-title{font-family:'Syne',sans-serif;font-size:22px;font-weight:700;color:#fff;line-height:1.3}
 .featured-post-excerpt{font-size:14px;color:rgba(255,255,255,0.5);line-height:1.75}
-.post-meta{display:flex;gap:14px;align-items:center;font-size:12px;color:rgba(255,255,255,0.25)}
-.read-more{font-size:13px;color:#4CAF50;display:flex;align-items:center;gap:6px;margin-top:4px;transition:gap 0.2s}
+.post-meta{display:flex;gap:14px;font-size:12px;color:rgba(255,255,255,0.25)}
+.read-more{font-size:13px;color:#4CAF50;display:flex;align-items:center;gap:6px;transition:gap 0.2s}
 .featured-card:hover .read-more{gap:10px}
+
+/* Grid */
 .posts-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
 .post-card{background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.07);border-radius:14px;overflow:hidden;cursor:pointer;transition:border-color 0.25s,transform 0.25s;text-decoration:none;display:block;animation:fadeUp 0.5s ease both}
 .post-card:hover{border-color:rgba(76,175,80,0.25);transform:translateY(-3px)}
-.post-thumb{height:130px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,0.02)}
-.placeholder-img{font-size:44px;opacity:0.35}
+.post-thumb{height:130px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,0.02);position:relative;overflow:hidden;font-size:44px;opacity:0.35}
+.post-thumb img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0.7}
 .post-info{padding:16px;display:flex;flex-direction:column;gap:8px}
 .post-title{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;color:#fff;line-height:1.3}
 .post-excerpt{font-size:13px;color:rgba(255,255,255,0.4);line-height:1.65}
 .post-footer{display:flex;justify-content:space-between;align-items:center;padding-top:10px;border-top:1px solid rgba(255,255,255,0.05);font-size:11px;color:rgba(255,255,255,0.2)}
 .post-footer .read-link{color:#4CAF50;font-size:12px}
 .blog-empty{display:none;text-align:center;padding:60px 20px;color:rgba(255,255,255,0.2);font-size:14px;grid-column:1/-1}
-.blog-cta{margin-top:64px;padding:32px;background:rgba(76,175,80,0.04);border:1px solid rgba(76,175,80,0.12);border-radius:16px;display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;animation:fadeUp 0.5s ease 0.5s both}
+.blog-cta{margin-top:64px;padding:32px;background:rgba(76,175,80,0.04);border:1px solid rgba(76,175,80,0.12);border-radius:16px;display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap}
 .blog-cta-text h3{font-family:'Syne',sans-serif;font-size:18px;font-weight:700;color:#fff;margin-bottom:6px}
 .blog-cta-text p{font-size:14px;color:rgba(255,255,255,0.4);line-height:1.6}
 @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
-@media(max-width:680px){.featured-card{grid-template-columns:1fr}.featured-thumb{height:180px}.posts-grid{grid-template-columns:1fr}.blog-cta{flex-direction:column}}
+@media(max-width:680px){.featured-card{grid-template-columns:1fr}.featured-thumb{min-height:180px}.posts-grid{grid-template-columns:1fr}.blog-cta{flex-direction:column}}
 </style>
 </head>
 <body>
@@ -79,125 +84,21 @@ body{font-family:'DM Sans',sans-serif;background:#0d0d0d;color:#c8c8c8;padding-t
   <h1 class="blog-title">The Fresh<span>Mint</span> Blog</h1>
   <p class="blog-sub">Tips, guides, stories and strategy — from video editing to game chaos to building things on the internet.</p>
 
-  <div class="blog-filters">
-    <button class="filter-btn active" onclick="filterPosts('all',this)">All</button>
-    <button class="filter-btn" onclick="filterPosts('video',this)">🎬 Video Editing</button>
-    <button class="filter-btn" onclick="filterPosts('gaming',this)">🎮 Game Strategy</button>
-    <button class="filter-btn" onclick="filterPosts('business',this)">📊 Business</button>
-    <button class="filter-btn" onclick="filterPosts('personal',this)">🌿 Personal</button>
-    <button class="filter-btn" onclick="filterPosts('web',this)">💻 Web / Code</button>
+  <div class="blog-filters" id="blog-filters">
+    <button class="filter-btn active" data-cat="all">All</button>
+    <button class="filter-btn" data-cat="video">🎬 Video Editing</button>
+    <button class="filter-btn" data-cat="gaming">🎮 Game Strategy</button>
+    <button class="filter-btn" data-cat="business">📊 Business</button>
+    <button class="filter-btn" data-cat="personal">🌿 Personal</button>
+    <button class="filter-btn" data-cat="web">💻 Web / Code</button>
   </div>
 
-  <!-- FEATURED -->
-  <div class="featured-wrap" id="featured-wrap" data-category="personal">
-    <span class="featured-label">Featured post</span>
-    <a href="#" class="featured-card">
-      <div class="featured-thumb"><div style="font-size:72px;opacity:0.35">🌿</div></div>
-      <div class="featured-content">
-        <span class="post-topic-tag tag-personal">Personal</span>
-        <h2 class="featured-post-title">Building FreshMint — From MS Paint to a Full Services Platform</h2>
-        <p class="featured-post-excerpt">How a 4-year-old with a business laptop and MS Paint ended up building a full freelance platform at 18. The honest story of what went wrong, what surprised me, and what's next.</p>
-        <div class="post-meta"><span>📅 Coming soon</span><span>⏱ 5 min read</span></div>
-        <div class="read-more">Read post →</div>
-      </div>
-    </a>
-  </div>
+  <!-- Featured post — rendered by JS -->
+  <div id="featured-wrap" style="margin-bottom:48px;animation:fadeUp 0.5s ease 0.3s both"></div>
 
-  <!-- GRID -->
+  <!-- Posts grid — rendered by JS -->
   <div class="posts-grid" id="posts-grid">
-
-    <a href="#" class="post-card" data-category="video" style="animation-delay:0.1s">
-      <div class="post-thumb"><div class="placeholder-img">🎬</div></div>
-      <div class="post-info">
-        <span class="post-topic-tag tag-video">Video Editing</span>
-        <div class="post-title">5 Cuts That Make Any Video Feel Cinematic</div>
-        <div class="post-excerpt">The specific editing techniques that separate amateur cuts from professional ones — in Premiere and DaVinci.</div>
-        <div class="post-footer"><span>Coming soon · 4 min</span><span class="read-link">Read →</span></div>
-      </div>
-    </a>
-
-    <a href="#" class="post-card" data-category="gaming" style="animation-delay:0.15s">
-      <div class="post-thumb"><div class="placeholder-img">🏙️</div></div>
-      <div class="post-info">
-        <span class="post-topic-tag tag-gaming">Game Strategy</span>
-        <div class="post-title">Why Your Cities: Skylines Traffic Is Always a Disaster</div>
-        <div class="post-excerpt">3 specific mistakes most players make in their first 50k population — and exactly how to fix each one.</div>
-        <div class="post-footer"><span>Coming soon · 6 min</span><span class="read-link">Read →</span></div>
-      </div>
-    </a>
-
-    <a href="#" class="post-card" data-category="business" style="animation-delay:0.2s">
-      <div class="post-thumb"><div class="placeholder-img">📊</div></div>
-      <div class="post-info">
-        <span class="post-topic-tag tag-business">Business</span>
-        <div class="post-title">Why Cheap Pricing Kills Your Freelance Career Before It Starts</div>
-        <div class="post-excerpt">Charging ₹11 for a gig doesn't make you approachable — it makes you look like a scam. The psychology of pricing.</div>
-        <div class="post-footer"><span>Coming soon · 5 min</span><span class="read-link">Read →</span></div>
-      </div>
-    </a>
-
-    <a href="#" class="post-card" data-category="web" style="animation-delay:0.25s">
-      <div class="post-thumb"><div class="placeholder-img">💻</div></div>
-      <div class="post-info">
-        <span class="post-topic-tag tag-web">Web / Code</span>
-        <div class="post-title">How I Built a Persistent Music Player That Works Across Every Page</div>
-        <div class="post-excerpt">No iframes. No React. Just localStorage and a single script.js. The full technical breakdown.</div>
-        <div class="post-footer"><span>Coming soon · 8 min</span><span class="read-link">Read →</span></div>
-      </div>
-    </a>
-
-    <a href="#" class="post-card" data-category="gaming" style="animation-delay:0.3s">
-      <div class="post-thumb"><div class="placeholder-img">🍗</div></div>
-      <div class="post-info">
-        <span class="post-topic-tag tag-gaming">Game Strategy</span>
-        <div class="post-title">Definitely Not Fried Chicken — A Beginner's Survival Guide</div>
-        <div class="post-excerpt">This game will break. Your kitchen will catch fire. Your staff will stand in a corner. Here's how to survive.</div>
-        <div class="post-footer"><span>Coming soon · 5 min</span><span class="read-link">Read →</span></div>
-      </div>
-    </a>
-
-    <a href="#" class="post-card" data-category="video" style="animation-delay:0.35s">
-      <div class="post-thumb"><div class="placeholder-img">🎵</div></div>
-      <div class="post-info">
-        <span class="post-topic-tag tag-video">Video Editing</span>
-        <div class="post-title">NCS Music — How to Pick the Right Track for Any Edit</div>
-        <div class="post-excerpt">Which NCS genres work for which edit styles — and how to sync cuts to the beat properly.</div>
-        <div class="post-footer"><span>Coming soon · 4 min</span><span class="read-link">Read →</span></div>
-      </div>
-    </a>
-
-    <a href="#" class="post-card" data-category="personal" style="animation-delay:0.4s">
-      <div class="post-thumb"><div class="placeholder-img">🪙</div></div>
-      <div class="post-info">
-        <span class="post-topic-tag tag-personal">Personal</span>
-        <div class="post-title">What Getting My First Client Actually Felt Like</div>
-        <div class="post-excerpt">The money was the smallest part of it. An honest post about getting paid for something you built yourself.</div>
-        <div class="post-footer"><span>Coming soon · 3 min</span><span class="read-link">Read →</span></div>
-      </div>
-    </a>
-
-    <a href="#" class="post-card" data-category="business" style="animation-delay:0.45s">
-      <div class="post-thumb"><div class="placeholder-img">📱</div></div>
-      <div class="post-info">
-        <span class="post-topic-tag tag-business">Business</span>
-        <div class="post-title">The Only Social Media Strategy That Actually Works in 2026</div>
-        <div class="post-excerpt">Consistency beats virality every time. The exact content framework I use to build brand accounts from zero.</div>
-        <div class="post-footer"><span>Coming soon · 6 min</span><span class="read-link">Read →</span></div>
-      </div>
-    </a>
-
-    <a href="#" class="post-card" data-category="web" style="animation-delay:0.5s">
-      <div class="post-thumb"><div class="placeholder-img">🌐</div></div>
-      <div class="post-info">
-        <span class="post-topic-tag tag-web">Web / Code</span>
-        <div class="post-title">PPP Pricing — How I Show Different Prices to Different Countries</div>
-        <div class="post-excerpt">IP detection, exchange rates and a simple floor formula — all in a static HTML site with no backend.</div>
-        <div class="post-footer"><span>Coming soon · 7 min</span><span class="read-link">Read →</span></div>
-      </div>
-    </a>
-
     <div class="blog-empty" id="blog-empty">No posts in this category yet — check back soon!</div>
-
   </div>
 
   <div class="blog-cta">
@@ -212,25 +113,112 @@ body{font-family:'DM Sans',sans-serif;background:#0d0d0d;color:#c8c8c8;padding-t
   </div>
 
 </div>
-<script src="/js/navigation.js"></script>
 
+<script src="/js/blog-data.js"></script>
+<script src="/js/navigation.js"></script>
+<script src="/js/navbar-patch.js"></script>
 <script src="/js/script.js"></script>
 <script>
-function filterPosts(cat, btn) {
+const CAT_LABELS = {
+  video:    'Video Editing',
+  gaming:   'Game Strategy',
+  business: 'Business',
+  personal: 'Personal',
+  web:      'Web / Code'
+};
+
+let currentCat = 'all';
+
+function tagClass(cat) {
+  return 'post-topic-tag tag-' + cat;
+}
+
+function renderFeatured(post) {
+  if (!post) { document.getElementById('featured-wrap').innerHTML = ''; return; }
+  const thumb = post.image
+    ? `<img src="${post.image}" alt="${post.title}"><span style="position:relative;z-index:1">${post.emoji}</span>`
+    : `<span>${post.emoji}</span>`;
+
+  document.getElementById('featured-wrap').innerHTML = `
+    <span style="font-size:10px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.2);font-family:'Syne',sans-serif;margin-bottom:14px;display:block">Featured post</span>
+    <a href="/blog-post.html?id=${post.id}" class="featured-card">
+      <div class="featured-thumb">${thumb}</div>
+      <div class="featured-content">
+        <span class="${tagClass(post.category)}">${CAT_LABELS[post.category]}</span>
+        <h2 class="featured-post-title">${post.title}</h2>
+        <p class="featured-post-excerpt">${post.excerpt}</p>
+        <div class="post-meta"><span>📅 ${post.date}</span><span>⏱ ${post.readTime}</span></div>
+        <div class="read-more">Read post →</div>
+      </div>
+    </a>
+  `;
+}
+
+function renderGrid(posts) {
+  const grid  = document.getElementById('posts-grid');
+  const empty = document.getElementById('blog-empty');
+
+  // Remove old cards but keep empty state
+  grid.querySelectorAll('.post-card').forEach(c => c.remove());
+
+  if (!posts.length) {
+    empty.style.display = 'block';
+    return;
+  }
+  empty.style.display = 'none';
+
+  posts.forEach((post, i) => {
+    const thumb = post.image
+      ? `<img src="${post.image}" alt="${post.title}">`
+      : post.emoji;
+
+    const card = document.createElement('a');
+    card.href      = `/blog-post.html?id=${post.id}`;
+    card.className = 'post-card';
+    card.style.animationDelay = (i * 0.05) + 's';
+    card.dataset.cat = post.category;
+    card.innerHTML = `
+      <div class="post-thumb">${thumb}</div>
+      <div class="post-info">
+        <span class="${tagClass(post.category)}">${CAT_LABELS[post.category]}</span>
+        <div class="post-title">${post.title}</div>
+        <div class="post-excerpt">${post.excerpt}</div>
+        <div class="post-footer">
+          <span>${post.date} · ${post.readTime}</span>
+          <span class="read-link">Read →</span>
+        </div>
+      </div>
+    `;
+    grid.insertBefore(card, empty);
+  });
+}
+
+function renderBlog(cat) {
+  currentCat = cat;
+  const featured = BLOG_POSTS.find(p => p.featured && (cat === 'all' || p.category === cat));
+  const grid     = BLOG_POSTS.filter(p => !p.featured && (cat === 'all' || p.category === cat));
+
+  renderFeatured(featured || null);
+  renderGrid(grid);
+
+  // If no featured but filter active, show first post of that category as featured
+  if (!featured && cat !== 'all') {
+    const first = BLOG_POSTS.find(p => p.category === cat);
+    if (first) renderFeatured(first);
+  }
+}
+
+// Filter button clicks
+document.getElementById('blog-filters').addEventListener('click', e => {
+  const btn = e.target.closest('.filter-btn');
+  if (!btn) return;
   document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
-  const cards = document.querySelectorAll('.post-card');
-  let visible = 0;
-  cards.forEach(card => {
-    const match = cat === 'all' || card.dataset.category === cat;
-    card.style.display = match ? '' : 'none';
-    if (match) visible++;
-    
-  });
-  const featured = document.getElementById('featured-wrap');
-  featured.style.display = (cat === 'all' || cat === featured.dataset.category) ? '' : 'none';
-  document.getElementById('blog-empty').style.display = visible === 0 ? 'block' : 'none';
-}
+  renderBlog(btn.dataset.cat);
+});
+
+// Initial render
+renderBlog('all');
 </script>
 </body>
 </html>
