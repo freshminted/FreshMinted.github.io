@@ -2,6 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="description" content="Contact FreshMint — get in touch with Kartikey Mishra for video editing, business strategy or game coaching.">
+<meta name="theme-color" content="#0d0d0d">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Contact | FreshMint</title>
 <link rel="stylesheet" href="/css/style.css">
@@ -86,13 +88,17 @@ body{font-family:'DM Sans',sans-serif;background:#0d0d0d;color:#c8c8c8;padding-t
     <div class="email-icon">✉</div>
     <div>
       <div class="email-label">Direct email</div>
-      <a href="mailto:freshmint.work@gmail.com" class="email-address">freshmint.work@gmail.com</a>
+      <a data-em="ZnJlc2htaW50LndvcmtAZ21haWwuY29t" class="email-address" href="#">Loading...</a>
     </div>
   </div>
 
   <div class="contact-form">
     <span class="form-label">Or send a message</span>
     <div id="contact-fields">
+      <!-- Honeypot — hidden from humans, visible to bots -->
+      <div style="display:none;visibility:hidden;position:absolute;left:-9999px" aria-hidden="true">
+        <input type="text" id="fm-honeypot" name="website" tabindex="-1" autocomplete="off">
+      </div>
       <div class="field-row">
         <div class="field-group">
           <label>Your Name *</label>
@@ -143,20 +149,44 @@ body{font-family:'DM Sans',sans-serif;background:#0d0d0d;color:#c8c8c8;padding-t
 <script src="/js/navbar-patch.js"></script>
 <script src="/js/script.js"></script>
 <script>
+// Decode obfuscated emails
+document.querySelectorAll('[data-em]').forEach(el => {
+  const decoded = atob(el.dataset.em);
+  if (el.tagName === 'A') { el.href = 'mailto:' + decoded; el.textContent = decoded; }
+  else { el.textContent = decoded; }
+});
+
 if (!window.__contactInit) {
   window.__contactInit = true;
   emailjs.init("bk2Xr38vMo_Ekp6C_");
 }
 
 window.sendContact = async function() {
+  // Honeypot check
+  const pot = document.getElementById('fm-honeypot');
+  if (pot && pot.value !== '') { console.warn("Bot detected"); return; }
+
+  // Rate limit — 3 per 30 mins
+  const now     = Date.now();
+  const win30   = 30 * 60 * 1000;
+  let   history = JSON.parse(localStorage.getItem("fmSubmits") || "[]");
+  history       = history.filter(ts => now - ts < win30);
+  if (history.length >= 3) {
+    const resetIn = Math.ceil((win30 - (now - history[0])) / 60000);
+    alert("Too many messages! Please wait " + resetIn + " minute" + (resetIn > 1 ? "s" : "") + " or email freshmint.work@gmail.com directly.");
+    return;
+  }
+  history.push(now);
+  localStorage.setItem("fmSubmits", JSON.stringify(history));
+
   const name    = document.getElementById("c-name").value.trim();
   const email   = document.getElementById("c-email").value.trim();
   const subject = document.getElementById("c-subject").value;
   const message = document.getElementById("c-message").value.trim();
 
-  if (!name)                          { alert("Please enter your name.");         return; }
-  if (!email || !email.includes("@")) { alert("Please enter a valid email.");     return; }
-  if (!message)                       { alert("Please write a message.");         return; }
+  if (!name)                          { alert("Please enter your name.");     return; }
+  if (!email || !email.includes("@")) { alert("Please enter a valid email."); return; }
+  if (!message)                       { alert("Please write a message.");     return; }
 
   const btn       = document.getElementById("send-btn");
   btn.textContent = "Sending...";
@@ -175,11 +205,9 @@ window.sendContact = async function() {
       message:    message,
       reply_to:   email
     });
-
     document.getElementById("contact-fields").style.display = "none";
     document.getElementById("form-success").classList.add("show");
     document.getElementById("confirm-contact-email").textContent = email;
-
   } catch(err) {
     console.error("EmailJS error:", err);
     alert("Something went wrong. Please email freshmint.work@gmail.com directly.");

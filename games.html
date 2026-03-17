@@ -344,7 +344,7 @@ window.restartGame = function() {
   clearInterval(tetDropInterval);
   cancelAnimationFrame(animFrame);
   setScore(0, 0);
-  const games = {snake:initSnake,tetris:initTetris,2048:init2048,flappy:initFlappy,pong:initPong,tictactoe:initTicTacToe,connect4:initConnect4};
+  const games = {snake:window.initSnake,tetris:window.initTetris,'2048':window.init2048,flappy:window.initFlappy,pong:window.initPong,tictactoe:window.initTicTacToe,connect4:window.initConnect4};
   games[currentGame]();
 }
 
@@ -381,7 +381,7 @@ function roundRect(x, y, w, h, r, color) {
 let snake, snakeDir, snakeFood, snakePaused, snakeStarted, snakeInterval;
 const SZ = 20;
 
-function initSnake() {
+window.initSnake = function() {
   snake = [{x:10,y:10},{x:9,y:10},{x:8,y:10}];
   snakeDir = {x:1,y:0};
   snakeFood = randomFood();
@@ -413,7 +413,7 @@ function snakeTick() {
   drawSnake();
 }
 
-function drawSnake() {
+window.drawSnake = function() {
   clearCanvas(); drawGrid(SZ);
   // food
   roundRect(snakeFood.x*SZ+2, snakeFood.y*SZ+2, SZ-4, SZ-4, 4, COLORS.red);
@@ -444,7 +444,7 @@ const PIECES=[
   {shape:[[0,1,1],[1,1,0]],color:'#ef4444'}
 ];
 
-function initTetris() {
+window.initTetris = function() {
   tetBoard=Array.from({length:TH},()=>Array(TW).fill(0));
   tetRunning=true;
   spawnTetPiece(); drawTetris();
@@ -490,7 +490,7 @@ function rotateTet(){
   drawTetris();
 }
 
-function drawTetris(){
+window.drawTetris = function(){
   clearCanvas();
   tetBoard.forEach((row,r)=>row.forEach((v,c)=>{
     if(v){roundRect(c*TS+1,r*TS+1,TS-2,TS-2,3,v);}
@@ -507,7 +507,7 @@ function drawTetris(){
 let board2048, moved2048;
 const G=4, CS=90, GAP=8;
 
-function init2048(){
+window.init2048 = function(){
   board2048=Array.from({length:G},()=>Array(G).fill(0));
   addTile(); addTile(); draw2048();
 }
@@ -542,7 +542,7 @@ function move2048(dir){
 
 const TILE_COLORS={0:'rgba(255,255,255,0.03)',2:'#3B6D11',4:'#27500A',8:'#639922',16:'#97C459',32:'#C0DD97',64:'#fbbf24',128:'#f97316',256:'#ef4444',512:'#ec4899',1024:'#a855f7',2048:'#4CAF50'};
 
-function draw2048(){
+window.draw2048 = function(){
   clearCanvas();
   const off=(canvas.width-G*(CS+GAP)+GAP)/2;
   board2048.forEach((row,r)=>row.forEach((v,c)=>{
@@ -560,14 +560,14 @@ function draw2048(){
 ════════════════════════ */
 let bird, pipes, flapRunning, flapStarted;
 
-function initFlappy(){
+window.initFlappy = function(){
   bird={x:80,y:200,vy:0,r:12};
   pipes=[];flapRunning=false;flapStarted=false;
   cancelAnimationFrame(animFrame);
   flapLoop();
 }
 
-function flapLoop(){
+window.flapLoop = function(){
   clearCanvas();
   // bg gradient suggestion via solid blocks
   ctx.fillStyle='#0a1628';ctx.fillRect(0,0,canvas.width,canvas.height);
@@ -631,7 +631,7 @@ function flapLoop(){
 ════════════════════════ */
 let pong;
 
-function initPong(){
+window.initPong = function(){
   pong={
     ball:{x:200,y:200,vx:3,vy:2,r:8},
     p1:{y:180,score:0},p2:{y:180,score:0},
@@ -641,7 +641,7 @@ function initPong(){
   pongLoop();
 }
 
-function pongLoop(){
+window.pongLoop = function(){
   const p=pong;
   clearCanvas();
   // centre line
@@ -680,12 +680,12 @@ function pongLoop(){
 ════════════════════════ */
 let ttt;
 
-function initTicTacToe(){
+window.initTicTacToe = function(){
   ttt={board:Array(9).fill(null),turn:1,over:false};
   drawTTT();
 }
 
-function drawTTT(){
+window.drawTTT = function(){
   clearCanvas();
   const S=100,OFF=50;
   // grid
@@ -740,7 +740,7 @@ function clickTTT(e){
 ════════════════════════ */
 let c4;
 
-function initConnect4(){
+window.initConnect4 = function(){
   c4={board:Array.from({length:6},()=>Array(7).fill(0)),turn:1,over:false};
   drawC4();
 }
@@ -777,7 +777,7 @@ function checkC4Win(row,col){
   });
 }
 
-function drawC4(){
+window.drawC4 = function(){
   clearCanvas();
   const CW=50,CH=50,OFFX=25,OFFY=25;
   ctx.fillStyle='rgba(0,0,100,0.15)';ctx.fillRect(OFFX-5,OFFY-5,7*CW+10,6*CH+10);

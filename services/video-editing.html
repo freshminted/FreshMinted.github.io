@@ -2,6 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="description" content="Professional video editing by FreshMint — cinematic edits, reels, gameplay videos and more. Starting from $15.">
+<meta name="theme-color" content="#0d0d0d">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Video Editing | FreshMint</title>
 <link rel="stylesheet" href="/css/style.css">
@@ -276,6 +278,10 @@
     <!-- STEP 2: Your details -->
     <div class="modal-step" id="step-2">
       <h3>Your Details</h3>
+      <!-- Honeypot — hidden from humans -->
+      <div style="display:none;visibility:hidden;position:absolute;left:-9999px" aria-hidden="true">
+        <input type="text" id="fm-honeypot" name="website" tabindex="-1" autocomplete="off">
+      </div>
       <div class="form-group">
         <label>Your Name *</label>
         <input type="text" id="client-name" placeholder="John Smith">

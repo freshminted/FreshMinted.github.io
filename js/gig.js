@@ -6,6 +6,98 @@
 // Wrap entire gig.js to prevent double-init issues
 (function() {
 
+/* =========================
+   SECURITY LAYER
+========================= */
+
+/* ── RATE LIMITER ──
+   Max 3 submissions per 30 minutes per user.
+   Stored in localStorage — client side but effective against
+   casual abuse. Server-side would need a backend.
+── */
+const RATE_LIMIT = { max: 3, windowMins: 30 };
+
+function checkRateLimit() {
+  const now     = Date.now();
+  const window  = RATE_LIMIT.windowMins * 60 * 1000;
+  let   history = JSON.parse(localStorage.getItem("fmSubmits") || "[]");
+
+  // Remove entries older than window
+  history = history.filter(ts => now - ts < window);
+
+  if (history.length >= RATE_LIMIT.max) {
+    const oldest   = history[0];
+    const resetIn  = Math.ceil((window - (now - oldest)) / 60000);
+    showRateLimitWarning(resetIn);
+    return false;
+  }
+
+  // Record this submission
+  history.push(now);
+  localStorage.setItem("fmSubmits", JSON.stringify(history));
+  return true;
+}
+
+function showRateLimitWarning(minsLeft) {
+  const overlay = document.createElement("div");
+  overlay.style.cssText = `
+    position:fixed;inset:0;background:rgba(0,0,0,0.85);
+    z-index:99999;display:flex;align-items:center;justify-content:center;
+    padding:20px;animation:fadeIn 0.3s ease;
+  `;
+  overlay.innerHTML = `
+    <div style="background:#161616;border:1px solid rgba(239,68,68,0.3);border-radius:16px;
+      padding:32px;max-width:420px;width:100%;text-align:center;">
+      <div style="font-size:36px;margin-bottom:16px">⏱</div>
+      <h3 style="font-family:'Syne',sans-serif;font-size:18px;color:#fff;margin-bottom:10px">
+        Too many submissions
+      </h3>
+      <p style="font-size:14px;color:rgba(255,255,255,0.5);line-height:1.7;margin-bottom:20px">
+        You've submitted ${RATE_LIMIT.max} forms in the last ${RATE_LIMIT.windowMins} minutes.
+        Please wait <strong style="color:#ef4444">${minsLeft} minute${minsLeft>1?'s':''}</strong> before trying again.
+      </p>
+      <p style="font-size:13px;color:rgba(255,255,255,0.35);margin-bottom:24px">
+        Need urgent help? Email directly:
+        <a href="mailto:freshmint.work@gmail.com"
+           style="color:#4CAF50;text-decoration:none">freshmint.work@gmail.com</a>
+      </p>
+      <button onclick="this.closest('div').parentElement.remove()"
+        style="background:#4CAF50;color:#fff;border:none;border-radius:8px;
+          padding:10px 24px;cursor:pointer;font-size:14px;font-family:'DM Sans',sans-serif">
+        Got it
+      </button>
+    </div>
+  `;
+  document.body.appendChild(overlay);
+  overlay.addEventListener('click', e => { if(e.target===overlay) overlay.remove(); });
+}
+
+/* ── HONEYPOT CHECK ──
+   If the hidden field is filled, it's a bot — reject silently.
+── */
+function checkHoneypot() {
+  const pot = document.getElementById('fm-honeypot');
+  return !pot || pot.value === '';
+}
+
+/* ── EMAIL OBFUSCATION ──
+   Decodes obfuscated email spans on page load.
+   Bots can't read the encoded version.
+── */
+function decodeEmails() {
+  document.querySelectorAll('[data-em]').forEach(el => {
+    const decoded = atob(el.dataset.em);
+    if (el.tagName === 'A') {
+      el.href        = 'mailto:' + decoded;
+      el.textContent = decoded;
+    } else {
+      el.textContent = decoded;
+    }
+  });
+}
+
+decodeEmails();
+
 // ── EmailJS config ──────────────────────────────
 // 1. Go to emailjs.com and create a free account
 // 2. Add Gmail service → copy Service ID below
@@ -455,6 +547,13 @@ function buildReview() {
 ========================= */
 
 window.submitOrder = async function() {
+  // Security checks before anything else
+  if (!checkHoneypot()) {
+    console.warn("Bot detected");
+    return;
+  }
+  if (!checkRateLimit()) return;
+
   const btn = document.getElementById("submit-btn");
   btn.textContent = "Verifying...";
   btn.disabled    = true;
