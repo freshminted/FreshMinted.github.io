@@ -114,7 +114,7 @@ const CAT_SERVICE = {
   web:      '/contact.html'
 };
 
-function renderPost() {
+window.renderPost = function renderPost() {
   const params = new URLSearchParams(window.location.search);
   const id     = params.get('id');
   const wrap   = document.getElementById('post-wrap');
@@ -182,6 +182,11 @@ function renderPost() {
 }
 
 renderPost();
+
+// Re-run when SPA navigation brings us back to this page
+window.addEventListener('popstate', renderPost);
+// Also expose for navigation.js to call after page swap
+window.__onPageSwap = renderPost;
 </script>
 </body>
 </html>

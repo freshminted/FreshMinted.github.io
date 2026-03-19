@@ -12,31 +12,50 @@
 
 (function () {
 
-  /* Pages to swap content on.
-     Add any new pages here as you build them. */
-  const INTERNAL = [
-    "/index.html",
-    "/about.html",
-    "/portfolio.html",
-    "/blog.html",
-    "/contact.html",
-    "/games.html",
-    "/links.html",
-    "/services/",
-    "/services/index.html",
-    "/services/video-editing.html",
-    "/services/business-advice.html",
-    "/services/game-strategy.html",
-  ];
-
-  /* Elements that should NEVER be swapped
-     (they persist across all pages) */
   const PERSISTENT = [
     ".music-player",
     ".navbar",
   ];
 
   let isNavigating = false;
+
+  /* ── Full-screen curtain overlay ──
+     Slams down instantly before any DOM changes,
+     lifted with a fade after new content is ready.
+     Nothing can flash underneath it.
+  ── */
+  function getCurtain() {
+    let curtain = document.getElementById("fm-curtain");
+    if (!curtain) {
+      curtain = document.createElement("div");
+      curtain.id = "fm-curtain";
+      curtain.style.cssText = `
+        position:fixed;
+        inset:0;
+        background:#0d0d0d;
+        z-index:8999;
+        opacity:0;
+        pointer-events:none;
+        transition:opacity 0.18s ease;
+      `;
+      document.body.appendChild(curtain);
+    }
+    return curtain;
+  }
+
+  function dropCurtain() {
+    const c = getCurtain();
+    c.style.transition = "none";       // instant drop — no delay
+    c.style.opacity = "1";
+    c.style.pointerEvents = "all";
+  }
+
+  function liftCurtain() {
+    const c = getCurtain();
+    c.style.transition = "opacity 0.22s ease";
+    c.style.opacity = "0";
+    c.style.pointerEvents = "none";
+  }
 
   /* ── Check if a URL is internal ── */
   function isInternal(href) {
@@ -49,7 +68,7 @@
     return true;
   }
 
-  /* ── Show loading indicator ── */
+  /* ── Green progress bar ── */
   function showLoader() {
     let loader = document.getElementById("fm-page-loader");
     if (!loader) {
@@ -80,7 +99,7 @@
     }, 200);
   }
 
-  /* ── Merge head stylesheets from new page ── */
+  /* ── Merge stylesheets from new page ── */
   async function mergeStyles(newDoc) {
     const existing = Array.from(document.querySelectorAll('link[rel="stylesheet"]'))
       .map(l => l.href);
@@ -88,29 +107,28 @@
     const newLinks = Array.from(newDoc.querySelectorAll('link[rel="stylesheet"]'));
 
     const promises = newLinks.map(link => {
-      // Always resolve href against origin to avoid services/ path issues
       const resolvedHref = link.getAttribute('href').startsWith('/')
         ? location.origin + link.getAttribute('href')
         : new URL(link.getAttribute('href'), location.origin).href;
       if (existing.includes(resolvedHref)) return Promise.resolve();
       return new Promise(resolve => {
-        const el    = document.createElement("link");
-        el.rel      = "stylesheet";
-        el.href     = resolvedHref;
-        el.onload   = resolve;
-        el.onerror  = resolve;
+        const el  = document.createElement("link");
+        el.rel    = "stylesheet";
+        el.href   = resolvedHref;
+        el.onload = resolve;
+        el.onerror = resolve;
         document.head.appendChild(el);
       });
     });
 
-    // Also apply any inline <style> blocks from new page head
+    // Inline <style> blocks from new page head
     newDoc.querySelectorAll("head style").forEach(s => {
-      // Check if already present by content fingerprint
-      const existing = Array.from(document.querySelectorAll("head style"))
+      const alreadyPresent = Array.from(document.querySelectorAll("head style"))
         .some(es => es.textContent.trim() === s.textContent.trim());
-      if (!existing) {
+      if (!alreadyPresent) {
         const el = document.createElement("style");
         el.textContent = s.textContent;
+        el.dataset.spaInjected = "1"; // tagged for removal on next nav
         document.head.appendChild(el);
       }
     });
@@ -118,70 +136,63 @@
     await Promise.all(promises);
   }
 
-  /* ── Navigate to a new URL ── */
+  /* ── Main navigation function ── */
   async function navigateTo(url) {
     if (isNavigating) return;
     isNavigating = true;
+
+    // Remove injected styles from previous page (fixes blog-post → blog title bleed)
+    document.querySelectorAll("style[data-spa-injected]").forEach(s => s.remove());
+
+    // ✅ Drop the curtain FIRST — covers everything before any DOM change
+    dropCurtain();
     showLoader();
 
     try {
       const res  = await fetch(url);
       const html = await res.text();
 
-      // Parse new page
-      const parser  = document.createElement("div");
-      parser.innerHTML = new DOMParser()
-        .parseFromString(html, "text/html")
-        .documentElement.innerHTML;
-
       const newDoc = new DOMParser().parseFromString(html, "text/html");
-
-      // Update <title>
       document.title = newDoc.title;
 
-      // ✅ Merge stylesheets from new page head
-      // Adds any CSS links that aren't already loaded
       await mergeStyles(newDoc);
 
-      // Get new body content, remove persistent elements from it
       const newBody = newDoc.body;
+
+      // Strip persistent elements from incoming body
       PERSISTENT.forEach(sel => {
         const el = newBody.querySelector(sel);
         if (el) el.remove();
       });
 
-      // ✅ FIX: DETACH persistent elements (don't clone!)
-      // Cloning <audio> destroys playback state — detaching preserves it
+      // Detach persistent elements from current DOM (no clone — keeps audio alive)
       const persistentEls = [];
       PERSISTENT.forEach(sel => {
         const el = document.querySelector(sel);
         if (el) {
           persistentEls.push(el);
-          el.remove(); // detach from DOM, keeps all state intact
+          el.remove();
         }
       });
 
-      // Fade out current content
-      const mainContent = document.getElementById("fm-main-content");
-      if (mainContent) {
-        mainContent.style.opacity = "0";
-        mainContent.style.transform = "translateY(8px)";
-      }
-
-      await new Promise(r => setTimeout(r, 150));
-
-      // Rebuild body — re-attach the REAL persistent elements first
+      // Swap body content — curtain is covering this entirely
       document.body.innerHTML = "";
 
-      // Re-attach original elements (audio, event listeners all preserved)
+      // Re-attach persistent elements
       persistentEls.forEach(el => document.body.appendChild(el));
 
-      // Wrap new content
+      // Also re-attach the curtain (it was wiped by innerHTML = "")
+      document.body.appendChild(getCurtain());
+
+      // Re-attach loader
+      const loader = document.getElementById("fm-page-loader");
+      if (!loader) showLoader();
+
+      // Build new content wrapper
       const wrapper = document.createElement("div");
       wrapper.id = "fm-main-content";
-      wrapper.style.cssText = "opacity:0;transform:translateY(8px);transition:opacity 0.25s ease,transform 0.25s ease;";
+      wrapper.style.cssText = "transition:opacity 0.25s ease,transform 0.25s ease;";
 
-      // Add all non-script children from new body
       Array.from(newBody.childNodes).forEach(node => {
         if (node.nodeName !== "SCRIPT") {
           wrapper.appendChild(node.cloneNode(true));
@@ -190,35 +201,29 @@
 
       document.body.appendChild(wrapper);
 
-      // Load new page scripts (gig.js, etc.)
+      // Load new page scripts
       const scripts = Array.from(newBody.querySelectorAll("script"));
       for (const s of scripts) {
         if (s.src) {
-          // Only reload gig.js — never reload script.js (player must not re-init)
           if (s.src.includes("gig.js")) {
-            window.__fmGigInit = false; // reset gig flag so gig.js re-runs
+            window.__fmGigInit = false;
             await loadScript(s.src);
           }
-          // navbar-patch, script.js, emailjs etc. — skip, already loaded
         } else if (!s.src && s.textContent.trim()) {
-          // Inline scripts (GIG_ID etc.)
           try { eval(s.textContent); } catch(e) {}
         }
       }
 
-      // Update URL
       history.pushState({ url }, document.title, url);
 
-      // Fade in
-      requestAnimationFrame(() => {
-        wrapper.style.opacity   = "1";
-        wrapper.style.transform = "translateY(0)";
-      });
-
-      // Re-attach nav link listeners
       attachListeners();
 
-      // ✅ Resume audio if it was playing before navigation
+      if (typeof window.__onPageSwap === 'function') {
+        window.__onPageSwap();
+        window.__onPageSwap = null;
+      }
+
+      // Resume audio if it was playing
       const audio = document.getElementById("audio");
       if (audio) {
         try {
@@ -233,13 +238,14 @@
         } catch(e) {}
       }
 
-      // Re-run navbar-patch if available
       if (window.applyNavbarPatch) window.applyNavbarPatch();
 
-      // Scroll to top
-      window.scrollTo({ top: 0, behavior: "smooth" });
+      window.scrollTo({ top: 0, behavior: "instant" });
 
       finishLoader();
+
+      // ✅ Lift the curtain — new page is fully ready underneath
+      liftCurtain();
 
     } catch (err) {
       console.warn("[FreshMint Nav] fetch failed, falling back to full load:", err);
@@ -252,10 +258,8 @@
   /* ── Load a script dynamically ── */
   function loadScript(src) {
     return new Promise((resolve) => {
-      // Remove old version first
       const existing = document.querySelector(`script[src="${src}"]`);
       if (existing) existing.remove();
-
       const s   = document.createElement("script");
       s.src     = src;
       s.onload  = resolve;
@@ -267,22 +271,19 @@
   /* ── Attach click listeners to all internal links ── */
   function attachListeners() {
     document.querySelectorAll("a[href]").forEach(a => {
-      // Skip if already handled
       if (a.dataset.fmNav) return;
       a.dataset.fmNav = "1";
 
       a.addEventListener("click", e => {
         const href = a.getAttribute("href");
-        if (!isInternal(href)) return; // let external links open normally
-
-        // Don't intercept if modifier key held (open in new tab)
+        if (!isInternal(href)) return;
         if (e.ctrlKey || e.metaKey || e.shiftKey) return;
 
         e.preventDefault();
 
-        // Resolve relative URLs
-        const url = new URL(href, location.origin).pathname;
-        if (url === location.pathname) return; // already on this page
+        const parsed = new URL(href, location.origin);
+        const url = parsed.pathname + parsed.search;
+        if (url === location.pathname + location.search) return;
 
         navigateTo(url);
       });
@@ -297,14 +298,11 @@
 
   /* ── Initial page setup ── */
   document.addEventListener("DOMContentLoaded", () => {
-    // Wrap existing body content
-    // Wrap everything else in fm-main-content, keep persistent in place
     if (!document.getElementById("fm-main-content")) {
       const wrapper = document.createElement("div");
       wrapper.id = "fm-main-content";
       wrapper.style.cssText = "transition:opacity 0.25s ease,transform 0.25s ease;";
 
-      // Move non-persistent children into wrapper (no cloning)
       Array.from(document.body.childNodes).forEach(node => {
         const isPersistent = PERSISTENT.some(sel =>
           node.matches && node.matches(sel)
@@ -313,10 +311,8 @@
       });
 
       document.body.appendChild(wrapper);
-      // Persistent elements stay exactly where they are — no touching them
     }
 
-    // Save initial state
     history.replaceState({ url: location.pathname }, document.title, location.pathname);
 
     attachListeners();

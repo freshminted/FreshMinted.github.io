@@ -2,6 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="description" content="FreshMint services — video editing, business strategy and game coaching with fair regional pricing.">
+<meta name="theme-color" content="#0d0d0d">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Services | FreshMint</title>
 <link rel="stylesheet" href="/css/style.css">
@@ -13,319 +15,74 @@ body{font-family:'DM Sans',sans-serif;background:#0d0d0d;color:#c8c8c8;padding-t
 
 .services-wrap{max-width:900px;margin:0 auto;padding:80px 24px 120px}
 
-/* ── HEADER ── */
 .svc-eyebrow{font-size:11px;letter-spacing:4px;text-transform:uppercase;color:#4CAF50;font-family:'Syne',sans-serif;margin-bottom:20px;display:block;animation:fadeUp 0.5s ease both}
 .svc-title{font-family:'Syne',sans-serif;font-size:clamp(36px,7vw,60px);font-weight:800;color:#fff;line-height:1.05;margin-bottom:12px;animation:fadeUp 0.5s ease 0.1s both}
 .svc-title span{color:#4CAF50}
 .svc-sub{font-size:15px;color:rgba(255,255,255,0.4);margin-bottom:16px;font-weight:300;line-height:1.7;max-width:540px;animation:fadeUp 0.5s ease 0.2s both}
 
-/* ── SALE BANNER ── */
-.sale-banner{
-  display:flex;
-  align-items:center;
-  gap:12px;
-  padding:14px 20px;
-  background:rgba(76,175,80,0.06);
-  border:1px solid rgba(76,175,80,0.2);
-  border-radius:10px;
-  margin-bottom:56px;
-  font-size:14px;
-  color:rgba(255,255,255,0.6);
-  animation:fadeUp 0.5s ease 0.25s both;
-}
+.sale-banner{display:flex;align-items:center;gap:12px;padding:14px 20px;background:rgba(76,175,80,0.06);border:1px solid rgba(76,175,80,0.2);border-radius:10px;margin-bottom:56px;font-size:14px;color:rgba(255,255,255,0.6);animation:fadeUp 0.5s ease 0.25s both}
 .sale-banner strong{color:#4CAF50}
 .sale-dot{width:8px;height:8px;border-radius:50%;background:#4CAF50;flex-shrink:0;animation:pulse 2s infinite}
 @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.5;transform:scale(1.3)}}
 
-/* ── PPP NOTICE ── */
-.ppp-notice{
-  font-size:12px;
-  color:rgba(255,255,255,0.2);
-  margin-bottom:48px;
-  display:flex;
-  align-items:center;
-  gap:8px;
-  animation:fadeUp 0.5s ease 0.3s both;
-}
+.ppp-notice{font-size:12px;color:rgba(255,255,255,0.2);margin-bottom:48px;display:flex;align-items:center;gap:8px;animation:fadeUp 0.5s ease 0.3s both}
 .ppp-notice span{color:#4CAF50}
 
-/* ── SERVICE CARDS ── */
-.svc-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
-  gap:20px;
-  margin-bottom:80px;
-}
+.svc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:20px;margin-bottom:80px}
 
-.svc-card{
-  background:rgba(255,255,255,0.02);
-  border:1px solid rgba(255,255,255,0.07);
-  border-radius:16px;
-  overflow:hidden;
-  transition:border-color 0.25s,transform 0.25s;
-  animation:fadeUp 0.5s ease both;
-}
+.svc-card{background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.07);border-radius:16px;overflow:hidden;transition:border-color 0.25s,transform 0.25s;animation:fadeUp 0.5s ease both}
+.svc-card:hover{border-color:rgba(76,175,80,0.3);transform:translateY(-5px)}
 
-.svc-card:hover{
-  border-color:rgba(76,175,80,0.3);
-  transform:translateY(-5px);
-}
-
-/* Card accent bar */
 .svc-card-bar{height:3px;width:100%}
 .bar-video   {background:linear-gradient(90deg,#ef4444,#f97316)}
 .bar-business{background:linear-gradient(90deg,#3b82f6,#6366f1)}
 .bar-gaming  {background:linear-gradient(90deg,#a855f7,#ec4899)}
+.bar-web     {background:linear-gradient(90deg,#fbbf24,#f59e0b)}
 
 .svc-card-body{padding:24px}
-
 .svc-card-icon{font-size:32px;margin-bottom:16px;display:block}
+.svc-card-name{font-family:'Syne',sans-serif;font-size:18px;font-weight:700;color:#fff;margin-bottom:8px}
+.svc-card-desc{font-size:14px;color:rgba(255,255,255,0.45);line-height:1.7;margin-bottom:20px}
 
-.svc-card-name{
-  font-family:'Syne',sans-serif;
-  font-size:18px;
-  font-weight:700;
-  color:#fff;
-  margin-bottom:8px;
-}
+.svc-includes{list-style:none;display:flex;flex-direction:column;gap:6px;margin-bottom:20px;padding:0}
+.svc-includes li{font-size:13px;color:rgba(255,255,255,0.5);display:flex;align-items:center;gap:8px}
+.svc-includes li::before{content:"";width:5px;height:5px;border-radius:50%;background:#4CAF50;flex-shrink:0;opacity:0.6}
 
-.svc-card-desc{
-  font-size:14px;
-  color:rgba(255,255,255,0.45);
-  line-height:1.7;
-  margin-bottom:20px;
-}
+.svc-price-row{display:flex;align-items:center;justify-content:space-between;padding:14px 0 0;border-top:1px solid rgba(255,255,255,0.06);flex-wrap:wrap;gap:10px}
+.svc-price{display:flex;flex-direction:column;gap:2px}
+.svc-price-label{font-size:10px;color:rgba(255,255,255,0.25);letter-spacing:1px;text-transform:uppercase}
 
-/* What's included list */
-.svc-includes{
-  list-style:none;
-  display:flex;
-  flex-direction:column;
-  gap:6px;
-  margin-bottom:20px;
-  padding:0;
-}
+.svc-price-amount{font-family:'Syne',sans-serif;font-size:14px;font-weight:400;color:rgba(255,255,255,0.35);text-decoration:line-through}
+.svc-price-discounted{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:#4CAF50}
+.svc-price-off{font-size:10px;color:rgba(76,175,80,0.7);letter-spacing:0.5px;margin-top:2px}
 
-.svc-includes li{
-  font-size:13px;
-  color:rgba(255,255,255,0.5);
-  display:flex;
-  align-items:center;
-  gap:8px;
-}
+.svc-btn{display:inline-flex;align-items:center;gap:6px;padding:10px 18px;border-radius:10px;background:rgba(76,175,80,0.12);border:1px solid rgba(76,175,80,0.25);color:#4CAF50;font-size:13px;font-weight:500;text-decoration:none;transition:all 0.2s;font-family:'DM Sans',sans-serif}
+.svc-btn:hover{background:rgba(76,175,80,0.22);border-color:rgba(76,175,80,0.5);color:#7CFF7C;gap:10px}
 
-.svc-includes li::before{
-  content:"";
-  width:5px;
-  height:5px;
-  border-radius:50%;
-  background:#4CAF50;
-  flex-shrink:0;
-  opacity:0.6;
-}
-
-/* Price row */
-.svc-price-row{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:14px 0 0;
-  border-top:1px solid rgba(255,255,255,0.06);
-  flex-wrap:wrap;
-  gap:10px;
-}
-
-.svc-price{
-  display:flex;
-  flex-direction:column;
-  gap:2px;
-}
-
-.svc-price-label{
-  font-size:10px;
-  color:rgba(255,255,255,0.25);
-  letter-spacing:1px;
-  text-transform:uppercase;
-}
-
-.svc-price-amount{
-  font-family:'Syne',sans-serif;
-  font-size:22px;
-  font-weight:800;
-  color:#fff;
-}
-
-.svc-price-amount .gig-price{
-  display:inline-flex;
-  gap:8px;
-  align-items:baseline;
-}
-
-.svc-price-amount .old-price{
-  font-size:14px;
-  color:rgba(255,255,255,0.3);
-  text-decoration:line-through;
-  font-weight:400;
-}
-
-.svc-price-amount .new-price{
-  color:#4CAF50;
-  font-size:22px;
-}
-
-/* View gig button */
-.svc-btn{
-  display:inline-flex;
-  align-items:center;
-  gap:6px;
-  padding:10px 18px;
-  border-radius:10px;
-  background:rgba(76,175,80,0.12);
-  border:1px solid rgba(76,175,80,0.25);
-  color:#4CAF50;
-  font-size:13px;
-  font-weight:500;
-  text-decoration:none;
-  transition:all 0.2s;
-  font-family:'DM Sans',sans-serif;
-}
-
-.svc-btn:hover{
-  background:rgba(76,175,80,0.22);
-  border-color:rgba(76,175,80,0.5);
-  color:#7CFF7C;
-  gap:10px;
-}
-
-/* ── WHY FRESHMINT ── */
 .why-section{margin-bottom:80px;animation:fadeUp 0.5s ease 0.4s both}
-
-.why-label{
-  font-size:10px;
-  letter-spacing:3px;
-  text-transform:uppercase;
-  color:rgba(255,255,255,0.2);
-  font-family:'Syne',sans-serif;
-  margin-bottom:24px;
-  display:block;
-}
-
-.why-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
-  gap:1px;
-  background:rgba(255,255,255,0.05);
-  border:1px solid rgba(255,255,255,0.05);
-  border-radius:14px;
-  overflow:hidden;
-}
-
-.why-item{
-  background:#0d0d0d;
-  padding:22px;
-  transition:background 0.2s;
-}
-
+.why-label{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.2);font-family:'Syne',sans-serif;margin-bottom:24px;display:block}
+.why-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.05);border-radius:14px;overflow:hidden}
+.why-item{background:#0d0d0d;padding:22px;transition:background 0.2s}
 .why-item:hover{background:rgba(76,175,80,0.03)}
-
 .why-icon{font-size:20px;margin-bottom:10px;display:block}
+.why-item strong{display:block;font-size:14px;font-weight:500;color:rgba(255,255,255,0.8);margin-bottom:5px;font-family:'Syne',sans-serif}
+.why-item p{font-size:13px;color:rgba(255,255,255,0.35);line-height:1.6}
 
-.why-item strong{
-  display:block;
-  font-size:14px;
-  font-weight:500;
-  color:rgba(255,255,255,0.8);
-  margin-bottom:5px;
-  font-family:'Syne',sans-serif;
-}
-
-.why-item p{
-  font-size:13px;
-  color:rgba(255,255,255,0.35);
-  line-height:1.6;
-}
-
-/* ── PROCESS STEPS ── */
 .process-section{margin-bottom:80px;animation:fadeUp 0.5s ease 0.5s both}
-
-.process-steps{
-  display:flex;
-  flex-direction:column;
-  gap:0;
-}
-
-.process-step{
-  display:flex;
-  gap:20px;
-  padding:20px 0;
-  border-bottom:1px solid rgba(255,255,255,0.05);
-}
-
+.process-steps{display:flex;flex-direction:column;gap:0}
+.process-step{display:flex;gap:20px;padding:20px 0;border-bottom:1px solid rgba(255,255,255,0.05)}
 .process-step:last-child{border-bottom:none}
+.step-num{font-family:'Syne',sans-serif;font-size:11px;font-weight:700;color:rgba(76,175,80,0.5);min-width:24px;padding-top:3px;flex-shrink:0}
+.step-content strong{display:block;font-size:15px;font-weight:500;color:rgba(255,255,255,0.8);margin-bottom:4px}
+.step-content p{font-size:13px;color:rgba(255,255,255,0.4);line-height:1.65}
 
-.step-num{
-  font-family:'Syne',sans-serif;
-  font-size:11px;
-  font-weight:700;
-  color:rgba(76,175,80,0.5);
-  min-width:24px;
-  padding-top:3px;
-  flex-shrink:0;
-}
-
-.step-content strong{
-  display:block;
-  font-size:15px;
-  font-weight:500;
-  color:rgba(255,255,255,0.8);
-  margin-bottom:4px;
-}
-
-.step-content p{
-  font-size:13px;
-  color:rgba(255,255,255,0.4);
-  line-height:1.65;
-}
-
-/* ── CTA ── */
-.svc-cta{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:32px;
-  background:rgba(76,175,80,0.04);
-  border:1px solid rgba(76,175,80,0.12);
-  border-radius:16px;
-  gap:24px;
-  flex-wrap:wrap;
-  animation:fadeUp 0.5s ease 0.6s both;
-}
-
-.svc-cta-text h3{
-  font-family:'Syne',sans-serif;
-  font-size:20px;
-  font-weight:700;
-  color:#fff;
-  margin-bottom:6px;
-}
-
-.svc-cta-text p{
-  font-size:14px;
-  color:rgba(255,255,255,0.4);
-  line-height:1.65;
-}
+.svc-cta{display:flex;align-items:center;justify-content:space-between;padding:32px;background:rgba(76,175,80,0.04);border:1px solid rgba(76,175,80,0.12);border-radius:16px;gap:24px;flex-wrap:wrap;animation:fadeUp 0.5s ease 0.6s both}
+.svc-cta-text h3{font-family:'Syne',sans-serif;font-size:20px;font-weight:700;color:#fff;margin-bottom:6px}
+.svc-cta-text p{font-size:14px;color:rgba(255,255,255,0.4);line-height:1.65}
 
 @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
-
-@media(max-width:600px){
-  .svc-grid{grid-template-columns:1fr}
-  .why-grid{grid-template-columns:1fr 1fr}
-  .svc-cta{flex-direction:column}
-}
-
-@media(max-width:380px){
-  .why-grid{grid-template-columns:1fr}
-}
+@media(max-width:600px){.svc-grid{grid-template-columns:1fr}.why-grid{grid-template-columns:1fr 1fr}.svc-cta{flex-direction:column}}
+@media(max-width:380px){.why-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -353,18 +110,15 @@ body{font-family:'DM Sans',sans-serif;background:#0d0d0d;color:#c8c8c8;padding-t
   <h1 class="svc-title">Fresh<span>Mint</span> Services</h1>
   <p class="svc-sub">Professional services delivered with care. Video editing, business strategy and game coaching — all with fair regional pricing.</p>
 
-  <!-- SALE BANNER -->
   <div class="sale-banner">
     <div class="sale-dot"></div>
-    <div><strong>Seasonal Sale Active</strong> — Limited time discounts across all packages. Prices auto-adjust to your region.</div>
+    <div><strong>20% Regional Discount</strong> — Prices shown in your local currency with 20% off for all international visitors.</div>
   </div>
 
-  <!-- PPP NOTICE -->
   <p class="ppp-notice">
-    🌍 <span>Regional pricing enabled</span> — prices shown in your local currency based on your location.
+    🌍 <span>Real-time pricing enabled</span> — prices converted at today's exchange rate with 20% off.
   </p>
 
-  <!-- SERVICE CARDS -->
   <div class="svc-grid">
 
     <!-- VIDEO EDITING -->
@@ -384,9 +138,9 @@ body{font-family:'DM Sans',sans-serif;background:#0d0d0d;color:#c8c8c8;padding-t
         <div class="svc-price-row">
           <div class="svc-price">
             <span class="svc-price-label">Starting from</span>
-            <div class="svc-price-amount">
-              <span class="gig-price" data-price="15">$15</span>
-            </div>
+            <div class="svc-price-amount" data-usd="15">$15</div>
+            <div class="svc-price-discounted" data-usd-price="15">—</div>
+            <div class="svc-price-off">20% off · local price</div>
           </div>
           <a href="/services/video-editing.html" class="svc-btn">View Packages →</a>
         </div>
@@ -410,9 +164,9 @@ body{font-family:'DM Sans',sans-serif;background:#0d0d0d;color:#c8c8c8;padding-t
         <div class="svc-price-row">
           <div class="svc-price">
             <span class="svc-price-label">Starting from</span>
-            <div class="svc-price-amount">
-              <span class="gig-price" data-price="30">$30</span>
-            </div>
+            <div class="svc-price-amount" data-usd="30">$30</div>
+            <div class="svc-price-discounted" data-usd-price="30">—</div>
+            <div class="svc-price-off">20% off · local price</div>
           </div>
           <a href="/services/business-advice.html" class="svc-btn">View Packages →</a>
         </div>
@@ -436,11 +190,37 @@ body{font-family:'DM Sans',sans-serif;background:#0d0d0d;color:#c8c8c8;padding-t
         <div class="svc-price-row">
           <div class="svc-price">
             <span class="svc-price-label">Starting from</span>
-            <div class="svc-price-amount">
-              <span class="gig-price" data-price="10">$10</span>
-            </div>
+            <div class="svc-price-amount" data-usd="10">$10</div>
+            <div class="svc-price-discounted" data-usd-price="10">—</div>
+            <div class="svc-price-off">20% off · local price</div>
           </div>
           <a href="/services/game-strategy.html" class="svc-btn">View Packages →</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- WEB DEVELOPMENT -->
+    <div class="svc-card" style="animation-delay:0.4s">
+      <div class="svc-card-bar bar-web"></div>
+      <div class="svc-card-body">
+        <span class="svc-card-icon">💻</span>
+        <div class="svc-card-name">Web Development</div>
+        <div class="svc-card-desc">Bug fixes, landing pages, full builds — pure HTML/CSS/JS, no frameworks, no monthly fees.</div>
+        <ul class="svc-includes">
+          <li>Bug fixing & JS error diagnosis</li>
+          <li>Responsive design & performance</li>
+          <li>Contact forms with EmailJS</li>
+          <li>GitHub Pages deployment</li>
+          <li>React + Tailwind available</li>
+        </ul>
+        <div class="svc-price-row">
+          <div class="svc-price">
+            <span class="svc-price-label">Starting from</span>
+            <div class="svc-price-amount" data-usd="20">$20</div>
+            <div class="svc-price-discounted" data-usd-price="20">—</div>
+            <div class="svc-price-off">20% off · local price</div>
+          </div>
+          <a href="/services/web-development.html" class="svc-btn">View Packages →</a>
         </div>
       </div>
     </div>
@@ -451,36 +231,12 @@ body{font-family:'DM Sans',sans-serif;background:#0d0d0d;color:#c8c8c8;padding-t
   <div class="why-section">
     <span class="why-label">Why FreshMint</span>
     <div class="why-grid">
-      <div class="why-item">
-        <span class="why-icon">🎯</span>
-        <strong>No fluff, just results</strong>
-        <p>Every deliverable is focused on what actually matters for your project.</p>
-      </div>
-      <div class="why-item">
-        <span class="why-icon">🌍</span>
-        <strong>Fair regional pricing</strong>
-        <p>Prices adjust to your location. Great work shouldn't cost the same everywhere.</p>
-      </div>
-      <div class="why-item">
-        <span class="why-icon">⚡</span>
-        <strong>Fast turnaround</strong>
-        <p>Rush delivery available on all services. Need it yesterday? Just ask.</p>
-      </div>
-      <div class="why-item">
-        <span class="why-icon">🔄</span>
-        <strong>Revisions included</strong>
-        <p>Every package includes revisions. You get what you actually asked for.</p>
-      </div>
-      <div class="why-item">
-        <span class="why-icon">🛡</span>
-        <strong>Secure ordering</strong>
-        <p>Orders sent via encrypted form. No email exposed, reCAPTCHA protected.</p>
-      </div>
-      <div class="why-item">
-        <span class="why-icon">💬</span>
-        <strong>Real replies</strong>
-        <p>Every message read personally. Response within 24 hours, always.</p>
-      </div>
+      <div class="why-item"><span class="why-icon">🎯</span><strong>No fluff, just results</strong><p>Every deliverable is focused on what actually matters for your project.</p></div>
+      <div class="why-item"><span class="why-icon">🌍</span><strong>Fair regional pricing</strong><p>Prices at today's exchange rate with 20% off. Great work shouldn't cost the same everywhere.</p></div>
+      <div class="why-item"><span class="why-icon">⚡</span><strong>Fast turnaround</strong><p>Rush delivery available on all services. Need it yesterday? Just ask.</p></div>
+      <div class="why-item"><span class="why-icon">🔄</span><strong>Revisions included</strong><p>Every package includes revisions. You get what you actually asked for.</p></div>
+      <div class="why-item"><span class="why-icon">🛡</span><strong>Secure ordering</strong><p>Orders sent via encrypted form. No email exposed, reCAPTCHA protected.</p></div>
+      <div class="why-item"><span class="why-icon">💬</span><strong>Real replies</strong><p>Every message read personally. Response within 24 hours, always.</p></div>
     </div>
   </div>
 
@@ -488,34 +244,10 @@ body{font-family:'DM Sans',sans-serif;background:#0d0d0d;color:#c8c8c8;padding-t
   <div class="process-section">
     <span class="why-label">How it works</span>
     <div class="process-steps">
-      <div class="process-step">
-        <span class="step-num">01</span>
-        <div class="step-content">
-          <strong>Choose a package</strong>
-          <p>Pick the service and tier that fits your needs and budget. Regional pricing is applied automatically.</p>
-        </div>
-      </div>
-      <div class="process-step">
-        <span class="step-num">02</span>
-        <div class="step-content">
-          <strong>Submit your order</strong>
-          <p>Fill in the order form — name, email, project details and delivery speed. No account needed.</p>
-        </div>
-      </div>
-      <div class="process-step">
-        <span class="step-num">03</span>
-        <div class="step-content">
-          <strong>Get a confirmation</strong>
-          <p>You'll receive a confirmation email immediately. I'll follow up within 24 hours to get started.</p>
-        </div>
-      </div>
-      <div class="process-step">
-        <span class="step-num">04</span>
-        <div class="step-content">
-          <strong>Receive your deliverable</strong>
-          <p>Work delivered on time, as agreed. Revisions handled promptly until you're happy.</p>
-        </div>
-      </div>
+      <div class="process-step"><span class="step-num">01</span><div class="step-content"><strong>Choose a package</strong><p>Pick the service and tier that fits your needs and budget. Local pricing applied automatically.</p></div></div>
+      <div class="process-step"><span class="step-num">02</span><div class="step-content"><strong>Submit your order</strong><p>Fill in the order form — name, email, project details and delivery speed. No account needed.</p></div></div>
+      <div class="process-step"><span class="step-num">03</span><div class="step-content"><strong>Get a confirmation</strong><p>You'll receive a confirmation email immediately. I'll follow up within 24 hours to get started.</p></div></div>
+      <div class="process-step"><span class="step-num">04</span><div class="step-content"><strong>Receive your deliverable</strong><p>Work delivered on time, as agreed. Revisions handled promptly until you're happy.</p></div></div>
     </div>
   </div>
 
@@ -533,60 +265,100 @@ body{font-family:'DM Sans',sans-serif;background:#0d0d0d;color:#c8c8c8;padding-t
 
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-<script src="https://www.google.com/recaptcha/api.js?render=6Ld9MYssAAAAACoKomRGa0pJ6zdGtqQplIxwXbj2"></script>
+<script src="/js/navigation.js"></script>
 <script src="/js/navbar-patch.js"></script>
 <script src="/js/script.js"></script>
-<script src="/js/gig.js"></script>
-<script>const GIG_ID = "";</script>
 <script>
-/* PPP pricing on services page */
-const PPP = {
-  US:1.00,CA:0.95,GB:0.90,AU:0.90,
-  IN:0.35,PK:0.32,BD:0.30,PH:0.40,
-  BR:0.55,MX:0.60,ID:0.45,NG:0.30,
-  ZA:0.45,AR:0.40,CO:0.45,TR:0.40,
-  EG:0.30,VN:0.35,TH:0.45,MY:0.50
-};
-const EXCHANGE = {
-  US:1,CA:1.35,GB:0.79,AU:1.53,
-  IN:83,PK:278,BD:110,PH:56,
-  BR:5.0,MX:17,ID:15800,NG:1550,
-  ZA:18,AR:900,CO:4000,TR:32,
-  EG:48,VN:25000,TH:35,MY:4.7
-};
-const CURRENCY = {
-  US:"$",CA:"CA$",GB:"£",AU:"A$",
-  IN:"₹",PK:"Rs",BD:"৳",PH:"₱",
-  BR:"R$",MX:"MX$",ID:"Rp",NG:"₦",
-  ZA:"R",AR:"AR$",CO:"COP",TR:"₺",
-  EG:"E£",VN:"₫",TH:"฿",MY:"RM"
+/* =========================
+   SERVICES PAGE PRICING
+   MRP  = base × real-time rate
+   Price = MRP × 0.80 (20% off)
+   Matches gig.js logic exactly.
+========================= */
+
+const SVC_CURRENCY_CODE = {
+  US:"USD",CA:"CAD",GB:"GBP",AU:"AUD",
+  IN:"INR",PK:"PKR",BD:"BDT",PH:"PHP",
+  BR:"BRL",MX:"MXN",ID:"IDR",NG:"NGN",
+  ZA:"ZAR",AR:"ARS",CO:"COP",TR:"TRY",
+  EG:"EGP",VN:"VND",TH:"THB",MY:"MYR"
 };
 
-async function applyServicePPP() {
-  let country = "US";
+const SVC_CURRENCY_SYMBOL = {
+  USD:"$", CAD:"CA$",GBP:"£", AUD:"A$",
+  INR:"₹", PKR:"Rs", BDT:"৳", PHP:"₱",
+  BRL:"R$",MXN:"MX$",IDR:"Rp",NGN:"₦",
+  ZAR:"R", ARS:"AR$",COP:"COP",TRY:"₺",
+  EGP:"E£",VND:"₫", THB:"฿", MYR:"RM"
+};
+
+async function applyServicePricing() {
+  let country  = "US";
+  let currCode = "USD";
+  let rate     = 1;
+
+  // Check cache first (6 hour validity — matches gig.js)
   try {
-    const res  = await fetch("https://ipapi.co/json/");
-    const data = await res.json();
-    country = data.country_code || "US";
+    const cached = JSON.parse(localStorage.getItem("fmPricing") || "null");
+    if (cached && cached.country && cached.rate && (Date.now() - cached.ts) < 21600000) {
+      country  = cached.country;
+      currCode = SVC_CURRENCY_CODE[country] || "USD";
+      rate     = cached.rate;
+      renderPrices(currCode, rate);
+      return;
+    }
   } catch(e) {}
 
-  const mult = PPP[country]  || 0.80;
-  const rate = EXCHANGE[country] || 1;
-  const sym  = CURRENCY[country] || "$";
+  // Fetch country
+  try {
+    const geo = await fetch("https://ipapi.co/json/");
+    if (geo.ok) {
+      const data = await geo.json();
+      country  = data.country_code || "US";
+      currCode = SVC_CURRENCY_CODE[country] || "USD";
+    }
+  } catch(e) {}
 
-  document.querySelectorAll(".gig-price[data-price]").forEach(el => {
-    const base     = parseFloat(el.dataset.price);
-    const local    = Math.round(base * mult * rate * 0.80);
-    if (mult < 1) {
-      el.innerHTML = `<span class="old-price">$${base}</span><span class="new-price">${sym}${local}</span>`;
+  // Fetch real-time rate
+  try {
+    if (currCode !== "USD") {
+      const rateRes = await fetch(`https://api.frankfurter.app/latest?from=USD&to=${currCode}`);
+      if (rateRes.ok) {
+        const rateData = await rateRes.json();
+        rate = rateData.rates[currCode] || 1;
+      }
+    }
+  } catch(e) {}
+
+  // Cache it
+  try {
+    localStorage.setItem("fmPricing", JSON.stringify({ country, rate, ts: Date.now() }));
+  } catch(e) {}
+
+  renderPrices(currCode, rate);
+}
+
+function renderPrices(currCode, rate) {
+  const sym = SVC_CURRENCY_SYMBOL[currCode] || "$";
+
+  document.querySelectorAll(".svc-price-amount[data-usd]").forEach(mrpEl => {
+    const base       = parseFloat(mrpEl.dataset.usd);
+    const mrp        = Math.round(base * rate);
+    const discounted = Math.round(mrp * 0.80);
+    const priceEl    = mrpEl.nextElementSibling; // .svc-price-discounted
+
+    if (currCode !== "USD") {
+      mrpEl.textContent    = `${sym}${mrp.toLocaleString()}`;
+      priceEl.textContent  = `${sym}${discounted.toLocaleString()}`;
     } else {
-      el.textContent = `$${base}`;
+      // USD visitors still see 20% off
+      mrpEl.textContent    = `$${base}`;
+      priceEl.textContent  = `$${Math.round(base * 0.80)}`;
     }
   });
 }
 
-applyServicePPP();
+applyServicePricing();
 </script>
 </body>
 </html>
