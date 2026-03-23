@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="description" content="FreshMint services — video editing, business strategy and game coaching with fair regional pricing.">
+<meta name="description" content="FreshMint services — video editing, business strategy, web development and game coaching with fair regional pricing.">
 <meta name="theme-color" content="#0d0d0d">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Services | FreshMint</title>
@@ -51,7 +51,6 @@ body{font-family:'DM Sans',sans-serif;background:#0d0d0d;color:#c8c8c8;padding-t
 .svc-price-row{display:flex;align-items:center;justify-content:space-between;padding:14px 0 0;border-top:1px solid rgba(255,255,255,0.06);flex-wrap:wrap;gap:10px}
 .svc-price{display:flex;flex-direction:column;gap:2px}
 .svc-price-label{font-size:10px;color:rgba(255,255,255,0.25);letter-spacing:1px;text-transform:uppercase}
-
 .svc-price-amount{font-family:'Syne',sans-serif;font-size:14px;font-weight:400;color:rgba(255,255,255,0.35);text-decoration:line-through}
 .svc-price-discounted{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:#4CAF50}
 .svc-price-off{font-size:10px;color:rgba(76,175,80,0.7);letter-spacing:0.5px;margin-top:2px}
@@ -96,8 +95,6 @@ body{font-family:'DM Sans',sans-serif;background:#0d0d0d;color:#c8c8c8;padding-t
       <li><a href="/about.html"><span>About</span></a></li>
       <li><a href="/portfolio.html"><span>Portfolio</span></a></li>
       <li><a href="/services/"><span>Services</span></a></li>
-      <li><a href="/games.html"><span>Games</span></a></li>
-      <li><a href="/blog.html"><span>Blog</span></a></li>
       <li><a href="/links.html"><span>Links</span></a></li>
       <li><a href="/contact.html"><span>Contact</span></a></li>
     </ul>
@@ -108,7 +105,7 @@ body{font-family:'DM Sans',sans-serif;background:#0d0d0d;color:#c8c8c8;padding-t
 
   <span class="svc-eyebrow">What I offer</span>
   <h1 class="svc-title">Fresh<span>Mint</span> Services</h1>
-  <p class="svc-sub">Professional services delivered with care. Video editing, business strategy and game coaching — all with fair regional pricing.</p>
+  <p class="svc-sub">Professional services delivered with care. Video editing, business strategy, web development and game coaching — all with fair regional pricing.</p>
 
   <div class="sale-banner">
     <div class="sale-dot"></div>
@@ -269,13 +266,6 @@ body{font-family:'DM Sans',sans-serif;background:#0d0d0d;color:#c8c8c8;padding-t
 <script src="/js/navbar-patch.js"></script>
 <script src="/js/script.js"></script>
 <script>
-/* =========================
-   SERVICES PAGE PRICING
-   MRP  = base × real-time rate
-   Price = MRP × 0.80 (20% off)
-   Matches gig.js logic exactly.
-========================= */
-
 const SVC_CURRENCY_CODE = {
   US:"USD",CA:"CAD",GB:"GBP",AU:"AUD",
   IN:"INR",PK:"PKR",BD:"BDT",PH:"PHP",
@@ -297,7 +287,6 @@ async function applyServicePricing() {
   let currCode = "USD";
   let rate     = 1;
 
-  // Check cache first (6 hour validity — matches gig.js)
   try {
     const cached = JSON.parse(localStorage.getItem("fmPricing") || "null");
     if (cached && cached.country && cached.rate && (Date.now() - cached.ts) < 21600000) {
@@ -309,7 +298,6 @@ async function applyServicePricing() {
     }
   } catch(e) {}
 
-  // Fetch country
   try {
     const geo = await fetch("https://ipapi.co/json/");
     if (geo.ok) {
@@ -319,7 +307,6 @@ async function applyServicePricing() {
     }
   } catch(e) {}
 
-  // Fetch real-time rate
   try {
     if (currCode !== "USD") {
       const rateRes = await fetch(`https://api.frankfurter.app/latest?from=USD&to=${currCode}`);
@@ -330,7 +317,6 @@ async function applyServicePricing() {
     }
   } catch(e) {}
 
-  // Cache it
   try {
     localStorage.setItem("fmPricing", JSON.stringify({ country, rate, ts: Date.now() }));
   } catch(e) {}
@@ -340,20 +326,17 @@ async function applyServicePricing() {
 
 function renderPrices(currCode, rate) {
   const sym = SVC_CURRENCY_SYMBOL[currCode] || "$";
-
   document.querySelectorAll(".svc-price-amount[data-usd]").forEach(mrpEl => {
     const base       = parseFloat(mrpEl.dataset.usd);
     const mrp        = Math.round(base * rate);
     const discounted = Math.round(mrp * 0.80);
-    const priceEl    = mrpEl.nextElementSibling; // .svc-price-discounted
-
+    const priceEl    = mrpEl.nextElementSibling;
     if (currCode !== "USD") {
-      mrpEl.textContent    = `${sym}${mrp.toLocaleString()}`;
-      priceEl.textContent  = `${sym}${discounted.toLocaleString()}`;
+      mrpEl.textContent   = `${sym}${mrp.toLocaleString()}`;
+      priceEl.textContent = `${sym}${discounted.toLocaleString()}`;
     } else {
-      // USD visitors still see 20% off
-      mrpEl.textContent    = `$${base}`;
-      priceEl.textContent  = `$${Math.round(base * 0.80)}`;
+      mrpEl.textContent   = `$${base}`;
+      priceEl.textContent = `$${Math.round(base * 0.80)}`;
     }
   });
 }

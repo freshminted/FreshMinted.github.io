@@ -4,12 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>FreshMint — Kartikey Mishra</title>
-<meta name="description" content="FreshMint — professional video editing, business strategy and game coaching by Kartikey Mishra. Fair regional pricing for 20+ countries.">
+<meta name="description" content="FreshMint — professional video editing, business strategy, web development and game coaching by Kartikey Mishra. Fair regional pricing for 20+ countries.">
 <meta name="theme-color" content="#0d0d0d">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="css/style.css">
-<link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap"></noscript>
 <style>
@@ -204,7 +203,7 @@ body {
   letter-spacing: 0.5px;
 }
 
-/* ── WHAT I DO ── */
+/* ── SERVICES PREVIEW ── */
 .services-preview {
   padding: 0 24px 80px;
   max-width: 900px;
@@ -239,7 +238,7 @@ body {
 
 .services-row {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 14px;
 }
 
@@ -288,10 +287,12 @@ body {
 
 /* ── ABOUT STRIP ── */
 .about-strip {
-  margin: 0 24px 80px;
+  margin: 0 auto 80px;
   max-width: 852px;
-  margin-left: auto;
-  margin-right: auto;
+  padding: 0 24px;
+}
+
+.about-strip-inner {
   background: rgba(76,175,80,0.04);
   border: 1px solid rgba(76,175,80,0.12);
   border-radius: 16px;
@@ -395,6 +396,19 @@ body {
   font-style: italic;
 }
 
+.footer-personal {
+  font-size: 12px;
+  color: rgba(255,255,255,0.2);
+}
+
+.footer-personal a {
+  color: rgba(255,255,255,0.35);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.footer-personal a:hover { color: #4CAF50; }
+
 /* ── ANIMATIONS ── */
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(24px); }
@@ -406,7 +420,7 @@ body {
   .stats-grid { grid-template-columns: repeat(2, 1fr); }
   .services-row { grid-template-columns: 1fr; }
   .footer-top { grid-template-columns: 1fr 1fr; }
-  .about-strip { padding: 28px 24px; }
+  .about-strip-inner { padding: 28px 24px; }
 }
 
 @media (max-width: 480px) {
@@ -428,8 +442,6 @@ body {
       <li><a href="/about.html"><span>About</span></a></li>
       <li><a href="/portfolio.html"><span>Portfolio</span></a></li>
       <li><a href="/services/"><span>Services</span></a></li>
-      <li><a href="/games.html"><span>Games</span></a></li>
-      <li><a href="/blog.html"><span>Blog</span></a></li>
       <li><a href="/links.html"><span>Links</span></a></li>
       <li><a href="/contact.html"><span>Contact</span></a></li>
     </ul>
@@ -443,21 +455,19 @@ body {
   </video>
   <div class="hero-overlay"></div>
   <div class="hero-content">
-    <span class="hero-eyebrow">Welcome to FreshMint</span>
+    <span class="hero-eyebrow">Professional creative services</span>
     <p class="hero-name">Kartikey Mishra</p>
     <h1 class="hero-title">Fresh<span>Mint</span></h1>
     <p class="hero-roles">
-      Video Editor
+      Video Editing
       <span>·</span>
-      Strategist
+      Business Strategy
       <span>·</span>
-      Gamer
-      <span>·</span>
-      Creator
+      Web Development
     </p>
     <div class="hero-btns">
       <a href="/services/" class="btn">View Services</a>
-      <a href="/about.html" class="btn secondary">About Me</a>
+      <a href="/contact.html" class="btn secondary">Get in Touch</a>
     </div>
   </div>
   <div class="scroll-hint">
@@ -471,20 +481,20 @@ body {
   <span class="stats-eyebrow">By the numbers</span>
   <div class="stats-grid">
     <div class="stat-item">
-      <span class="stat-number">50<em>+</em></span>
-      <span class="stat-desc">Videos Edited</span>
-    </div>
-    <div class="stat-item">
-      <span class="stat-number">3</span>
+      <span class="stat-number">4</span>
       <span class="stat-desc">Services Offered</span>
     </div>
     <div class="stat-item">
-      <span class="stat-number">500<em>+</em></span>
-      <span class="stat-desc">Gaming Hours</span>
+      <span class="stat-number">20<em>+</em></span>
+      <span class="stat-desc">Clients Advised</span>
     </div>
     <div class="stat-item">
-      <span class="stat-number"><em>∞</em></span>
-      <span class="stat-desc">MS Paint Hours</span>
+      <span class="stat-number">⭐ 4.9</span>
+      <span class="stat-desc">Average Rating</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-number">&lt;24<em>h</em></span>
+      <span class="stat-desc">Response Time</span>
     </div>
   </div>
 </section>
@@ -499,31 +509,39 @@ body {
     <a href="/services/video-editing.html" class="service-card">
       <span class="service-icon">🎬</span>
       <div class="service-name">Video Editing</div>
-      <div class="service-desc">Cinematic edits, reels, long-form content — cut with purpose.</div>
-      <div class="service-from">From $10</div>
+      <div class="service-desc">Cinematic edits, reels and long-form content — cut with purpose, graded for impact.</div>
+      <div class="service-from">From $15</div>
     </a>
     <a href="/services/business-advice.html" class="service-card">
       <span class="service-icon">📊</span>
       <div class="service-name">Business Strategy</div>
-      <div class="service-desc">Social media growth plans and brand strategy that actually works.</div>
+      <div class="service-desc">Social media growth plans and brand strategy built for real results — no fluff.</div>
       <div class="service-from">From $30</div>
+    </a>
+    <a href="/services/web-development.html" class="service-card">
+      <span class="service-icon">💻</span>
+      <div class="service-name">Web Development</div>
+      <div class="service-desc">Bug fixes, landing pages, full builds — clean code, no frameworks, no monthly fees.</div>
+      <div class="service-from">From $20</div>
     </a>
     <a href="/services/game-strategy.html" class="service-card">
       <span class="service-icon">🎮</span>
       <div class="service-name">Game Strategy</div>
-      <div class="service-desc">VOD reviews and guides for strategy, simulation & chaos games.</div>
-      <div class="service-from">From $15</div>
+      <div class="service-desc">VOD reviews and guides for strategy, simulation and chaos games.</div>
+      <div class="service-from">From $10</div>
     </a>
   </div>
 </section>
 
 <!-- ABOUT STRIP -->
 <div class="about-strip">
-  <div class="about-strip-text">
-    <h3>Built from curiosity, driven by craft.</h3>
-    <p>18 years old. From Kanpur, India. Started with MS Paint at age 4. Now building FreshMint — a creative services platform that connects quality work with people who need it.</p>
+  <div class="about-strip-inner">
+    <div class="about-strip-text">
+      <h3>One person. Four services. No agency markup.</h3>
+      <p>Based in Kanpur, India. Every project handled personally — from first message to final delivery. Fair regional pricing for 20+ countries, built in from day one.</p>
+    </div>
+    <a href="/about.html" class="btn">About FreshMint</a>
   </div>
-  <a href="/about.html" class="btn">Read my story</a>
 </div>
 
 <!-- FOOTER -->
@@ -532,13 +550,12 @@ body {
     <div class="footer-top">
       <div class="footer-brand">
         <div class="footer-logo">FreshMint</div>
-        <p>Creative services, honest pricing, real connections. Built from Kanpur, India.</p>
+        <p>Professional creative services with fair regional pricing. Built from Kanpur, India.</p>
       </div>
       <div class="footer-col">
         <h4>Pages</h4>
         <a href="/about.html">About</a>
         <a href="/portfolio.html">Portfolio</a>
-        <a href="/games.html">Games</a>
         <a href="/links.html">Links</a>
         <a href="/contact.html">Contact</a>
       </div>
@@ -546,12 +563,14 @@ body {
         <h4>Services</h4>
         <a href="/services/">All Services</a>
         <a href="/services/video-editing.html">Video Editing</a>
-        <a href="/services/business-advice.html">Business Advice</a>
+        <a href="/services/business-advice.html">Business Strategy</a>
         <a href="/services/game-strategy.html">Game Strategy</a>
+        <a href="/services/web-development.html">Web Development</a>
       </div>
     </div>
     <div class="footer-bottom">
       <p class="footer-copy">© 2026 <span>FreshMint</span>. All rights reserved.</p>
+      <p class="footer-personal">The personal side → <a href="https://freshminted.me" target="_blank" rel="noopener">freshminted.me</a></p>
       <p class="footer-tagline">Freshly minted — like a brand new coin.</p>
     </div>
   </div>

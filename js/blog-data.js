@@ -326,6 +326,7 @@ const BLOG_POSTS = [
     image:    "",
     featured: false,
     content:  `<p>This post is coming soon. Check back shortly!</p>`
+    
   },
 
 ];
