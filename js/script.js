@@ -8,34 +8,7 @@ window.__fmPlayerInit = true;
    PPP PRICING ENGINE
 ========================= */
 
-const PPP = {
-  US:1, CA:0.95, UK:0.9, AU:0.9,
-  IN:0.35, PK:0.32, BD:0.30,
-  PH:0.40, BR:0.55, MX:0.60, ID:0.45
-};
 
-function getCountry() {
-  let lang = navigator.language;
-  if (lang.includes("-")) return lang.split("-")[1];
-  return "US";
-}
-
-const country = getCountry();
-
-document.querySelectorAll(".gig-price").forEach(el => {
-  let base = parseFloat(el.dataset.price);
-  if (!base) return;
-  let multiplier = PPP[country] || 0.85;
-  let price = Math.round(base * multiplier);
-  let currency = "$";
-  if (country === "IN") currency = "₹";
-  if (country === "BR") currency = "R$";
-  if (country === "PH") currency = "₱";
-  el.innerHTML = `
-    <span class="old-price">${currency}${base}</span>
-    <span class="new-price">${currency}${price}</span>
-  `;
-});
 
 /* =========================
    NAVBAR — SCROLL SHRINK + GLOW

@@ -136,7 +136,7 @@ body{font-family:'DM Sans',sans-serif;background:#0d0d0d;color:#c8c8c8;padding-t
           <div class="svc-price">
             <span class="svc-price-label">Starting from</span>
             <div class="svc-price-amount" data-usd="15">$15</div>
-            <div class="svc-price-discounted" data-usd-price="15">—</div>
+            <div class="svc-price-discounted">—</div>
             <div class="svc-price-off">20% off · local price</div>
           </div>
           <a href="/services/video-editing.html" class="svc-btn">View Packages →</a>
@@ -162,7 +162,7 @@ body{font-family:'DM Sans',sans-serif;background:#0d0d0d;color:#c8c8c8;padding-t
           <div class="svc-price">
             <span class="svc-price-label">Starting from</span>
             <div class="svc-price-amount" data-usd="30">$30</div>
-            <div class="svc-price-discounted" data-usd-price="30">—</div>
+            <div class="svc-price-discounted">—</div>
             <div class="svc-price-off">20% off · local price</div>
           </div>
           <a href="/services/business-advice.html" class="svc-btn">View Packages →</a>
@@ -188,7 +188,7 @@ body{font-family:'DM Sans',sans-serif;background:#0d0d0d;color:#c8c8c8;padding-t
           <div class="svc-price">
             <span class="svc-price-label">Starting from</span>
             <div class="svc-price-amount" data-usd="10">$10</div>
-            <div class="svc-price-discounted" data-usd-price="10">—</div>
+            <div class="svc-price-discounted">—</div>
             <div class="svc-price-off">20% off · local price</div>
           </div>
           <a href="/services/game-strategy.html" class="svc-btn">View Packages →</a>
@@ -214,7 +214,7 @@ body{font-family:'DM Sans',sans-serif;background:#0d0d0d;color:#c8c8c8;padding-t
           <div class="svc-price">
             <span class="svc-price-label">Starting from</span>
             <div class="svc-price-amount" data-usd="20">$20</div>
-            <div class="svc-price-discounted" data-usd-price="20">—</div>
+            <div class="svc-price-discounted">—</div>
             <div class="svc-price-off">20% off · local price</div>
           </div>
           <a href="/services/web-development.html" class="svc-btn">View Packages →</a>
@@ -262,86 +262,11 @@ body{font-family:'DM Sans',sans-serif;background:#0d0d0d;color:#c8c8c8;padding-t
 
 </div>
 
+<!-- gig.js handles all pricing — no separate script needed -->
 <script src="/js/navigation.js"></script>
 <script src="/js/navbar-patch.js"></script>
+<script src="/js/gig.js"></script>
 <script src="/js/script.js"></script>
-<script>
-const SVC_CURRENCY_CODE = {
-  US:"USD",CA:"CAD",GB:"GBP",AU:"AUD",
-  IN:"INR",PK:"PKR",BD:"BDT",PH:"PHP",
-  BR:"BRL",MX:"MXN",ID:"IDR",NG:"NGN",
-  ZA:"ZAR",AR:"ARS",CO:"COP",TR:"TRY",
-  EG:"EGP",VN:"VND",TH:"THB",MY:"MYR"
-};
-
-const SVC_CURRENCY_SYMBOL = {
-  USD:"$", CAD:"CA$",GBP:"£", AUD:"A$",
-  INR:"₹", PKR:"Rs", BDT:"৳", PHP:"₱",
-  BRL:"R$",MXN:"MX$",IDR:"Rp",NGN:"₦",
-  ZAR:"R", ARS:"AR$",COP:"COP",TRY:"₺",
-  EGP:"E£",VND:"₫", THB:"฿", MYR:"RM"
-};
-
-async function applyServicePricing() {
-  let country  = "US";
-  let currCode = "USD";
-  let rate     = 1;
-
-  try {
-    const cached = JSON.parse(localStorage.getItem("fmPricing") || "null");
-    if (cached && cached.country && cached.rate && (Date.now() - cached.ts) < 21600000) {
-      country  = cached.country;
-      currCode = SVC_CURRENCY_CODE[country] || "USD";
-      rate     = cached.rate;
-      renderPrices(currCode, rate);
-      return;
-    }
-  } catch(e) {}
-
-  try {
-    const geo = await fetch("https://ipapi.co/json/");
-    if (geo.ok) {
-      const data = await geo.json();
-      country  = data.country_code || "US";
-      currCode = SVC_CURRENCY_CODE[country] || "USD";
-    }
-  } catch(e) {}
-
-  try {
-    if (currCode !== "USD") {
-      const rateRes = await fetch(`https://api.frankfurter.app/latest?from=USD&to=${currCode}`);
-      if (rateRes.ok) {
-        const rateData = await rateRes.json();
-        rate = rateData.rates[currCode] || 1;
-      }
-    }
-  } catch(e) {}
-
-  try {
-    localStorage.setItem("fmPricing", JSON.stringify({ country, rate, ts: Date.now() }));
-  } catch(e) {}
-
-  renderPrices(currCode, rate);
-}
-
-function renderPrices(currCode, rate) {
-  const sym = SVC_CURRENCY_SYMBOL[currCode] || "$";
-  document.querySelectorAll(".svc-price-amount[data-usd]").forEach(mrpEl => {
-    const base       = parseFloat(mrpEl.dataset.usd);
-    const mrp        = Math.round(base * rate);
-    const discounted = Math.round(mrp * 0.80);
-    const priceEl    = mrpEl.nextElementSibling;
-    if (currCode !== "USD") {
-      mrpEl.textContent   = `${sym}${mrp.toLocaleString()}`;
-      priceEl.textContent = `${sym}${discounted.toLocaleString()}`;
-    } else {
-      mrpEl.textContent   = `$${base}`;
-      priceEl.textContent = `$${Math.round(base * 0.80)}`;
-    }
-  });
-}
-
-applyServicePricing();
-</script>
+<script>const GIG_ID = "";</script>
 </body>
 </html>
