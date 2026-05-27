@@ -21,12 +21,16 @@
 
      REMOVED: Blog (/blog.html) and Games (/games.html)
      These now live on freshminted.me
+
+     Portfolio (/portfolio.html) is temporarily disabled
+     while the work is being built up. To bring it back,
+     just un-comment the line below.
   ── */
 
   const NAV_LINKS = [
     { label: "Home",      href: "/index.html"     },
     { label: "About",     href: "/about.html"      },
-    { label: "Portfolio", href: "/portfolio.html"  },
+    // { label: "Portfolio", href: "/portfolio.html"  },  // disabled for now
     { label: "Services",  href: "/services/"       },
     { label: "Links",     href: "/links.html"      },
     { label: "Contact",   href: "/contact.html"    },
@@ -59,11 +63,11 @@
       letter-spacing: 0.3px;
     `;
     bar.innerHTML = `The person behind this →
-      <a href="https://freshminted.me" target="_blank" rel="noopener"
+      <a href="https://coreminty.github.io" target="_blank" rel="noopener"
         style="color:rgba(255,255,255,0.45);text-decoration:none;transition:color 0.2s;"
         onmouseover="this.style.color='#4CAF50'"
         onmouseout="this.style.color='rgba(255,255,255,0.45)'">
-        freshminted.me
+        https://coreminty.github.io
       </a>`;
 
     const navbar = document.querySelector(".navbar");

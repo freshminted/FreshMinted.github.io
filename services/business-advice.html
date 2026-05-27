@@ -18,10 +18,7 @@
     <ul class="nav-links">
       <li><a href="/index.html"><span>Home</span></a></li>
       <li><a href="/about.html"><span>About</span></a></li>
-      <li><a href="/portfolio.html"><span>Portfolio</span></a></li>
       <li><a href="/services/"><span>Services</span></a></li>
-      <li><a href="/games.html"><span>Games</span></a></li>
-      <li><a href="/blog.html"><span>Blog</span></a></li>
       <li><a href="/links.html"><span>Links</span></a></li>
       <li><a href="/contact.html"><span>Contact</span></a></li>
     </ul>
@@ -33,7 +30,7 @@
   <div class="gig-hero-content">
     <div class="gig-badge">✦ Business Strategy</div>
     <h1 class="gig-hero-title">Strategy That <em>Actually Works</em></h1>
-    <p class="gig-hero-sub">Social media growth plans, brand positioning, and marketing strategies built for real results — not fluff.</p>
+    <p class="gig-hero-sub">See no results? Data-driven strategies for content planning, growth hacking, and positioning — delivered as actionable docs, not generic fluff.</p>
     <div class="gig-hero-stats">
       <div class="stat"><span class="stat-num">20+</span><span class="stat-label">Clients Advised</span></div>
       <div class="stat"><span class="stat-num">⭐ 4.9</span><span class="stat-label">8 Reviews</span></div>
@@ -200,7 +197,7 @@
     <p class="note-label">📄 Delivered as strategy doc</p>
     <hr>
     <button class="btn note-btn" onclick="openOrder('business-advice','Growth',65,4)">Order Now</button>
-    <p class="note-small">✉ <a href="/cdn-cgi/l/email-protection#2c4a5e495f4441454258025b435e476c4b414d4540024f4341" style="color:inherit"><span class="__cf_email__" data-cfemail="5137233422393c383f257f263e233a11363c30383d7f323e3c">[email&#160;protected]</span></a></p>
+    <p class="note-small">🔒 Secure ordering · <a href="/contact.html">questions?</a></p>
   </div>
 </aside>
 </div>
@@ -220,7 +217,7 @@
         <label>Delivery Speed</label>
         <div class="toggle-row">
           <button class="toggle-btn active" id="btn-standard" onclick="setDelivery('standard')">Standard</button>
-          <button class="toggle-btn" id="btn-fast" onclick="setDelivery('fast')">⚡ Fast (+50%)</button>
+          <button class="toggle-btn" id="btn-fast" onclick="setDelivery('fast')">⚡ Fast (+25%)</button>
         </div>
         <div class="delivery-info" id="delivery-info">Estimated: 4 days</div>
       </div>
@@ -267,6 +264,7 @@
         <div class="success-icon">✓</div>
         <h3>Order Sent!</h3>
         <p>Thanks! I'll get back to you at <strong id="confirm-email"></strong> wi
+        <div class="success-order" id="confirm-order"></div>
         <button class="btn" onclick="closeOrderDirect()">Close</button>
       </div>
     </div>
@@ -283,5 +281,6 @@
 <script>
   const GIG_ID = "business-advice";
 </script>
+<script src="/js/assistant.js" defer></script>
 </body>
 </html>

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="description" content="Website design and development by FreshMint — fix bugs, build from scratch, clean code. Starting from $20.">
-<meta name="theme-color" content="#0d0d0d">
+<meta name="theme-color" content="#f6f9f8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Web Development | FreshMint</title>
 <link rel="stylesheet" href="/css/style.css">
@@ -22,10 +22,7 @@
     <ul class="nav-links">
       <li><a href="/index.html"><span>Home</span></a></li>
       <li><a href="/about.html"><span>About</span></a></li>
-      <li><a href="/portfolio.html"><span>Portfolio</span></a></li>
       <li><a href="/services/"><span>Services</span></a></li>
-      <li><a href="/games.html"><span>Games</span></a></li>
-      <li><a href="/blog.html"><span>Blog</span></a></li>
       <li><a href="/links.html"><span>Links</span></a></li>
       <li><a href="/contact.html"><span>Contact</span></a></li>
     </ul>
@@ -38,7 +35,7 @@
   <div class="gig-hero-content">
     <div class="gig-badge">✦ Web Development</div>
     <h1 class="gig-hero-title">Websites That <em>Actually Work</em></h1>
-    <p class="gig-hero-sub">Bug fixes, full builds, performance tuning — pure HTML/CSS/JS, no bloated frameworks, no monthly fees.</p>
+    <p class="gig-hero-sub">Broken site killing conversions? Fast bug fixes, responsive builds, clean code — no expensive agencies, no monthly fees ever.</p>
     <div class="gig-hero-stats">
       <div class="stat"><span class="stat-num">1</span><span class="stat-label">Site Built (This one)</span></div>
       <div class="stat"><span class="stat-num">100</span><span class="stat-label">Desktop PageSpeed</span></div>
@@ -181,7 +178,7 @@
           <li>✓ Full custom design</li>
           <li>✓ Order/contact forms</li>
           <li>✓ Blog system</li>
-          <li>✓ PPP regional pricing</li>
+          <li>✓ Multi-currency pricing system</li>
           <li>✓ Security (honeypot, reCAPTCHA)</li>
           <li>✓ PageSpeed optimisation</li>
           <li>✓ GitHub Pages deployment</li>
@@ -250,7 +247,7 @@
         <label>Delivery Speed</label>
         <div class="toggle-row">
           <button class="toggle-btn active" id="btn-standard" onclick="setDelivery('standard')">Standard</button>
-          <button class="toggle-btn" id="btn-fast" onclick="setDelivery('fast')">⚡ Fast (+50%)</button>
+          <button class="toggle-btn" id="btn-fast" onclick="setDelivery('fast')">⚡ Fast (+25%)</button>
         </div>
         <div class="delivery-info" id="delivery-info">Estimated: 7 days</div>
       </div>
@@ -300,6 +297,7 @@
         <div class="success-icon">✓</div>
         <h3>Order Sent!</h3>
         <p>Thanks! I'll get back to you at <strong id="confirm-email"></strong> within 24 hours.</p>
+        <div class="success-order" id="confirm-order"></div>
         <button class="btn" onclick="closeOrderDirect()">Close</button>
       </div>
     </div>
@@ -321,5 +319,6 @@
     else el.textContent=d;
   });
 </script>
+<script src="/js/assistant.js" defer></script>
 </body>
 </html>

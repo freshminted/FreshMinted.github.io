@@ -2,23 +2,15 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="description" content="About FreshMint — Kartikey Mishra, freelance video editor, business strategist and web developer based in Kanpur, India.">
-<meta name="theme-color" content="#0d0d0d">
+<meta name="description" content="About FreshMint — Kartikey Mishra, freelance video editor, business strategist and web developer. Fair local-currency pricing for 20+ countries.">
+<meta name="theme-color" content="#f6f9f8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>About | FreshMint</title>
 <link rel="stylesheet" href="/css/style.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
 <style>
-
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-body {
-  font-family: 'DM Sans', sans-serif;
-  background: #0d0d0d;
-  color: #c8c8c8;
-  padding-top: 80px;
-}
 
 .about-wrap {
   max-width: 760px;
@@ -36,8 +28,9 @@ body {
   font-size: 11px;
   letter-spacing: 4px;
   text-transform: uppercase;
-  color: #4CAF50;
+  color: var(--accent-dark);
   font-family: 'Syne', sans-serif;
+  font-weight: 600;
   margin-bottom: 20px;
   display: block;
 }
@@ -46,17 +39,18 @@ body {
   font-family: 'Syne', sans-serif;
   font-size: clamp(38px, 7vw, 64px);
   font-weight: 800;
-  color: #fff;
+  color: var(--text);
   line-height: 1.05;
+  letter-spacing: -1px;
   margin-bottom: 8px;
 }
 
-.about-name span { color: #4CAF50; }
+.about-name span { color: var(--accent-dark); }
 
 .about-title {
   font-size: 15px;
-  color: rgba(255,255,255,0.3);
-  font-weight: 300;
+  color: var(--text-muted);
+  font-weight: 400;
   letter-spacing: 0.5px;
   margin-bottom: 32px;
 }
@@ -65,15 +59,15 @@ body {
   width: 80px;
   height: 80px;
   border-radius: 50%;
-  background: rgba(76,175,80,0.1);
-  border: 1.5px solid rgba(76,175,80,0.25);
+  background: var(--accent-soft);
+  border: 1.5px solid var(--accent-border);
   display: flex;
   align-items: center;
   justify-content: center;
   font-family: 'Syne', sans-serif;
   font-size: 24px;
-  font-weight: 700;
-  color: #4CAF50;
+  font-weight: 800;
+  color: var(--accent-dark);
   margin-bottom: 32px;
   overflow: hidden;
 }
@@ -88,22 +82,23 @@ body {
 .about-lead {
   font-size: 18px;
   line-height: 1.8;
-  color: rgba(255,255,255,0.7);
-  font-weight: 300;
+  color: var(--text-body);
+  font-weight: 400;
   max-width: 620px;
 }
 
 .about-lead strong {
-  color: #fff;
-  font-weight: 500;
+  color: var(--text);
+  font-weight: 600;
 }
 
 /* ── DIVIDER ── */
 .about-divider {
   width: 40px;
-  height: 1px;
-  background: rgba(76,175,80,0.4);
+  height: 2px;
+  background: var(--accent);
   margin: 56px 0;
+  border-radius: 2px;
 }
 
 /* ── STATS ROW ── */
@@ -111,33 +106,34 @@ body {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
   gap: 1px;
-  background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(255,255,255,0.06);
-  border-radius: 12px;
+  background: var(--hairline);
+  border: 1px solid var(--glass-border);
+  border-radius: 14px;
   overflow: hidden;
   margin-bottom: 64px;
+  box-shadow: var(--shadow-sm);
   animation: fadeUp 0.6s ease 0.1s both;
 }
 
 .stat-cell {
-  background: #0d0d0d;
-  padding: 20px 22px;
+  background: var(--surface);
+  padding: 22px;
   transition: background 0.2s;
 }
 
-.stat-cell:hover { background: rgba(76,175,80,0.03); }
+.stat-cell:hover { background: var(--accent-softer); }
 
 .stat-num {
   font-family: 'Syne', sans-serif;
   font-size: 26px;
   font-weight: 800;
-  color: #fff;
+  color: var(--text);
   margin-bottom: 4px;
 }
 
 .stat-label {
   font-size: 12px;
-  color: rgba(255,255,255,0.3);
+  color: var(--text-muted);
   letter-spacing: 0.3px;
 }
 
@@ -151,7 +147,7 @@ body {
   font-size: 10px;
   letter-spacing: 3px;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.2);
+  color: var(--text-muted);
   font-family: 'Syne', sans-serif;
   margin-bottom: 20px;
   display: block;
@@ -160,19 +156,19 @@ body {
 .about-section p {
   font-size: 15px;
   line-height: 1.85;
-  color: rgba(255,255,255,0.6);
+  color: var(--text-body);
   margin-bottom: 14px;
 }
 
 .about-section p:last-child { margin-bottom: 0; }
 
 .about-section p strong {
-  color: rgba(255,255,255,0.85);
-  font-weight: 500;
+  color: var(--text);
+  font-weight: 600;
 }
 
 .about-section em {
-  color: #4CAF50;
+  color: var(--accent-dark);
   font-style: normal;
 }
 
@@ -181,26 +177,28 @@ body {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   gap: 1px;
-  background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(255,255,255,0.06);
-  border-radius: 12px;
+  background: var(--hairline);
+  border: 1px solid var(--glass-border);
+  border-radius: 14px;
   overflow: hidden;
   margin-top: 20px;
+  box-shadow: var(--shadow-sm);
 }
 
 .skill-cell {
-  background: #0d0d0d;
+  background: var(--surface);
   padding: 20px 22px;
   transition: background 0.2s;
 }
 
-.skill-cell:hover { background: rgba(76,175,80,0.04); }
+.skill-cell:hover { background: var(--accent-softer); }
 
 .skill-category {
   font-size: 10px;
   letter-spacing: 2px;
   text-transform: uppercase;
-  color: #4CAF50;
+  color: var(--accent-dark);
+  font-weight: 600;
   margin-bottom: 10px;
   font-family: 'Syne', sans-serif;
 }
@@ -214,7 +212,7 @@ body {
 
 .skill-list li {
   font-size: 13px;
-  color: rgba(255,255,255,0.55);
+  color: var(--text-body);
 }
 
 /* ── WHAT TO EXPECT ── */
@@ -233,9 +231,9 @@ body {
 
 .expect-num {
   font-family: 'Syne', sans-serif;
-  font-size: 11px;
-  font-weight: 700;
-  color: rgba(76,175,80,0.5);
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--accent-dark);
   min-width: 20px;
   padding-top: 2px;
   flex-shrink: 0;
@@ -244,14 +242,14 @@ body {
 .expect-text strong {
   display: block;
   font-size: 15px;
-  font-weight: 500;
-  color: rgba(255,255,255,0.85);
+  font-weight: 600;
+  color: var(--text);
   margin-bottom: 3px;
 }
 
 .expect-text p {
   font-size: 13px;
-  color: rgba(255,255,255,0.4);
+  color: var(--text-body);
   line-height: 1.65;
   margin: 0 !important;
 }
@@ -260,9 +258,10 @@ body {
 .personal-crosslink {
   margin-top: 16px;
   padding: 16px 20px;
-  background: rgba(255,255,255,0.02);
-  border: 1px solid rgba(255,255,255,0.06);
-  border-radius: 10px;
+  background: var(--surface);
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+  box-shadow: var(--shadow-sm);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -272,26 +271,27 @@ body {
 
 .personal-crosslink p {
   font-size: 13px;
-  color: rgba(255,255,255,0.3);
+  color: var(--text-muted);
   margin: 0 !important;
   line-height: 1.5;
 }
 
 .personal-crosslink a {
   font-size: 13px;
-  color: rgba(76,175,80,0.7);
+  color: var(--accent-dark);
+  font-weight: 600;
   text-decoration: none;
   white-space: nowrap;
   transition: color 0.2s;
 }
 
-.personal-crosslink a:hover { color: #4CAF50; }
+.personal-crosslink a:hover { color: var(--accent); }
 
 /* ── CTA ── */
 .about-cta {
   margin-top: 72px;
   padding-top: 48px;
-  border-top: 1px solid rgba(255,255,255,0.06);
+  border-top: 1px solid var(--hairline);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -301,12 +301,12 @@ body {
 
 .about-cta-text {
   font-family: 'Syne', sans-serif;
-  font-size: 22px;
-  font-weight: 700;
-  color: #fff;
+  font-size: 23px;
+  font-weight: 800;
+  color: var(--text);
 }
 
-.about-cta-text span { color: #4CAF50; }
+.about-cta-text span { color: var(--accent-dark); }
 
 .cta-buttons {
   display: flex;
@@ -344,7 +344,6 @@ body {
     <ul class="nav-links">
       <li><a href="/index.html"><span>Home</span></a></li>
       <li><a href="/about.html"><span>About</span></a></li>
-      <li><a href="/portfolio.html"><span>Portfolio</span></a></li>
       <li><a href="/services/"><span>Services</span></a></li>
       <li><a href="/links.html"><span>Links</span></a></li>
       <li><a href="/contact.html"><span>Contact</span></a></li>
@@ -358,20 +357,20 @@ body {
   <div class="about-intro">
 
     <div class="about-avatar">
+      <!-- To add your photo: replace the FM text with:
+           <img src="/assets/images/avatar.jpg" alt="Kartikey Mishra">
+           Use a 400x400px professional headshot -->
       FM
-      <!-- To add your photo:
-           <img src="/assets/images/avatar.jpg" alt="Kartikey Mishra"> -->
     </div>
 
     <span class="about-eyebrow">About FreshMint</span>
     <h1 class="about-name">Kartikey<br><span>Mishra</span></h1>
-    <p class="about-title">Freelance Video Editor · Business Strategist · Web Developer · Kanpur, India</p>
+    <p class="about-title">Freelance Video Editor · Business Strategist · Web Developer</p>
 
     <p class="about-lead">
-      I build things that work and make things that look good doing it.
-      FreshMint is my freelance platform — <strong>video editing, business strategy, game coaching and web development</strong>
-      — with fair regional pricing and a straightforward process. No fluff, no bloated agencies.
-      <strong>Just one person who cares about the result.</strong>
+      I help creators, businesses, and developers ship quality work — fast. <strong>FreshMint started because I got tired of watching talented people pay premium prices for agency work</strong> that could be done better by someone who actually cares about the result.
+      <br><br>
+      Now I work directly with clients on <strong>video editing, business strategy, game coaching and web development</strong> — giving you the expert attention of a specialist, with prices shown in your local currency. <strong>No markup. No delays. Just one person focused on your success.</strong>
     </p>
 
   </div>
@@ -380,11 +379,11 @@ body {
   <div class="about-stats">
     <div class="stat-cell">
       <div class="stat-num">4</div>
-      <div class="stat-label">Services offered</div>
+      <div class="stat-label">Services • All personalized</div>
     </div>
     <div class="stat-cell">
       <div class="stat-num">20+</div>
-      <div class="stat-label">Clients advised</div>
+      <div class="stat-label">Happy clients</div>
     </div>
     <div class="stat-cell">
       <div class="stat-num">⭐ 4.9</div>
@@ -392,7 +391,7 @@ body {
     </div>
     <div class="stat-cell">
       <div class="stat-num">&lt;24h</div>
-      <div class="stat-label">Response time</div>
+      <div class="stat-label">Response • Always personal</div>
     </div>
   </div>
 
@@ -496,8 +495,8 @@ body {
       <div class="expect-item">
         <span class="expect-num">04</span>
         <div class="expect-text">
-          <strong>Fair pricing, everywhere</strong>
-          <p>Prices are calculated at today's exchange rate with 20% off. Great work shouldn't cost the same in Kanpur as it does in California.</p>
+          <strong>Pricing in your local currency</strong>
+          <p>Prices are shown in your own currency at today's real exchange rate — clear and upfront, with no surprise conversion at checkout.</p>
         </div>
       </div>
       <div class="expect-item">
@@ -518,10 +517,10 @@ body {
 
   <!-- CTA -->
   <div class="about-cta">
-    <div class="about-cta-text">Ready to<br><span>work together?</span></div>
+    <div class="about-cta-text">Ready to<br><span>start your project?</span></div>
     <div class="cta-buttons">
-      <a href="/services/" class="btn">View Services</a>
-      <a href="/contact.html" class="btn secondary">Get in Touch</a>
+      <a href="/services/" class="btn">Explore Services</a>
+      <a href="/contact.html" class="btn secondary">Let's Talk</a>
     </div>
   </div>
 
@@ -530,5 +529,6 @@ body {
 <script src="/js/navigation.js"></script>
 <script src="/js/navbar-patch.js"></script>
 <script src="/js/script.js"></script>
+<script src="/js/assistant.js" defer></script>
 </body>
 </html>
