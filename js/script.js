@@ -223,19 +223,24 @@ function fmt(s) {
   return m + ":" + (sec < 10 ? "0" : "") + sec;
 }
 
+/* Dispatch a player event on document (hook point for other scripts). */
+function fmEmit(name, detail) {
+  document.dispatchEvent(new CustomEvent(name, { detail: detail || {} }));
+}
+
 function updateVolIcon() {
   let v = parseFloat(volSlider.value);
   volIcon.textContent = v === 0 ? "🔇" : v < 0.4 ? "🔉" : "🔊";
 }
 
 function updateShuffleBtn() {
-  shuffleBtn.style.color   = DB.shuffle ? "#4CAF50" : "rgba(255,255,255,0.4)";
-  shuffleBtn.style.opacity = DB.shuffle ? "1" : "0.5";
+  shuffleBtn.style.color   = DB.shuffle ? "#059669" : "rgba(15,23,42,0.45)";
+  shuffleBtn.style.opacity = DB.shuffle ? "1" : "0.6";
 }
 
 function updateRepeatBtn() {
-  repeatBtn.style.color   = DB.repeat ? "#4CAF50" : "rgba(255,255,255,0.4)";
-  repeatBtn.style.opacity = DB.repeat ? "1" : "0.5";
+  repeatBtn.style.color   = DB.repeat ? "#059669" : "rgba(15,23,42,0.45)";
+  repeatBtn.style.opacity = DB.repeat ? "1" : "0.6";
 }
 
 /* =========================
@@ -266,16 +271,27 @@ function buildPlaylist() {
   });
 }
 
+function closePlaylist() {
+  playlistPanel.classList.remove("open");
+  playlistBtn.style.color = "";
+}
+
 playlistBtn.onclick = () => {
   const open = playlistPanel.classList.toggle("open");
-  playlistBtn.style.color = open ? "#4CAF50" : "";
+  playlistBtn.style.color = open ? "#059669" : "";
   if (open) buildPlaylist();
 };
 
-playlistClose.onclick = () => {
-  playlistPanel.classList.remove("open");
-  playlistBtn.style.color = "";
-};
+playlistClose.onclick = closePlaylist;
+
+/* Dismiss the playlist by clicking anywhere outside the player, or via Escape. */
+document.addEventListener("mousedown", e => {
+  if (!playlistPanel.classList.contains("open")) return;
+  if (!e.target.closest(".music-player")) closePlaylist();
+});
+document.addEventListener("keydown", e => {
+  if (e.key === "Escape" && playlistPanel.classList.contains("open")) closePlaylist();
+});
 
 /* =========================
    LOAD SONG
@@ -300,6 +316,8 @@ function loadSong(i, resume) {
 
   // Update playlist highlight if open
   if (playlistPanel.classList.contains("open")) buildPlaylist();
+
+  fmEmit("fm:trackchange", { index: i, title: songs[i].title });
 }
 
 loadSong(DB.song, true);
@@ -341,11 +359,13 @@ playBtn.onclick = () => {
     DB.playing = true;
     player.classList.add("is-playing");
     initAudio();
+    fmEmit("fm:play", { index: DB.song });
   } else {
     audio.pause();
     playBtn.textContent = "▶";
     DB.playing = false;
     player.classList.remove("is-playing");
+    fmEmit("fm:pause", { index: DB.song });
   }
   saveDB();
 };
@@ -545,12 +565,13 @@ function drawViz() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
   if (!analyser) {
-    ctx.strokeStyle = "rgba(76,175,80,0.2)";
+    ctx.strokeStyle = "rgba(16,185,129,0.25)";
     ctx.lineWidth = 1;
     ctx.beginPath();
     ctx.moveTo(0, canvas.height / 2);
     ctx.lineTo(canvas.width, canvas.height / 2);
     ctx.stroke();
+    orb.style.transform = "scale(1)";   // rest the orb while idle
     return;
   }
 
@@ -564,15 +585,15 @@ function drawViz() {
     let barH = Math.max(2, v * canvas.height);
     let x    = i * (barW + 1);
     let y    = (canvas.height - barH) / 2;
-    let green = Math.floor(175 + v * 80);
-    ctx.fillStyle = `rgba(76,${green},80,${0.4 + v * 0.6})`;
+    let green = Math.floor(170 + v * 85);
+    ctx.fillStyle = `rgba(16,${green},129,${0.45 + v * 0.55})`;
     ctx.beginPath();
     ctx.roundRect(x, y, barW, barH, 2);
     ctx.fill();
   }
 
-  // Orb bass pulse
-  let scale = 1 + (dataArray[2] / 255) * 0.8;
+  // Orb bass pulse — subtle, premium (gentle, not bouncy)
+  let scale = 1 + (dataArray[2] / 255) * 0.22;
   orb.style.transform = `scale(${scale})`;
 }
 
@@ -600,54 +621,111 @@ circleBtn.onclick = () => {
 orb.onclick = () => player.classList.remove("circle");
 
 /* =========================
-   DRAG — desktop (from handle)
+   DRAG — works in full, minimized & circle modes
+   Full mode:        drag from the grip handle.
+   Minimized/circle: drag from anywhere except the controls.
 ========================= */
 
 let dragging = false, dragOX, dragOY;
 
-const handle = player.querySelector(".player-drag-handle");
+function canDragFrom(target) {
+  if (target.closest("#playlist-panel")) return false;
+  const compact = player.classList.contains("minimized") || player.classList.contains("circle");
+  if (compact) {
+    // grab the body, but keep buttons / sliders / orb / seek bar usable
+    return !target.closest("button, input, select, .orb, .progress");
+  }
+  // full mode — only the grip handle starts a drag
+  return !!target.closest(".player-drag-handle");
+}
 
-handle.addEventListener("mousedown", e => {
+function startDrag(clientX, clientY) {
   dragging = true;
-  let r    = player.getBoundingClientRect();
-  dragOX   = e.clientX - r.left;
-  dragOY   = e.clientY - r.top;
+  const r  = player.getBoundingClientRect();
+  dragOX   = clientX - r.left;
+  dragOY   = clientY - r.top;
   player.style.transition = "none";
-  e.preventDefault();
-});
+}
 
-document.addEventListener("mousemove", e => {
+function moveDrag(clientX, clientY) {
   if (!dragging) return;
   player.style.right  = "auto";
   player.style.bottom = "auto";
-  player.style.left   = (e.clientX - dragOX) + "px";
-  player.style.top    = (e.clientY - dragOY) + "px";
-});
+  player.style.left   = (clientX - dragOX) + "px";
+  player.style.top    = (clientY - dragOY) + "px";
+}
 
-document.addEventListener("mouseup", () => {
+function endDrag() {
+  if (!dragging) return;
   dragging = false;
   player.style.transition = "";
-});
+}
 
-/* =========================
-   DRAG — mobile (from header)
-========================= */
+player.addEventListener("mousedown", e => {
+  if (!canDragFrom(e.target)) return;
+  startDrag(e.clientX, e.clientY);
+  e.preventDefault();
+});
+document.addEventListener("mousemove", e => moveDrag(e.clientX, e.clientY));
+document.addEventListener("mouseup", endDrag);
 
 player.addEventListener("touchstart", e => {
-  if (!e.target.closest(".player-drag-handle, .player-header")) return;
-  dragging = true;
-  dragOX   = e.touches[0].clientX - player.offsetLeft;
-  dragOY   = e.touches[0].clientY - player.offsetTop;
+  if (!canDragFrom(e.target)) return;
+  startDrag(e.touches[0].clientX, e.touches[0].clientY);
 }, { passive: true });
-
 document.addEventListener("touchmove", e => {
-  if (!dragging) return;
-  player.style.left   = (e.touches[0].clientX - dragOX) + "px";
-  player.style.top    = (e.touches[0].clientY - dragOY) + "px";
-  player.style.right  = "auto";
-  player.style.bottom = "auto";
+  if (dragging) moveDrag(e.touches[0].clientX, e.touches[0].clientY);
 }, { passive: true });
+document.addEventListener("touchend", endDrag);
 
-document.addEventListener("touchend", () => dragging = false);
+/* =========================
+   HOOK POINTS — window.FMPlayer
+   Imperative API + document CustomEvents so other scripts
+   (e.g. an ordering assistant) can control & observe the player.
+   Events: fm:trackchange, fm:play, fm:pause  (detail: {index, title})
+========================= */
+
+window.FMPlayer = {
+  play()   { if (audio.paused) playBtn.click(); },
+  pause()  { if (!audio.paused) playBtn.click(); },
+  toggle() { playBtn.click(); },
+  next()   { nextBtn.click(); },
+  prev()   { prevBtn.click(); },
+  playSong(i) {
+    if (i < 0 || i >= songs.length) return false;
+    DB.time = 0;
+    loadSong(i, false);
+    audio.play();
+    playBtn.textContent = "⏸";
+    DB.playing = true;
+    player.classList.add("is-playing");
+    initAudio();
+    saveDB();
+    fmEmit("fm:play", { index: i });
+    return true;
+  },
+  setVolume(v) {
+    v = Math.max(0, Math.min(1, Number(v) || 0));
+    audio.volume = v; volSlider.value = v; DB.volume = v;
+    updateVolIcon(); saveDB();
+  },
+  openPlaylist()  { playlistPanel.classList.add("open"); playlistBtn.style.color = "#059669"; buildPlaylist(); },
+  closePlaylist() { closePlaylist(); },
+  minimize() { player.classList.add("minimized"); player.classList.remove("circle"); closePlaylist(); },
+  expand()   { player.classList.remove("minimized", "circle"); },
+  get tracks() { return songs.map(s => s.title); },
+  getState() {
+    return {
+      index:    DB.song,
+      title:    songs[DB.song] ? songs[DB.song].title : null,
+      playing:  !audio.paused,
+      volume:   audio.volume,
+      time:     audio.currentTime,
+      duration: audio.duration || 0
+    };
+  },
+  on(evt, cb)  { document.addEventListener(evt, cb); },
+  off(evt, cb) { document.removeEventListener(evt, cb); }
+};
 
 }); // end DOMContentLoaded

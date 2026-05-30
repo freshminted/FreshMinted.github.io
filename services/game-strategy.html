@@ -18,10 +18,7 @@
     <ul class="nav-links">
       <li><a href="/index.html"><span>Home</span></a></li>
       <li><a href="/about.html"><span>About</span></a></li>
-      <li><a href="/portfolio.html"><span>Portfolio</span></a></li>
       <li><a href="/services/"><span>Services</span></a></li>
-      <li><a href="/games.html"><span>Games</span></a></li>
-      <li><a href="/blog.html"><span>Blog</span></a></li>
       <li><a href="/links.html"><span>Links</span></a></li>
       <li><a href="/contact.html"><span>Contact</span></a></li>
     </ul>
@@ -33,11 +30,11 @@
   <div class="gig-hero-content">
     <div class="gig-badge">✦ Game Strategy</div>
     <h1 class="gig-hero-title">Play Smarter, <em>Win More</em></h1>
-    <p class="gig-hero-sub">Expert strategy coaching for complex simulation, strategy & sandbox games. VOD reviews, written guides, and chaos-tested tips.</p>
+    <p class="gig-hero-sub">Stuck on Cities, Ranch Sim, or strategy chaos? Expert VOD reviews, timestamped feedback, and proven optimization strategies to level up fast.</p>
     <div class="gig-hero-stats">
-      <div class="stat"><span class="stat-num">500+</span><span class="stat-label">Hours Played</span></div>
-      <div class="stat"><span class="stat-num">⭐ 4.8</span><span class="stat-label">6 Reviews</span></div>
-      <div class="stat"><span class="stat-num">1</span><span class="stat-label">Day Avg. Delivery</span></div>
+      <div class="stat"><span class="stat-headline">Cities · Ranch · Strategy</span></div>
+      <div class="stat"><span class="stat-headline">Revisions until you're happy</span></div>
+      <div class="stat"><span class="stat-headline">Real strategy, not generic tips</span></div>
     </div>
   </div>
 </section>
@@ -197,14 +194,14 @@
     <div class="tape"></div>
     <h3>🎮 Quick Order</h3>
     <hr>
-    <p>Stuck on something specific? <strong>Scout</strong> gets you unstuck fast for just $15.</p>
+    <p>Stuck on something specific? <strong>Scout</strong> gets you unstuck fast for just <span class="fm-price" data-base="10">$10</span>.</p>
     <hr>
     <p class="note-label">Starting from</p>
    <p class="total-price" id="sidebar-price">$15</p>
     <p class="note-label">⚡ Same-day delivery available</p>
     <hr>
     <button class="btn note-btn" onclick="openOrder('game-strategy','Tactician',25,2)">Order Now</button>
-    <p class="note-small">✉ <a href="/cdn-cgi/l/email-protection#6f091d0a1c070206011b4118001d042f08020e0603410c0002" style="color:inherit"><span class="__cf_email__" data-cfemail="a7c1d5c2d4cfcacec9d389d0c8d5cce7c0cac6cecb89c4c8ca">[email&#160;protected]</span></a></p>
+    <p class="note-small">🔒 Secure ordering · <a href="/contact.html">questions?</a></p>
   </div>
 </aside>
 </div>
@@ -223,7 +220,7 @@
         <label>Delivery Speed</label>
         <div class="toggle-row">
           <button class="toggle-btn active" id="btn-standard" onclick="setDelivery('standard')">Standard</button>
-          <button class="toggle-btn" id="btn-fast" onclick="setDelivery('fast')">⚡ Fast (+50%)</button>
+          <button class="toggle-btn" id="btn-fast" onclick="setDelivery('fast')">⚡ Fast (+25%)</button>
         </div>
         <div class="delivery-info" id="delivery-info">Estimated: 2 days</div>
       </div>
@@ -270,6 +267,7 @@
         <div class="success-icon">✓</div>
         <h3>Order Sent!</h3>
         <p>Thanks! I'll get back to you at <strong id="confirm-email"></strong> 
+        <div class="success-order" id="confirm-order"></div>
         <button class="btn" onclick="closeOrderDirect()">Close</button>
       </div>
     </div>
@@ -286,5 +284,6 @@
 <script>
   const GIG_ID = "game-strategy";
 </script>
+<script src="/js/assistant.js" defer></script>
 </body>
 </html>

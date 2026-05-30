@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>FreshMint — Kartikey Mishra</title>
-<meta name="description" content="FreshMint — professional video editing, business strategy, web development and game coaching by Kartikey Mishra. Fair regional pricing for 20+ countries.">
-<meta name="theme-color" content="#0d0d0d">
+<meta name="description" content="FreshMint — professional video editing, business strategy, web development and game coaching by Kartikey Mishra. Prices shown in your local currency.">
+<meta name="theme-color" content="#f6f9f8">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="css/style.css">
@@ -13,14 +13,7 @@
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap"></noscript>
 <style>
 
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-body {
-  font-family: 'DM Sans', sans-serif;
-  background: #0d0d0d;
-  color: #c8c8c8;
-  overflow-x: hidden;
-}
+body { font-family: 'DM Sans', sans-serif; overflow-x: hidden; }
 
 /* ── HERO ── */
 .hero {
@@ -40,18 +33,15 @@ body {
   height: 100%;
   object-fit: cover;
   z-index: 0;
-  opacity: 0.35;
+  opacity: 0.18;
 }
 
 .hero-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    to bottom,
-    rgba(13,13,13,0.3) 0%,
-    rgba(13,13,13,0.15) 40%,
-    rgba(13,13,13,0.85) 100%
-  );
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(16,185,129,0.10) 0%, transparent 55%),
+    linear-gradient(180deg, rgba(255,255,255,0.55) 0%, rgba(246,249,248,0.35) 45%, var(--bg) 100%);
   z-index: 1;
 }
 
@@ -60,7 +50,7 @@ body {
   z-index: 2;
   text-align: center;
   padding: 0 24px;
-  max-width: 800px;
+  max-width: 820px;
   animation: fadeUp 0.8s ease both;
 }
 
@@ -68,8 +58,9 @@ body {
   font-size: 11px;
   letter-spacing: 4px;
   text-transform: uppercase;
-  color: #4CAF50;
+  color: var(--accent-dark);
   font-family: 'Syne', sans-serif;
+  font-weight: 600;
   margin-bottom: 20px;
   display: block;
 }
@@ -78,7 +69,7 @@ body {
   font-family: 'Syne', sans-serif;
   font-size: clamp(14px, 2.5vw, 18px);
   font-weight: 400;
-  color: rgba(255,255,255,0.5);
+  color: var(--text-muted);
   letter-spacing: 6px;
   text-transform: uppercase;
   margin-bottom: 14px;
@@ -86,28 +77,25 @@ body {
 
 .hero-title {
   font-family: 'Syne', sans-serif;
-  font-size: clamp(48px, 9vw, 96px);
+  font-size: clamp(48px, 9vw, 100px);
   font-weight: 800;
-  color: #fff;
+  color: var(--text);
   line-height: 1.0;
   margin-bottom: 20px;
-  letter-spacing: -1px;
+  letter-spacing: -1.5px;
 }
 
-.hero-title span { color: #4CAF50; }
+.hero-title span { color: var(--accent-dark); }
 
 .hero-roles {
   font-size: 15px;
-  color: rgba(255,255,255,0.4);
+  color: var(--text-body);
   letter-spacing: 2px;
-  font-weight: 300;
+  font-weight: 400;
   margin-bottom: 40px;
 }
 
-.hero-roles span {
-  color: rgba(255,255,255,0.2);
-  margin: 0 8px;
-}
+.hero-roles span { color: var(--text-muted); margin: 0 8px; }
 
 .hero-btns {
   display: flex;
@@ -130,26 +118,26 @@ body {
   font-size: 10px;
   letter-spacing: 3px;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.2);
+  color: var(--text-muted);
   animation: fadeUp 1s ease 0.5s both;
 }
 
 .scroll-line {
   width: 1px;
   height: 40px;
-  background: linear-gradient(to bottom, rgba(76,175,80,0.6), transparent);
+  background: linear-gradient(to bottom, var(--accent), transparent);
   animation: scrollPulse 2s ease infinite;
 }
 
 @keyframes scrollPulse {
-  0%, 100% { opacity: 0.4; transform: scaleY(1); }
+  0%, 100% { opacity: 0.5; transform: scaleY(1); }
   50% { opacity: 1; transform: scaleY(1.2); }
 }
 
 /* ── STATS ── */
 .stats-section {
   padding: 80px 24px;
-  max-width: 900px;
+  max-width: 960px;
   margin: 0 auto;
 }
 
@@ -157,9 +145,9 @@ body {
   font-size: 10px;
   letter-spacing: 3px;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.2);
+  color: var(--text-muted);
   font-family: 'Syne', sans-serif;
-  margin-bottom: 40px;
+  margin-bottom: 24px;
   display: block;
   animation: fadeUp 0.6s ease both;
 }
@@ -167,48 +155,69 @@ body {
 .stats-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 1px;
-  background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(255,255,255,0.06);
-  border-radius: 16px;
-  overflow: hidden;
+  gap: 16px;
 }
 
 .stat-item {
-  background: #0d0d0d;
-  padding: 32px 24px;
+  background: var(--surface);
+  border: 1px solid var(--glass-border);
+  border-radius: 18px;
+  padding: 24px 18px;
   text-align: center;
-  transition: background 0.2s;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
 }
+.stat-item:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--accent-border);
+}
+.stat-ico {
+  width: 46px;
+  height: 46px;
+  border-radius: 14px;
+  background: var(--accent-soft);
+  color: var(--accent-dark);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.stat-ico svg { display: block; }
 
-.stat-item:hover { background: rgba(76,175,80,0.04); }
+.stat-item:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
 
 .stat-number {
   font-family: 'Syne', sans-serif;
   font-size: 36px;
   font-weight: 800;
-  color: #fff;
+  color: var(--text);
   margin-bottom: 6px;
   display: block;
 }
 
-.stat-number em {
-  color: #4CAF50;
-  font-style: normal;
+.stat-number em { color: var(--accent-dark); font-style: normal; }
+
+.stat-desc { font-size: 12px; color: var(--text-muted); letter-spacing: 0.5px; }
+
+.stat-headline {
+  font-family: 'Syne', sans-serif;
+  font-size: 14.5px;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.4;
+  display: block;
+  letter-spacing: -0.1px;
 }
 
-.stat-desc {
-  font-size: 12px;
-  color: rgba(255,255,255,0.3);
-  letter-spacing: 0.5px;
-}
+/* ── SECTION SHELL ── */
+.section-shell { max-width: 960px; margin: 0 auto; }
 
-/* ── SERVICES PREVIEW ── */
-.services-preview {
-  padding: 0 24px 80px;
-  max-width: 900px;
-  margin: 0 auto;
-}
+.services-preview { padding: 0 24px 80px; max-width: 960px; margin: 0 auto; }
 
 .section-header {
   display: flex;
@@ -221,16 +230,18 @@ body {
 
 .section-title {
   font-family: 'Syne', sans-serif;
-  font-size: 28px;
-  font-weight: 700;
-  color: #fff;
+  font-size: 30px;
+  font-weight: 800;
+  color: var(--text);
+  letter-spacing: -0.5px;
 }
 
 .section-link {
   font-size: 13px;
-  color: #4CAF50;
+  color: var(--accent-dark);
+  font-weight: 600;
   text-decoration: none;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.3px;
   transition: opacity 0.2s;
 }
 
@@ -239,97 +250,117 @@ body {
 .services-row {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 14px;
+  gap: 16px;
 }
 
 .service-card {
-  background: rgba(255,255,255,0.02);
-  border: 1px solid rgba(255,255,255,0.06);
-  border-radius: 14px;
-  padding: 24px;
+  background: var(--glass);
+  backdrop-filter: var(--blur);
+  -webkit-backdrop-filter: var(--blur);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  padding: 26px;
   text-decoration: none;
-  transition: border-color 0.25s, transform 0.25s, background 0.25s;
+  box-shadow: var(--shadow-sm);
+  transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s;
   display: block;
 }
 
 .service-card:hover {
-  border-color: rgba(76,175,80,0.3);
-  transform: translateY(-4px);
-  background: rgba(76,175,80,0.03);
+  border-color: var(--accent-border);
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-md);
 }
 
-.service-icon {
-  font-size: 28px;
-  margin-bottom: 14px;
-  display: block;
-}
+.service-icon { font-size: 30px; margin-bottom: 14px; display: block; color: var(--accent-dark); }
+.service-icon svg { display: block; }
 
 .service-name {
   font-family: 'Syne', sans-serif;
-  font-size: 16px;
+  font-size: 17px;
   font-weight: 700;
-  color: #fff;
+  color: var(--text);
   margin-bottom: 6px;
 }
 
-.service-desc {
-  font-size: 13px;
-  color: rgba(255,255,255,0.4);
-  line-height: 1.6;
-  margin-bottom: 14px;
+.service-desc { font-size: 13px; color: var(--text-body); line-height: 1.6; margin-bottom: 14px; }
+
+.service-from { font-size: 12px; color: var(--accent-dark); font-weight: 600; }
+
+/* ── TRUST CARDS ── */
+.trust-wrap { max-width: 960px; margin: 0 auto 80px; padding: 0 24px; }
+
+.trust-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
 }
 
-.service-from {
-  font-size: 12px;
-  color: #4CAF50;
-  font-weight: 500;
+.trust-tile {
+  background: var(--glass);
+  backdrop-filter: var(--blur);
+  -webkit-backdrop-filter: var(--blur);
+  border: 1px solid var(--accent-border);
+  border-radius: 16px;
+  padding: 26px;
+  box-shadow: var(--shadow-sm);
 }
+
+.trust-tile .ico { font-size: 26px; margin-bottom: 12px; color: var(--accent-dark); display: block; }
+.trust-tile .ico svg { display: block; }
+
+.trust-tile h4 {
+  font-family: 'Syne', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 6px;
+}
+
+.trust-tile p { font-size: 13px; color: var(--text-body); line-height: 1.7; margin: 0; }
 
 /* ── ABOUT STRIP ── */
-.about-strip {
-  margin: 0 auto 80px;
-  max-width: 852px;
-  padding: 0 24px;
-}
+.about-strip { margin: 0 auto 80px; max-width: 960px; padding: 0 24px; }
 
 .about-strip-inner {
-  background: rgba(76,175,80,0.04);
-  border: 1px solid rgba(76,175,80,0.12);
-  border-radius: 16px;
-  padding: 40px 48px;
+  background:
+    radial-gradient(ellipse at 0% 0%, var(--accent-soft) 0%, transparent 60%),
+    var(--surface);
+  border: 1px solid var(--accent-border);
+  border-radius: 22px;
+  padding: 44px 48px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 32px;
   flex-wrap: wrap;
+  box-shadow: var(--shadow-md);
 }
 
 .about-strip-text h3 {
   font-family: 'Syne', sans-serif;
-  font-size: 22px;
-  font-weight: 700;
-  color: #fff;
+  font-size: 23px;
+  font-weight: 800;
+  color: var(--text);
   margin-bottom: 8px;
 }
 
 .about-strip-text p {
   font-size: 14px;
-  color: rgba(255,255,255,0.45);
+  color: var(--text-body);
   line-height: 1.7;
-  max-width: 480px;
+  max-width: 520px;
 }
 
 /* ── FOOTER ── */
 .footer {
-  background: #080808;
-  border-top: 1px solid rgba(255,255,255,0.06);
+  background: var(--bg-alt);
+  border-top: 1px solid var(--hairline);
   padding: 60px 24px 40px;
+  text-align: left;
 }
 
-.footer-inner {
-  max-width: 900px;
-  margin: 0 auto;
-}
+.footer-inner { max-width: 960px; margin: 0 auto; }
 
 .footer-top {
   display: grid;
@@ -342,72 +373,48 @@ body {
   font-family: 'Syne', sans-serif;
   font-size: 22px;
   font-weight: 800;
-  color: #fff;
+  color: var(--text);
   margin-bottom: 10px;
 }
 
-.footer-brand p {
-  font-size: 13px;
-  color: rgba(255,255,255,0.3);
-  line-height: 1.7;
-  max-width: 220px;
-}
+.footer-brand p { font-size: 13px; color: var(--text-muted); line-height: 1.7; max-width: 240px; }
 
 .footer-col h4 {
   font-family: 'Syne', sans-serif;
   font-size: 11px;
   letter-spacing: 2px;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.25);
+  color: var(--text-muted);
   margin-bottom: 16px;
 }
 
 .footer-col a {
   display: block;
   font-size: 14px;
-  color: rgba(255,255,255,0.45);
+  color: var(--text-body);
   text-decoration: none;
   margin-bottom: 10px;
   transition: color 0.2s;
 }
 
-.footer-col a:hover { color: #4CAF50; }
+.footer-col a:hover { color: var(--accent-dark); }
 
 .footer-bottom {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding-top: 24px;
-  border-top: 1px solid rgba(255,255,255,0.05);
+  border-top: 1px solid var(--hairline);
   flex-wrap: wrap;
   gap: 12px;
 }
 
-.footer-copy {
-  font-size: 12px;
-  color: rgba(255,255,255,0.2);
-}
-
-.footer-copy span { color: #4CAF50; }
-
-.footer-tagline {
-  font-size: 12px;
-  color: rgba(255,255,255,0.15);
-  font-style: italic;
-}
-
-.footer-personal {
-  font-size: 12px;
-  color: rgba(255,255,255,0.2);
-}
-
-.footer-personal a {
-  color: rgba(255,255,255,0.35);
-  text-decoration: none;
-  transition: color 0.2s;
-}
-
-.footer-personal a:hover { color: #4CAF50; }
+.footer-copy { font-size: 12px; color: var(--text-muted); }
+.footer-copy span { color: var(--accent-dark); }
+.footer-tagline { font-size: 12px; color: var(--text-muted); font-style: italic; }
+.footer-personal { font-size: 12px; color: var(--text-muted); }
+.footer-personal a { color: var(--text-body); text-decoration: none; transition: color 0.2s; }
+.footer-personal a:hover { color: var(--accent-dark); }
 
 /* ── ANIMATIONS ── */
 @keyframes fadeUp {
@@ -420,7 +427,7 @@ body {
   .stats-grid { grid-template-columns: repeat(2, 1fr); }
   .services-row { grid-template-columns: 1fr; }
   .footer-top { grid-template-columns: 1fr 1fr; }
-  .about-strip-inner { padding: 28px 24px; }
+  .about-strip-inner { padding: 30px 26px; }
 }
 
 @media (max-width: 480px) {
@@ -440,7 +447,6 @@ body {
     <ul class="nav-links">
       <li><a href="/index.html"><span>Home</span></a></li>
       <li><a href="/about.html"><span>About</span></a></li>
-      <li><a href="/portfolio.html"><span>Portfolio</span></a></li>
       <li><a href="/services/"><span>Services</span></a></li>
       <li><a href="/links.html"><span>Links</span></a></li>
       <li><a href="/contact.html"><span>Contact</span></a></li>
@@ -455,15 +461,11 @@ body {
   </video>
   <div class="hero-overlay"></div>
   <div class="hero-content">
-    <span class="hero-eyebrow">Professional creative services</span>
+    <span class="hero-eyebrow">Results-First Creative Services</span>
     <p class="hero-name">Kartikey Mishra</p>
     <h1 class="hero-title">Fresh<span>Mint</span></h1>
     <p class="hero-roles">
-      Video Editing
-      <span>·</span>
-      Business Strategy
-      <span>·</span>
-      Web Development
+      Fast delivery · Uncompromising quality
     </p>
     <div class="hero-btns">
       <a href="/services/" class="btn">View Services</a>
@@ -478,23 +480,31 @@ body {
 
 <!-- STATS -->
 <section class="stats-section">
-  <span class="stats-eyebrow">By the numbers</span>
+  <span class="stats-eyebrow">Proven Track Record</span>
   <div class="stats-grid">
     <div class="stat-item">
-      <span class="stat-number">4</span>
-      <span class="stat-desc">Services Offered</span>
+      <span class="stat-ico" aria-hidden="true">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.2"/><rect x="14" y="3" width="7" height="7" rx="1.2"/><rect x="3" y="14" width="7" height="7" rx="1.2"/><rect x="14" y="14" width="7" height="7" rx="1.2"/></svg>
+      </span>
+      <span class="stat-headline">Four personalized services</span>
     </div>
     <div class="stat-item">
-      <span class="stat-number">20<em>+</em></span>
-      <span class="stat-desc">Clients Advised</span>
+      <span class="stat-ico" aria-hidden="true">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg>
+      </span>
+      <span class="stat-headline">Personal attention on every project</span>
     </div>
     <div class="stat-item">
-      <span class="stat-number">⭐ 4.9</span>
-      <span class="stat-desc">Average Rating</span>
+      <span class="stat-ico" aria-hidden="true">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18a9 9 0 1 1 18 0"/><path d="M12 11.5l4-3"/><circle cx="12" cy="11.5" r="1.1" fill="currentColor"/></svg>
+      </span>
+      <span class="stat-headline">100/100 PageSpeed · Clean code</span>
     </div>
     <div class="stat-item">
-      <span class="stat-number">&lt;24<em>h</em></span>
-      <span class="stat-desc">Response Time</span>
+      <span class="stat-ico" aria-hidden="true">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>
+      </span>
+      <span class="stat-headline">Reply within 24 hours</span>
     </div>
   </div>
 </section>
@@ -507,29 +517,60 @@ body {
   </div>
   <div class="services-row">
     <a href="/services/video-editing.html" class="service-card">
-      <span class="service-icon">🎬</span>
+      <span class="service-icon" aria-hidden="true">
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="8" width="19" height="13" rx="1.5"/><path d="M2.5 11.5h19"/><path d="M6 5L4 8M11 5L9 8M16 5l-2 3M21 5l-2 3"/><path d="M10.5 14L15 16.5L10.5 19z" fill="currentColor"/></svg>
+      </span>
       <div class="service-name">Video Editing</div>
-      <div class="service-desc">Cinematic edits, reels and long-form content — cut with purpose, graded for impact.</div>
-      <div class="service-from">From $15</div>
+      <div class="service-desc">Raw footage overwhelm? Get polished, engaging videos in days. Cinematic edits with color-grading and music sync included.</div>
+      <div class="service-from fm-price" data-base="8" data-prefix="From ">From $8</div>
     </a>
     <a href="/services/business-advice.html" class="service-card">
-      <span class="service-icon">📊</span>
+      <span class="service-icon" aria-hidden="true">
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><rect x="5" y="13" width="3.5" height="8" rx="0.6"/><rect x="10.25" y="9" width="3.5" height="12" rx="0.6"/><rect x="15.5" y="5" width="3.5" height="16" rx="0.6"/></svg>
+      </span>
       <div class="service-name">Business Strategy</div>
-      <div class="service-desc">Social media growth plans and brand strategy built for real results — no fluff.</div>
-      <div class="service-from">From $30</div>
+      <div class="service-desc">Not seeing growth? Data-driven social media plans and brand strategy built for real results — no generic advice.</div>
+      <div class="service-from fm-price" data-base="30" data-prefix="From ">From $30</div>
     </a>
     <a href="/services/web-development.html" class="service-card">
-      <span class="service-icon">💻</span>
+      <span class="service-icon" aria-hidden="true">
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 7L3.5 12L8.5 17"/><path d="M15.5 7L20.5 12L15.5 17"/><path d="M14 4.5L10 19.5"/></svg>
+      </span>
       <div class="service-name">Web Development</div>
-      <div class="service-desc">Bug fixes, landing pages, full builds — clean code, no frameworks, no monthly fees.</div>
-      <div class="service-from">From $20</div>
+      <div class="service-desc">Broken site draining sales? Fast bug fixes, landing pages, full builds — clean code, no expensive recurring fees.</div>
+      <div class="service-from fm-price" data-base="20" data-prefix="From ">From $20</div>
     </a>
     <a href="/services/game-strategy.html" class="service-card">
-      <span class="service-icon">🎮</span>
+      <span class="service-icon" aria-hidden="true">
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 8C4 8 2.5 10.5 2.5 13.5C2.5 16 3.5 18 5.5 18C6.5 18 7 17.5 7.5 16.5L8.5 14.5C9 14 9.5 14 10.5 14L13.5 14C14.5 14 15 14 15.5 14.5L16.5 16.5C17 17.5 17.5 18 18.5 18C20.5 18 21.5 16 21.5 13.5C21.5 10.5 20 8 17.5 8z"/><path d="M6.5 12h2M7.5 11v2"/><circle cx="15.5" cy="11.5" r="0.9" fill="currentColor"/><circle cx="17.5" cy="13.5" r="0.9" fill="currentColor"/></svg>
+      </span>
       <div class="service-name">Game Strategy</div>
-      <div class="service-desc">VOD reviews and guides for strategy, simulation and chaos games.</div>
-      <div class="service-from">From $10</div>
+      <div class="service-desc">Stuck in your game? Expert VOD reviews and tactical guides for strategy, simulation and chaos games.</div>
+      <div class="service-from fm-price" data-base="10" data-prefix="From ">From $10</div>
     </a>
+  </div>
+</section>
+
+<!-- BUY WITH CONFIDENCE -->
+<section class="trust-wrap">
+  <div class="section-header">
+    <h2 class="section-title">Buy with confidence</h2>
+  </div>
+  <div class="trust-grid">
+    <div class="trust-tile">
+      <div class="ico" aria-hidden="true">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3c4 4 4 14 0 18"/><path d="M12 3c-4 4-4 14 0 18"/></svg>
+      </div>
+      <h4>Your Local Currency</h4>
+      <p>Prices are shown in your own currency at today's real exchange rate — clear and upfront, with no surprise conversions at checkout.</p>
+    </div>
+    <div class="trust-tile">
+      <div class="ico" aria-hidden="true">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3L4 6v6c0 5 4 8 8 9c4-1 8-4 8-9V6z"/><path d="M8.5 12l2.5 2.5L16 9.5"/></svg>
+      </div>
+      <h4>100% Satisfaction Guarantee</h4>
+      <p>Revisions until you're happy. Creative direction locked from day one. No hidden surprises, no extra costs.</p>
+    </div>
   </div>
 </section>
 
@@ -537,8 +578,8 @@ body {
 <div class="about-strip">
   <div class="about-strip-inner">
     <div class="about-strip-text">
-      <h3>One person. Four services. No agency markup.</h3>
-      <p>Based in Kanpur, India. Every project handled personally — from first message to final delivery. Fair regional pricing for 20+ countries, built in from day one.</p>
+      <h3>One Expert. Four Services. No Markup. Zero Delays.</h3>
+      <p>Every project handled personally from first message to final delivery. Prices shown in your own local currency, so there are no surprises at checkout.</p>
     </div>
     <a href="/about.html" class="btn">About FreshMint</a>
   </div>
@@ -550,12 +591,11 @@ body {
     <div class="footer-top">
       <div class="footer-brand">
         <div class="footer-logo">FreshMint</div>
-        <p>Professional creative services with fair regional pricing. Built from Kanpur, India.</p>
+        <p>Professional creative services with prices shown in your local currency, for clients in 20+ countries.</p>
       </div>
       <div class="footer-col">
         <h4>Pages</h4>
         <a href="/about.html">About</a>
-        <a href="/portfolio.html">Portfolio</a>
         <a href="/links.html">Links</a>
         <a href="/contact.html">Contact</a>
       </div>
@@ -570,7 +610,7 @@ body {
     </div>
     <div class="footer-bottom">
       <p class="footer-copy">© 2026 <span>FreshMint</span>. All rights reserved.</p>
-      <p class="footer-personal">The personal side → <a href="https://freshminted.me" target="_blank" rel="noopener">freshminted.me</a></p>
+      <p class="footer-personal">The personal side → <a href="https://coreminty.github.io" target="_blank" rel="noopener">https://coreminty.github.io</a></p>
       <p class="footer-tagline">Freshly minted — like a brand new coin.</p>
     </div>
   </div>
@@ -580,5 +620,7 @@ body {
 <script src="/js/navigation.js"></script>
 <script src="/js/navbar-patch.js"></script>
 <script src="js/script.js"></script>
+<script src="/js/gig.js"></script>
+<script src="/js/assistant.js" defer></script>
 </body>
 </html>

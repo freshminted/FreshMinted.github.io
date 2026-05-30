@@ -144,9 +144,9 @@ const SALES = {
      COP, VND etc. No manual config needed.
   ── */
   highCurrency: {
-    active:   true,
+    active:   false,
     label:    "🌐 Currency Relief",
-    discount: 5,
+    discount: 2,
   },
 
   /* ── TYPE 4: GIG-SPECIFIC SALES ─────────────────
@@ -197,6 +197,28 @@ let userCountry    = "US";
 let userCurrCode   = "USD";
 let userCurrSymbol = "$";
 let realRate       = 1;
+
+/* ════════════════════════════════════════════════
+   PPP DISCOUNT  (replaces the old flat 20% off)
+   ════════════════════════════════════════════════
+   Scales with how weak the local currency is vs USD,
+   on a logarithmic curve, capped at maxDiscount.
+   USD and stronger currencies (rate ≤ 1) get 0 — they
+   pay full MRP. Gig SALES stack on top of this.
+
+   TUNE HERE:
+     maxDiscount — hard ceiling (%)
+     steepness   — higher ramps to the cap faster.
+   At steepness 4.5: ≈7% at rate 5 (BRL), ≈16% at
+   rate 35 (THB), hits the 20% cap by rate ≈85 (INR).
+   ════════════════════════════════════════════════ */
+const PPP = { maxDiscount: 20, steepness: 4.5 };
+
+function getPppDiscount() {
+  if (!(realRate > 1)) return 0;            // USD + stronger currencies pay full
+  const raw = PPP.steepness * Math.log(realRate);
+  return Math.min(PPP.maxDiscount, Math.round(raw));
+}
 
 /* =========================
    SALE CALCULATION
@@ -342,12 +364,14 @@ async function detectCountry() {
   }
 
   // Step 4 — fetch real-time exchange rate
+  // open.er-api.com is CORS-enabled (works on GitHub Pages); frankfurter.app is not.
+  // Response shape: { result:"success", base_code:"USD", rates:{ INR:83.2, ... } }
   try {
     if (userCurrCode !== "USD") {
-      const rateRes = await fetch(`https://api.frankfurter.app/latest?from=USD&to=${userCurrCode}`);
+      const rateRes = await fetch("https://open.er-api.com/v6/latest/USD");
       if (rateRes.ok) {
         const rateData = await rateRes.json();
-        realRate = rateData.rates[userCurrCode] || 1;
+        realRate = (rateData.rates && rateData.rates[userCurrCode]) || 1;
         console.log("[FreshMint] Rate fetched: 1 USD =", realRate, userCurrCode);
       }
     }
@@ -371,9 +395,8 @@ async function detectCountry() {
 
 /* =========================
    PRICE CALCULATION
-   MRP     = base × realRate
-   After20 = MRP × 0.80   (20% regional always)
-   Price   = After20 minus active SALES
+   MRP   = base × realRate            (full local price)
+   Price = MRP × (1 − PPP%) − SALES   (PPP replaces the old flat 20%)
 ========================= */
 
 function calcMRP(base) {
@@ -381,51 +404,33 @@ function calcMRP(base) {
 }
 
 function calcPrice(base) {
-  return applyDiscount(Math.round(calcMRP(base) * 0.80));
+  const ppp = getPppDiscount();
+  return applyDiscount(Math.round(calcMRP(base) * (1 - ppp / 100)));
 }
 
 function applyPricing() {
-  const { discount } = getSaleDiscount();
-  const totalOff = 20 + discount;
   const sym = userCurrSymbol;
 
   // ── GIG PAGES: .package-price[data-base] ──
+  // Show the final price in the visitor's own currency only — no strikethrough,
+  // no "% off" badge. Regional pricing is applied silently in calcPrice() so it
+  // is never displayed as a discount/advantage.
   document.querySelectorAll(".package-price[data-base]").forEach(el => {
     const base  = parseFloat(el.dataset.base);
-    const mrp   = calcMRP(base);
     const price = calcPrice(base);
-
-    if (userCurrCode !== "USD") {
-      el.innerHTML = `
-        <span class="price-original">${sym}${mrp.toLocaleString()}</span>
-        <span class="price-local">${sym}${price.toLocaleString()}</span>
-        <span class="price-badge">−${totalOff}% off · local price</span>
-      `;
-    } else {
-      el.innerHTML = `
-        <span class="price-original">$${base}</span>
-        <span class="price-local">$${price}</span>
-        <span class="price-badge">−${totalOff}% off</span>
-      `;
-    }
+    el.innerHTML = `<span class="price-local">${sym}${price.toLocaleString()}</span>`;
   });
 
   // ── SERVICES PAGE: .svc-price-amount[data-usd] ──
+  // Hide the strikethrough MRP + "% off"; show the converted price only.
   document.querySelectorAll(".svc-price-amount[data-usd]").forEach(mrpEl => {
-    const base       = parseFloat(mrpEl.dataset.usd);
-    const mrp        = calcMRP(base);
-    const price      = Math.round(mrp * 0.80); // services page shows base 20% only
-    const priceEl    = mrpEl.nextElementSibling; // .svc-price-discounted
-    const offEl      = priceEl ? priceEl.nextElementSibling : null; // .svc-price-off
-
-    if (userCurrCode !== "USD") {
-      mrpEl.textContent   = `${sym}${mrp.toLocaleString()}`;
-      if (priceEl) priceEl.textContent = `${sym}${price.toLocaleString()}`;
-    } else {
-      mrpEl.textContent   = `$${base}`;
-      if (priceEl) priceEl.textContent = `$${Math.round(base * 0.80)}`;
-    }
-    if (offEl) offEl.textContent = "20% off · local price";
+    const base    = parseFloat(mrpEl.dataset.usd);
+    const price   = calcPrice(base);
+    const priceEl = mrpEl.nextElementSibling;                     // .svc-price-discounted
+    const offEl   = priceEl ? priceEl.nextElementSibling : null;  // .svc-price-off
+    mrpEl.style.display = "none";
+    if (priceEl) priceEl.textContent = `${sym}${price.toLocaleString()}`;
+    if (offEl)   offEl.textContent   = "";
   });
 
   // ── SIDEBAR price ──
@@ -437,6 +442,17 @@ function applyPricing() {
     const price = calcPrice(base);
     sidePrice.textContent = sym + price.toLocaleString();
   }
+
+  // ── ANY OTHER PRICE: .fm-price[data-base] ──
+  // Generic catch-all: homepage "From $X" tiles, inline "just $X" copy,
+  // any badge or text that needs live currency conversion.
+  // Prefix with data-prefix="From " to keep the label intact.
+  document.querySelectorAll(".fm-price[data-base]").forEach(el => {
+    const base   = parseFloat(el.dataset.base);
+    const price  = calcPrice(base);
+    const prefix = el.dataset.prefix || "";
+    el.textContent = `${prefix}${sym}${price.toLocaleString()}`;
+  });
 }
 
 detectCountry();
@@ -444,6 +460,10 @@ detectCountry();
 /* =========================
    ORDER STATE
 ========================= */
+
+/* Rush delivery surcharge. 1.25 = +25% (market standard).
+   Change here to adjust the fast-delivery premium everywhere. */
+const RUSH_MULTIPLIER = 1.25;
 
 let orderState = {
   gig: "", tier: "", basePrice: 0, finalPrice: 0,
@@ -493,21 +513,14 @@ function formatGigName(id) {
 }
 
 function buildPackageSummary() {
-  const mrp   = calcMRP(orderState.basePrice);
   const price = calcPrice(orderState.basePrice);
   const sym   = userCurrSymbol;
-  const { discount } = getSaleDiscount();
-  const totalOff = 20 + discount;
 
-  const mrpStr = userCurrCode !== "USD"
-    ? `<span style="text-decoration:line-through;color:rgba(255,255,255,0.35);font-size:13px">${sym}${mrp.toLocaleString()}</span>`
-    : `<span style="text-decoration:line-through;color:rgba(255,255,255,0.35);font-size:13px">$${orderState.basePrice}</span>`;
-
+  // Clean price only — regional pricing is applied silently, never shown as a discount.
   document.getElementById("modal-package-summary").innerHTML = `
     <div class="summary-row"><span>Package</span><strong>${orderState.tier}</strong></div>
     <div class="summary-row"><span>Gig</span><strong>${formatGigName(orderState.gig)}</strong></div>
-    <div class="summary-row"><span>MRP (full price)</span><strong>${mrpStr}</strong></div>
-    <div class="summary-row"><span>Your price</span><strong>${sym}${price.toLocaleString()} <small style="color:#4CAF50;font-size:11px">−${totalOff}% off</small></strong></div>
+    <div class="summary-row"><span>Your price</span><strong>${sym}${price.toLocaleString()}</strong></div>
   `;
 }
 
@@ -527,7 +540,8 @@ window.setDelivery = function(type) {
 
 function updatePriceDisplay() {
   const base  = calcPrice(orderState.basePrice);
-  const total = orderState.delivery === "fast" ? Math.round(base * 1.5) : base;
+  // Rush surcharge — market-standard +25% for fast delivery
+  const total = orderState.delivery === "fast" ? Math.round(base * RUSH_MULTIPLIER) : base;
   orderState.finalPrice = total;
   document.getElementById("modal-total").textContent = userCurrSymbol + total.toLocaleString();
 }
@@ -594,18 +608,32 @@ window.submitOrder = async function() {
   const days = orderState.delivery === "fast"
     ? Math.max(1, Math.ceil(orderState.deliveryDays / 2))
     : orderState.deliveryDays;
+  const gigName  = formatGigName(orderState.gig);
+  const priceStr = sym + orderState.finalPrice.toLocaleString();
+  const delivStr = orderState.delivery === "fast" ? `Rush (${days} days)` : `Standard (${days} days)`;
+
+  // Self-contained order summary prepended to the email body, so the gig
+  // name and price are always visible even on a barebones email template.
+  const orderSummary =
+    `━━━━━━ NEW ORDER ━━━━━━\n` +
+    `Gig:      ${gigName}\n` +
+    `Package:  ${orderState.tier}\n` +
+    `Price:    ${priceStr}\n` +
+    `Delivery: ${delivStr}\n` +
+    (orderState.extra ? `Details:  ${orderState.extra}\n` : ``) +
+    `━━━━━━━━━━━━━━━━━━━━━━━\n\n`;
 
   const templateParams = {
     to_email:   OWNER_EMAIL,
     from_name:  orderState.name,
     from_email: orderState.email,
-    gig:        formatGigName(orderState.gig),
+    gig:        gigName,
     tier:       orderState.tier,
-    delivery:   orderState.delivery === "fast" ? `Rush (${days} days)` : `Standard (${days} days)`,
-    total:      sym + orderState.finalPrice.toLocaleString(),
+    delivery:   delivStr,
+    total:      priceStr,
     country:    userCountry,
     extra:      orderState.extra || "N/A",
-    message:    orderState.message,
+    message:    orderSummary + orderState.message,
     reply_to:   orderState.email,
     recaptcha:  recaptchaToken
   };
@@ -615,18 +643,23 @@ window.submitOrder = async function() {
     await emailjs.send(EMAILJS_SERVICE, EMAILJS_TEMPLATE_CLIENT, {
       from_name:  orderState.name,
       from_email: orderState.email,
-      gig:        formatGigName(orderState.gig),
+      gig:        gigName,
       tier:       orderState.tier,
-      delivery:   orderState.delivery === "fast"
-                    ? `Rush (${Math.max(1, Math.ceil(orderState.deliveryDays/2))} days)`
-                    : `Standard (${orderState.deliveryDays} days)`,
-      total:      sym + orderState.finalPrice.toLocaleString(),
-      message:    orderState.message
+      delivery:   delivStr,
+      total:      priceStr,
+      message:    `Your order: ${gigName} — ${orderState.tier} · ${priceStr} · ${delivStr}\n\n` + orderState.message
     });
 
     document.querySelectorAll(".modal-step").forEach(s => s.classList.remove("active"));
     document.getElementById("step-4").classList.add("active");
     document.getElementById("confirm-email").textContent = orderState.email;
+
+    // Restate the order (gig + package + price) on the confirmation screen.
+    const confirmOrder = document.getElementById("confirm-order");
+    if (confirmOrder) {
+      confirmOrder.innerHTML =
+        `<span>${gigName} · ${orderState.tier}</span><strong>${priceStr}</strong>`;
+    }
 
   } catch (err) {
     console.error("EmailJS error:", err);
