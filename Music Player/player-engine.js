@@ -93,10 +93,13 @@ audio.currentTime=DB.time;
 volume.value=DB.volume;
 speed.value=DB.speed;
 
+const SVG_PLAY_  = `<svg width="12" height="14" viewBox="0 0 12 14" fill="currentColor" aria-hidden="true"><path d="M2 1l9 6-9 6V1z"/></svg>`;
+const SVG_PAUSE_ = `<svg width="12" height="14" viewBox="0 0 12 14" fill="currentColor" aria-hidden="true"><rect x="0" y="0" width="4" height="14" rx="1"/><rect x="8" y="0" width="4" height="14" rx="1"/></svg>`;
+
 if(DB.playing){
 
 audio.play().catch(()=>{});
-play.textContent="⏸";
+play.innerHTML=SVG_PAUSE_;
 
 }
 
@@ -107,13 +110,13 @@ play.onclick=()=>{
 if(audio.paused){
 
 audio.play();
-play.textContent="⏸";
+play.innerHTML=SVG_PAUSE_;
 DB.playing=true;
 
 }else{
 
 audio.pause();
-play.textContent="▶";
+play.innerHTML=SVG_PLAY_;
 DB.playing=false;
 
 }

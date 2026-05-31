@@ -17,25 +17,17 @@
     "video-editing": {
       name: "Video Editing", icon: "🎬", url: "/services/video-editing.html",
       scopes: [
-<<<<<<< HEAD
         { label: "A Reel, Short or speed-edit clip", tier: "Startup" },
-=======
-        { label: "Just one quick reel or short", tier: "Startup" },
->>>>>>> 87ee787ea42d21660881f186b4e99b3bdb4c6e14
         { label: "A few videos / ongoing content", tier: "Professional" },
         { label: "Big project — film, campaign, lots of footage", tier: "Signature" }
       ],
       tiers: { Startup: { base: 8, days: 3 }, Professional: { base: 18, days: 5 }, Signature: { base: 35, days: 7 } },
-<<<<<<< HEAD
       why: "cinematic edits with colour grading, music sync and every export size — revisions included until it's right.",
       tierBlurb: {
         Startup: "Punchy, fast-cut speed editing for Reels, Shorts & TikToks — vertical exports, music synced, $8 to start.",
         Professional: "Multi-video pack with Kinetic Sync Editing, AI tools and stock footage for ongoing creators.",
         Signature: "Full cinematic projects — films, campaigns, unlimited raw footage, licensed music and priority support."
       }
-=======
-      why: "cinematic edits with colour grading, music sync and every export size — revisions included until it's right."
->>>>>>> 87ee787ea42d21660881f186b4e99b3bdb4c6e14
     },
     "business-advice": {
       name: "Business Strategy", icon: "📊", url: "/services/business-advice.html",
@@ -92,12 +84,8 @@
     box-shadow:0 8px 24px rgba(16,185,129,0.35);transition:transform .2s ease,box-shadow .2s ease;
     animation:fmaPop .5s cubic-bezier(.4,0,.2,1) both}
   .fma-launch:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(16,185,129,0.45)}
-<<<<<<< HEAD
   .fma-launch .fma-ico{font-size:18px;line-height:1;display:inline-flex;align-items:center}
   .fma-launch .fma-ico svg{display:block}
-=======
-  .fma-launch .fma-ico{font-size:18px;line-height:1}
->>>>>>> 87ee787ea42d21660881f186b4e99b3bdb4c6e14
   .fma-launch .fma-dot{position:absolute;top:-3px;right:-3px;width:12px;height:12px;border-radius:50%;
     background:#ef4444;border:2px solid #fff;animation:fmaPing 1.8s infinite}
   @keyframes fmaPop{from{opacity:0;transform:translateY(20px) scale(.9)}to{opacity:1;transform:none}}
@@ -161,11 +149,7 @@
   const launch = document.createElement("button");
   launch.className = "fma-launch";
   launch.setAttribute("aria-label", "Open ordering assistant");
-<<<<<<< HEAD
   launch.innerHTML = `<span class="fma-ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-8 8H8l-5 3v-3a8 8 0 1 1 18-8z"/></svg></span><span class="fma-label">Need help choosing?</span><span class="fma-dot"></span>`;
-=======
-  launch.innerHTML = `<span class="fma-ico">💬</span><span class="fma-label">Need help choosing?</span><span class="fma-dot"></span>`;
->>>>>>> 87ee787ea42d21660881f186b4e99b3bdb4c6e14
 
   const panel = document.createElement("div");
   panel.className = "fma-panel";
@@ -232,10 +216,7 @@
     body.innerHTML = "";
     bot("👋 Hey! I'm here to help you pick the right service and get your order started. What brings you in?");
     choices([
-<<<<<<< HEAD
       { label: "⚡ Edit a Reel / Short (speed editing)", onClick: () => recommend("video-editing", "Startup", false) },
-=======
->>>>>>> 87ee787ea42d21660881f186b4e99b3bdb4c6e14
       { label: "🧭 Help me choose a service", onClick: askService },
       { label: "🤔 I'm not sure what I need", onClick: askGoal },
       { label: "💚 Why order from FreshMint?", onClick: showWhy }
@@ -277,20 +258,13 @@
 
   function recommend(id, tier, rush) {
     const s = SVC[id];
-<<<<<<< HEAD
     const blurb = (s.tierBlurb && s.tierBlurb[tier]) || `This tier fits your scope best. With it you get ${s.why}`;
-=======
->>>>>>> 87ee787ea42d21660881f186b4e99b3bdb4c6e14
     const reco = document.createElement("div");
     reco.className = "fma-reco";
     reco.innerHTML = `
       <div class="fma-reco-top">${s.icon} Recommended for you</div>
       <h5>${s.name} — ${tier}</h5>
-<<<<<<< HEAD
       <p>${blurb}${rush ? " Rush delivery is available at checkout if you need it fast." : ""}</p>
-=======
-      <p>This tier fits your scope best. With it you get ${s.why}${rush ? " Rush delivery is available at checkout if you need it fast." : ""}</p>
->>>>>>> 87ee787ea42d21660881f186b4e99b3bdb4c6e14
     `;
     body.appendChild(reco);
     bot("Why FreshMint? " + WHY.slice(0, 3).map(w => "<br>✓ " + w).join(""));

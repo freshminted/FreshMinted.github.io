@@ -70,7 +70,26 @@
   color: var(--accent-dark);
   margin-bottom: 32px;
   overflow: hidden;
+  cursor: pointer;
+  user-select: none;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
+.about-avatar:active { transform: scale(0.93); }
+@keyframes avatarWobble {
+  0%,100% { transform: rotate(0deg) scale(1); }
+  20%     { transform: rotate(-9deg) scale(1.05); }
+  40%     { transform: rotate(9deg) scale(1.05); }
+  60%     { transform: rotate(-5deg) scale(1.02); }
+  80%     { transform: rotate(5deg) scale(1.02); }
+}
+.about-avatar.wobble { animation: avatarWobble 0.5s ease; }
+@keyframes avatarPop {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.18); box-shadow: 0 0 0 6px var(--accent-soft); }
+  70%  { transform: scale(0.95); }
+  100% { transform: scale(1); box-shadow: none; }
+}
+.about-avatar.pop { animation: avatarPop 0.5s cubic-bezier(0.34,1.56,0.64,1); }
 
 .about-avatar img {
   width: 100%;
@@ -117,34 +136,154 @@
 
 .stat-cell {
   background: var(--surface);
-  padding: 22px;
+  padding: 26px 20px;
   transition: background 0.2s;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
 }
 
 .stat-cell:hover { background: var(--accent-softer); }
+
+.stat-ico {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: var(--accent-soft);
+  border: 1px solid var(--accent-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent-dark);
+  margin-bottom: 4px;
+  flex-shrink: 0;
+}
+.stat-ico svg { display: block; }
 
 .stat-num {
   font-family: 'Syne', sans-serif;
   font-size: 26px;
   font-weight: 800;
   color: var(--text);
-  margin-bottom: 4px;
+  line-height: 1.1;
 }
 
 .stat-label {
-  font-size: 12px;
+  font-size: 11px;
   color: var(--text-muted);
   letter-spacing: 0.3px;
+  line-height: 1.4;
 }
 
-.about-stats .stat-headline {
-  font-family: 'Syne', sans-serif;
-  font-size: 14px;
-  font-weight: 700;
-  color: var(--text);
-  line-height: 1.45;
-  text-align: center;
+/* ── HAIKU ── */
+.haiku-wrap {
+  margin: 48px 0 0;
+  padding: 30px 32px;
+  background: var(--surface);
+  border: 1px solid var(--glass-border);
+  border-left: 3px solid var(--accent);
+  border-radius: 14px;
+  box-shadow: var(--shadow-sm);
+  position: relative;
+  overflow: hidden;
+  animation: fadeUp 0.6s ease both;
 }
+.haiku-wrap::before {
+  content: "俳句";
+  position: absolute;
+  top: 12px;
+  right: 18px;
+  font-size: 13px;
+  letter-spacing: 2px;
+  color: var(--text-muted);
+  opacity: 0.28;
+  font-family: serif;
+}
+.haiku-line {
+  font-family: 'Syne', sans-serif;
+  font-size: 15.5px;
+  font-weight: 600;
+  color: var(--text);
+  line-height: 2.1;
+  display: block;
+  letter-spacing: 0.2px;
+}
+.haiku-line em { color: var(--accent-dark); font-style: normal; }
+.haiku-attr {
+  font-size: 11px;
+  color: var(--text-muted);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin-top: 16px;
+  display: block;
+}
+
+/* ── EASTER EGG OVERLAY ── */
+.egg-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15,23,42,0.55);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s;
+}
+.egg-overlay.open { opacity: 1; pointer-events: all; }
+.egg-card {
+  background: var(--surface);
+  border: 1px solid var(--accent-border);
+  border-radius: 22px;
+  padding: 44px 36px 36px;
+  max-width: 400px;
+  width: 100%;
+  text-align: center;
+  box-shadow: var(--shadow-lg);
+  transform: scale(0.88) translateY(24px);
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  position: relative;
+}
+.egg-overlay.open .egg-card { transform: scale(1) translateY(0); }
+.egg-ico {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 18px;
+  display: block;
+  color: var(--accent-dark);
+}
+@keyframes eggSpin { 0%{transform:rotate(-8deg) scale(1)} 50%{transform:rotate(8deg) scale(1.12)} 100%{transform:rotate(-8deg) scale(1)} }
+.egg-ico.spinning { animation:eggSpin 0.65s ease; }
+.egg-card h3 {
+  font-family: 'Syne', sans-serif;
+  font-size: 21px;
+  font-weight: 800;
+  color: var(--text);
+  margin-bottom: 10px;
+}
+.egg-card p { font-size: 14px; color: var(--text-body); line-height: 1.7; margin-bottom: 14px; }
+.egg-seq { font-size: 12px; color: var(--text-muted); letter-spacing: 1px; margin-bottom: 24px; font-family: monospace; }
+.egg-close {
+  position: absolute;
+  top: 14px; right: 14px;
+  background: rgba(15,23,42,0.06);
+  border: none;
+  width: 30px; height: 30px;
+  border-radius: 50%;
+  cursor: pointer;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+.egg-close:hover { background: rgba(15,23,42,0.12); color: var(--text); }
 
 /* ── SECTIONS ── */
 .about-section {
@@ -386,29 +525,34 @@
 
   <!-- STATS -->
   <div class="about-stats">
-<<<<<<< HEAD
-    <div class="stat-cell"><div class="stat-headline">Four personalized services</div></div>
-    <div class="stat-cell"><div class="stat-headline">Personal attention on every project</div></div>
-    <div class="stat-cell"><div class="stat-headline">100/100 PageSpeed · Clean code</div></div>
-    <div class="stat-cell"><div class="stat-headline">Reply within 24 hours</div></div>
-=======
     <div class="stat-cell">
+      <div class="stat-ico" aria-hidden="true">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.2"/><rect x="14" y="3" width="7" height="7" rx="1.2"/><rect x="3" y="14" width="7" height="7" rx="1.2"/><rect x="14" y="14" width="7" height="7" rx="1.2"/></svg>
+      </div>
       <div class="stat-num">4</div>
-      <div class="stat-label">Services • All personalized</div>
+      <div class="stat-label">Services · All personalized</div>
     </div>
     <div class="stat-cell">
-      <div class="stat-num">20+</div>
-      <div class="stat-label">Happy clients</div>
+      <div class="stat-ico" aria-hidden="true">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3L4 6v6c0 5 4 8 8 9c4-1 8-4 8-9V6z"/><path d="M8.5 12l2.5 2.5L16 9.5"/></svg>
+      </div>
+      <div class="stat-num">∞</div>
+      <div class="stat-label">Revisions · Until you're happy</div>
     </div>
     <div class="stat-cell">
-      <div class="stat-num">⭐ 4.9</div>
-      <div class="stat-label">Average rating</div>
+      <div class="stat-ico" aria-hidden="true">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18a9 9 0 1 1 18 0"/><path d="M12 11.5l4-3"/><circle cx="12" cy="11.5" r="1.1" fill="currentColor"/></svg>
+      </div>
+      <div class="stat-num">100</div>
+      <div class="stat-label">PageSpeed · Desktop score</div>
     </div>
     <div class="stat-cell">
+      <div class="stat-ico" aria-hidden="true">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>
+      </div>
       <div class="stat-num">&lt;24h</div>
-      <div class="stat-label">Response • Always personal</div>
+      <div class="stat-label">Response · Always personal</div>
     </div>
->>>>>>> 87ee787ea42d21660881f186b4e99b3bdb4c6e14
   </div>
 
   <div class="about-divider"></div>
@@ -531,6 +675,14 @@
     <a href="https://coreminty.github.io" target="_blank" rel="noopener">Visit coreminty.github.io →</a>
   </div>
 
+  <!-- HAIKU -->
+  <div class="haiku-wrap">
+    <span class="haiku-line">One life — <em>drink it deep</em>,</span>
+    <span class="haiku-line">learn while the hours still hold light —</span>
+    <span class="haiku-line">time runs, then is <em>gone</em>.</span>
+    <span class="haiku-attr">— on why I never stop learning</span>
+  </div>
+
   <!-- CTA -->
   <div class="about-cta">
     <div class="about-cta-text">Ready to<br><span>start your project?</span></div>
@@ -546,5 +698,89 @@
 <script src="/js/navbar-patch.js"></script>
 <script src="/js/script.js"></script>
 <script src="/js/assistant.js" defer></script>
+
+<!-- EASTER EGG -->
+<div class="egg-overlay" id="egg-overlay">
+  <div class="egg-card">
+    <button class="egg-close" id="egg-close" aria-label="Close">
+      <svg width="11" height="11" viewBox="0 0 11 11" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><line x1="1" y1="1" x2="10" y2="10"/><line x1="10" y1="1" x2="1" y2="10"/></svg>
+    </button>
+    <svg class="egg-ico" id="egg-ico" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <!-- stem -->
+      <path d="M40 70 C40 50 40 38 40 22" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+      <!-- left leaf -->
+      <path d="M40 42 C28 38 20 28 26 16 C32 24 38 34 40 42Z" fill="currentColor" opacity="0.85"/>
+      <!-- right leaf -->
+      <path d="M40 34 C52 30 62 20 56 8 C50 16 44 26 40 34Z" fill="currentColor" opacity="0.7"/>
+      <!-- small top sprig -->
+      <path d="M40 22 C34 16 32 8 38 4 C40 10 40 16 40 22Z" fill="currentColor" opacity="0.9"/>
+    </svg>
+    <h3>You found it.</h3>
+    <p>After several years of being <em>the computer guy</em>, it hit me — I hadn't actually built anything for myself or for real people. So <strong>FreshMint was born.</strong></p>
+    <a href="/contact.html" class="btn" id="egg-cta">Let's build something</a>
+  </div>
+</div>
+<script>
+(function () {
+  const avatar  = document.querySelector('.about-avatar');
+  const overlay = document.getElementById('egg-overlay');
+  const ico     = document.getElementById('egg-ico');
+  const closeBtn = document.getElementById('egg-close');
+  const ctaBtn  = document.getElementById('egg-cta');
+
+  if (!avatar || !overlay) return;
+
+  let taps = 0, timer = null;
+  const TARGET = 5;
+
+  function openEgg() {
+    overlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    avatar.classList.remove('pop');
+    ico.classList.remove('spinning');
+    void ico.offsetWidth;
+    avatar.classList.add('pop');
+    ico.classList.add('spinning');
+  }
+  function closeEgg() {
+    overlay.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  avatar.addEventListener('click', () => {
+    taps++;
+    clearTimeout(timer);
+
+    /* wobble hint at tap 3 so users sense something is happening */
+    if (taps === 3) {
+      avatar.classList.remove('wobble');
+      void avatar.offsetWidth;
+      avatar.classList.add('wobble');
+    }
+
+    if (taps >= TARGET) {
+      taps = 0;
+      openEgg();
+      return;
+    }
+
+    /* reset if idle for 2 s */
+    timer = setTimeout(() => { taps = 0; }, 2000);
+  });
+
+  /* clean up animation classes when they end */
+  avatar.addEventListener('animationend', () => {
+    avatar.classList.remove('wobble', 'pop');
+  });
+  ico.addEventListener('animationend', () => {
+    ico.classList.remove('spinning');
+  });
+
+  overlay.addEventListener('click', e => { if (e.target === overlay) closeEgg(); });
+  closeBtn.addEventListener('click', closeEgg);
+  ctaBtn.addEventListener('click', closeEgg);
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeEgg(); });
+})();
+</script>
 </body>
 </html>

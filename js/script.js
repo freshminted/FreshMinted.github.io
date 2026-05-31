@@ -87,6 +87,22 @@ const songs = [
   { title: "November Lights, Diviners - Change [NCS Release]",                src: "/assets/audio/song8.mp3" },
 ];
 
+/* ── Player SVG icons ── */
+const SVG_PLAY    = `<svg width="12" height="14" viewBox="0 0 12 14" fill="currentColor" aria-hidden="true"><path d="M2 1l9 6-9 6V1z"/></svg>`;
+const SVG_PAUSE   = `<svg width="12" height="14" viewBox="0 0 12 14" fill="currentColor" aria-hidden="true"><rect x="0" y="0" width="4" height="14" rx="1"/><rect x="8" y="0" width="4" height="14" rx="1"/></svg>`;
+const SVG_VOL_HI  = `<svg width="18" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>`;
+const SVG_VOL_LO  = `<svg width="18" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>`;
+const SVG_VOL_MU  = `<svg width="18" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>`;
+const SVG_PREV    = `<svg width="16" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="3" y="4" width="3" height="16" rx="1"/><path d="M21 4L9 12l12 8V4z"/></svg>`;
+const SVG_NEXT    = `<svg width="16" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="18" y="4" width="3" height="16" rx="1"/><path d="M3 4l12 8L3 20V4z"/></svg>`;
+const SVG_SHUF    = `<svg width="16" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/><polyline points="21 16 21 21 16 21"/><line x1="15" y1="15" x2="21" y2="21"/></svg>`;
+const SVG_RPT     = `<svg width="16" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>`;
+const SVG_LIST    = `<svg width="14" height="11" viewBox="0 0 14 11" fill="currentColor" aria-hidden="true"><rect y="0" width="14" height="2" rx="1"/><rect y="4.5" width="14" height="2" rx="1"/><rect y="9" width="14" height="2" rx="1"/></svg>`;
+const SVG_MIN     = `<svg width="12" height="2" viewBox="0 0 12 2" fill="currentColor" aria-hidden="true"><rect width="12" height="2" rx="1"/></svg>`;
+const SVG_CIRC    = `<svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="6.5" cy="6.5" r="5.5"/><circle cx="6.5" cy="6.5" r="2" fill="currentColor" stroke="none"/></svg>`;
+const SVG_CLOSE   = `<svg width="11" height="11" viewBox="0 0 11 11" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><line x1="1" y1="1" x2="10" y2="10"/><line x1="10" y1="1" x2="1" y2="10"/></svg>`;
+const SVG_PL_PLAY = `<svg width="8" height="9" viewBox="0 0 8 9" fill="currentColor" aria-hidden="true"><path d="M1 0.5l6 4-6 4V0.5z"/></svg>`;
+
 /* Shuffle queue — used when shuffle is on */
 let shuffleQueue = [];
 
@@ -131,9 +147,9 @@ if (!document.querySelector(".music-player")) {
           <div class="player-song-index" id="song-index">1 / ${songs.length}</div>
         </div>
         <div class="player-actions">
-          <button id="playlist-btn" title="Playlist" aria-label="Playlist">☰</button>
-          <button id="min-btn"      title="Minimize"  aria-label="Minimize">⟂</button>
-          <button id="circle-btn"   title="Mini mode" aria-label="Mini mode">◉</button>
+          <button id="playlist-btn" title="Playlist" aria-label="Playlist">${SVG_LIST}</button>
+          <button id="min-btn"      title="Minimize"  aria-label="Minimize">${SVG_MIN}</button>
+          <button id="circle-btn"   title="Mini mode" aria-label="Mini mode">${SVG_CIRC}</button>
         </div>
       </div>
 
@@ -150,15 +166,15 @@ if (!document.querySelector(".music-player")) {
       </div>
 
       <div class="controls">
-        <button id="shuffle-btn" title="Shuffle" aria-label="Shuffle" class="ctrl-extra">⇄</button>
-        <button id="prev"        title="Previous (←)" aria-label="Previous">⏮</button>
-        <button id="play"        title="Play/Pause (Space)" aria-label="Play">▶</button>
-        <button id="next"        title="Next (→)" aria-label="Next">⏭</button>
-        <button id="repeat-btn"  title="Repeat" aria-label="Repeat" class="ctrl-extra">↻</button>
+        <button id="shuffle-btn" title="Shuffle" aria-label="Shuffle" class="ctrl-extra">${SVG_SHUF}</button>
+        <button id="prev"        title="Previous (←)" aria-label="Previous">${SVG_PREV}</button>
+        <button id="play"        title="Play/Pause (Space)" aria-label="Play">${SVG_PLAY}</button>
+        <button id="next"        title="Next (→)" aria-label="Next">${SVG_NEXT}</button>
+        <button id="repeat-btn"  title="Repeat" aria-label="Repeat" class="ctrl-extra">${SVG_RPT}</button>
       </div>
 
       <div class="player-bottom">
-        <span class="vol-icon" id="vol-icon" title="Mute (M)">🔊</span>
+        <span class="vol-icon" id="vol-icon" title="Mute (M)"></span>
         <input type="range" id="volume" min="0" max="1" step="0.01" aria-label="Volume">
         <select id="speed" aria-label="Playback speed">
           <option value="0.75">0.75×</option>
@@ -172,7 +188,7 @@ if (!document.querySelector(".music-player")) {
       <div class="playlist-panel" id="playlist-panel">
         <div class="playlist-header">
           <span>Playlist</span>
-          <button id="playlist-close">✕</button>
+          <button id="playlist-close">${SVG_CLOSE}</button>
         </div>
         <ul class="playlist-items" id="playlist-items"></ul>
       </div>
@@ -230,7 +246,7 @@ function fmEmit(name, detail) {
 
 function updateVolIcon() {
   let v = parseFloat(volSlider.value);
-  volIcon.textContent = v === 0 ? "🔇" : v < 0.4 ? "🔉" : "🔊";
+  volIcon.innerHTML = v === 0 ? SVG_VOL_MU : v < 0.4 ? SVG_VOL_LO : SVG_VOL_HI;
 }
 
 function updateShuffleBtn() {
@@ -255,13 +271,13 @@ function buildPlaylist() {
     li.innerHTML = `
       <span class="pl-num">${i + 1}</span>
       <span class="pl-title">${s.title}</span>
-      <span class="pl-play">${i === DB.song ? "▶" : ""}</span>
+      <span class="pl-play">${i === DB.song ? SVG_PL_PLAY : ""}</span>
     `;
     li.onclick = () => {
       DB.time = 0;
       loadSong(i, false);
       audio.play();
-      playBtn.textContent = "⏸";
+      playBtn.innerHTML = SVG_PAUSE;
       DB.playing = true;
       player.classList.add("is-playing");
       saveDB();
@@ -334,7 +350,7 @@ updateVolIcon();
 updateShuffleBtn();
 updateRepeatBtn();
 
-if (DB.playing) playBtn.textContent = "⏸";
+if (DB.playing) playBtn.innerHTML = SVG_PAUSE;
 if (DB.shuffle) buildShuffleQueue(DB.song);
 
 /* =========================
@@ -355,14 +371,14 @@ document.addEventListener("click", () => {
 playBtn.onclick = () => {
   if (audio.paused) {
     audio.play();
-    playBtn.textContent = "⏸";
+    playBtn.innerHTML = SVG_PAUSE;
     DB.playing = true;
     player.classList.add("is-playing");
     initAudio();
     fmEmit("fm:play", { index: DB.song });
   } else {
     audio.pause();
-    playBtn.textContent = "▶";
+    playBtn.innerHTML = SVG_PLAY;
     DB.playing = false;
     player.classList.remove("is-playing");
     fmEmit("fm:pause", { index: DB.song });
@@ -400,7 +416,7 @@ nextBtn.onclick = () => {
   DB.time = 0;
   loadSong(DB.song, false);
   audio.play();
-  playBtn.textContent = "⏸";
+  playBtn.innerHTML = SVG_PAUSE;
   DB.playing = true;
   player.classList.add("is-playing");
   saveDB();
@@ -412,7 +428,7 @@ prevBtn.onclick = () => {
   DB.time = 0;
   loadSong(DB.song, false);
   audio.play();
-  playBtn.textContent = "⏸";
+  playBtn.innerHTML = SVG_PAUSE;
   DB.playing = true;
   player.classList.add("is-playing");
   saveDB();
@@ -474,8 +490,8 @@ volSlider.oninput = () => {
 };
 
 volIcon.onclick = () => {
-  audio.muted         = !audio.muted;
-  volIcon.textContent = audio.muted ? "🔇" : (DB.volume < 0.4 ? "🔉" : "🔊");
+  audio.muted      = !audio.muted;
+  volIcon.innerHTML = audio.muted ? SVG_VOL_MU : (DB.volume < 0.4 ? SVG_VOL_LO : SVG_VOL_HI);
 };
 
 /* =========================
@@ -518,8 +534,8 @@ document.addEventListener("keydown", e => {
       DB.volume       = audio.volume;
       updateVolIcon(); saveDB(); break;
     case "KeyM":
-      audio.muted         = !audio.muted;
-      volIcon.textContent = audio.muted ? "🔇" : (DB.volume < 0.4 ? "🔉" : "🔊");
+      audio.muted       = !audio.muted;
+      volIcon.innerHTML = audio.muted ? SVG_VOL_MU : (DB.volume < 0.4 ? SVG_VOL_LO : SVG_VOL_HI);
       break;
     case "KeyS":
       shuffleBtn.click(); break;
@@ -696,7 +712,7 @@ window.FMPlayer = {
     DB.time = 0;
     loadSong(i, false);
     audio.play();
-    playBtn.textContent = "⏸";
+    playBtn.innerHTML = SVG_PAUSE;
     DB.playing = true;
     player.classList.add("is-playing");
     initAudio();

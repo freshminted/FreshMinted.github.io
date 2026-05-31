@@ -231,7 +231,7 @@
           if (DB.playing) {
             audio.play().catch(() => {});
             const playBtn = document.getElementById("play");
-            if (playBtn) playBtn.textContent = "⏸";
+            if (playBtn) playBtn.innerHTML = `<svg width="12" height="14" viewBox="0 0 12 14" fill="currentColor" aria-hidden="true"><rect x="0" y="0" width="4" height="14" rx="1"/><rect x="8" y="0" width="4" height="14" rx="1"/></svg>`;
             const player = document.querySelector(".music-player");
             if (player) player.classList.add("is-playing");
           }

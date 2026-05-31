@@ -97,7 +97,6 @@
 .stat { display: flex; flex-direction: column; align-items: center; gap: 4px; }
 .stat-num { font-family: 'Syne', sans-serif; font-size: 24px; font-weight: 800; color: var(--text); }
 .stat-label { font-size: 12px; color: var(--text-muted); letter-spacing: 0.5px; }
-<<<<<<< HEAD
 
 /* Descriptor-style stat — single bold line, no number/label split */
 .stat-headline {
@@ -110,8 +109,6 @@
   max-width: 200px;
   display: block;
 }
-=======
->>>>>>> 87ee787ea42d21660881f186b4e99b3bdb4c6e14
 
 /* =========================
    LAYOUT
@@ -186,12 +183,8 @@
   border-color: var(--accent-border);
   box-shadow: var(--shadow-md);
 }
-<<<<<<< HEAD
 .feature-icon { font-size: 24px; flex-shrink: 0; line-height: 1; color: var(--accent-dark); display: flex; align-items: flex-start; }
 .feature-icon svg { display: block; }
-=======
-.feature-icon { font-size: 24px; flex-shrink: 0; line-height: 1; }
->>>>>>> 87ee787ea42d21660881f186b4e99b3bdb4c6e14
 .feature-item strong { display: block; font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
 .feature-item p { font-size: 13px; color: var(--text-body); margin: 0; line-height: 1.6; }
 
@@ -301,7 +294,6 @@
 }
 
 /* =========================
-<<<<<<< HEAD
    PORTFOLIO STRIP (social links — editing gig)
 ========================= */
 .portfolio-grid {
@@ -369,8 +361,6 @@
 }
 
 /* =========================
-=======
->>>>>>> 87ee787ea42d21660881f186b4e99b3bdb4c6e14
    TRUST CARDS (inline grids in gig pages)
 ========================= */
 .trust-card {
@@ -382,12 +372,8 @@
   padding: 24px;
   box-shadow: var(--shadow-sm);
 }
-<<<<<<< HEAD
 .trust-card .trust-ico { font-size: 24px; margin-bottom: 10px; color: var(--accent-dark); display: block; }
 .trust-card .trust-ico svg { display: block; }
-=======
-.trust-card .trust-ico { font-size: 24px; margin-bottom: 10px; }
->>>>>>> 87ee787ea42d21660881f186b4e99b3bdb4c6e14
 .trust-card strong {
   display: block;
   font-family: 'Syne', sans-serif;
