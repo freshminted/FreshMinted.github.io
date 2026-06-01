@@ -98,9 +98,6 @@
 
     injectPersonalLink();
 
-    if (missing.length > 0) {
-      console.log(`[FreshMint] Navbar patched — added: ${missing.map(l => l.label).join(", ")}`);
-    }
   };
 
   document.addEventListener("DOMContentLoaded", () => {

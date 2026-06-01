@@ -568,7 +568,6 @@ function initAudio() {
     dataArray = new Uint8Array(analyser.frequencyBinCount);
     if (!vizStarted) { vizStarted = true; drawViz(); }
   } catch (err) {
-    console.warn("AudioContext error:", err);
   }
 }
 

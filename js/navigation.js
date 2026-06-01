@@ -10,6 +10,118 @@
    <script src="/js/script.js"></script>
 ========================= */
 
+/* ── Console guard — runs immediately, before anything else ── */
+(function () {
+  var _n = function () {};
+
+  // Snapshot originals before silencing
+  var _o = {
+    l: console.log.bind(console),
+    w: console.warn.bind(console),
+    i: console.info.bind(console),
+    d: console.debug.bind(console),
+    e: console.error.bind(console)
+  };
+
+  // Show one message, then go dark
+  _o.l(
+    "%c👋 Hey there.\n%cThis site is handcrafted by FreshMint.\n%cType  unlock('...')  if you know the way in.",
+    "color:#4CAF50;font-size:15px;font-weight:800;line-height:1.8;",
+    "color:#aaa;font-size:12px;",
+    "color:#555;font-size:11px;font-style:italic;"
+  );
+
+  console.log   = _n;
+  console.warn  = _n;
+  console.info  = _n;
+  console.debug = _n;
+  // console.error stays open — real browser errors still surface
+
+  // SHA-256("Hotst@r001") XOR'd byte-by-byte with key [79,114,97,110,103,101] ("Orange")
+  // Neither the password nor the raw hash exists anywhere in this file
+  var _x = [79,114,97,110,103,101];
+  var _z = [99,164,151,223,112,73,239,146,113,157,152,205,25,253,60,136,145,102,136,49,107,214,57,121,73,17,133,20,142,239,149,219];
+
+  function _h() {
+    return _z.map(function (b, i) {
+      return (b ^ _x[i % _x.length]).toString(16).padStart(2, "0");
+    }).join("");
+  }
+
+  var _LS = "_fmcg";
+  var _MAX = 10;
+  var _TTL = 3600000; // 1 hour in ms
+
+  function _getState() {
+    try { return JSON.parse(localStorage.getItem(_LS) || "null"); } catch (e) { return null; }
+  }
+  function _setState(s) {
+    try { localStorage.setItem(_LS, JSON.stringify(s)); } catch (e) {}
+  }
+  function _clearState() {
+    try { localStorage.removeItem(_LS); } catch (e) {}
+  }
+
+  window.unlock = async function (pw) {
+    var now = Date.now();
+    var st  = _getState();
+
+    // Locked out?
+    if (st && st.until && now < st.until) {
+      var mins = Math.ceil((st.until - now) / 60000);
+      _o.l(
+        "%c🔒 Console locked. Try again in " + mins + " minute" + (mins !== 1 ? "s" : "") + ".",
+        "color:#ef4444;font-size:13px;font-weight:700;"
+      );
+      return;
+    }
+
+    // Lockout expired — reset
+    if (st && st.until && now >= st.until) {
+      st = null;
+      _clearState();
+    }
+
+    var attempts = (st && st.count) || 0;
+
+    try {
+      var buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(pw));
+      var hex = Array.from(new Uint8Array(buf)).map(function (b) {
+        return b.toString(16).padStart(2, "0");
+      }).join("");
+
+      if (hex === _h()) {
+        _clearState();
+        console.log   = _o.l;
+        console.warn  = _o.w;
+        console.info  = _o.i;
+        console.debug = _o.d;
+        console.error = _o.e;
+        _o.l("%c✅ Console unlocked. Welcome back.", "color:#4CAF50;font-size:14px;font-weight:700;");
+        delete window.unlock;
+      } else {
+        attempts++;
+        if (attempts >= _MAX) {
+          _setState({ count: attempts, until: now + _TTL });
+          _o.l(
+            "%c🔒 Too many failed attempts. Console locked for 1 hour.",
+            "color:#ef4444;font-size:14px;font-weight:700;"
+          );
+        } else {
+          _setState({ count: attempts, until: null });
+          var left = _MAX - attempts;
+          _o.l(
+            "%c❌ Wrong password — " + left + " attempt" + (left !== 1 ? "s" : "") + " remaining.",
+            "color:#ef4444;font-size:14px;font-weight:700;"
+          );
+        }
+      }
+    } catch (e) {
+      _o.l("%c❌ Error.", "color:#ef4444;");
+    }
+  };
+})();
+
 (function () {
 
   const PERSISTENT = [
@@ -248,7 +360,6 @@
       liftCurtain();
 
     } catch (err) {
-      console.warn("[FreshMint Nav] fetch failed, falling back to full load:", err);
       window.location.href = url;
     }
 

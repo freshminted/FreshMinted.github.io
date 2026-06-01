@@ -311,7 +311,6 @@ const CURRENCY_SYMBOL = {
 };
 
 async function detectCountry() {
-  console.log("[FreshMint] detectCountry() called");
 
   // Step 1 — instant language fallback
   try {
@@ -338,13 +337,11 @@ async function detectCountry() {
       userCurrCode   = CURRENCY_CODE[userCountry]   || "USD";
       userCurrSymbol = CURRENCY_SYMBOL[userCurrCode] || "$";
       realRate       = cached.rate;
-      console.log("[FreshMint] Loaded from cache:", userCountry, userCurrCode, realRate);
       applyPricing();
       showSaleBanner();
       return;
     } else if (cached) {
       // Cache exists but rate is suspicious — clear it and re-fetch
-      console.log("[FreshMint] Cache has bad rate, clearing:", cached.rate);
       localStorage.removeItem("fmPricing");
     }
   } catch(e) {}
@@ -357,11 +354,8 @@ async function detectCountry() {
       userCountry    = geo.country_code || userCountry;
       userCurrCode   = CURRENCY_CODE[userCountry]   || "USD";
       userCurrSymbol = CURRENCY_SYMBOL[userCurrCode] || "$";
-      console.log("[FreshMint] Country from IP:", userCountry, userCurrCode);
     }
-  } catch(e) {
-    console.warn("[FreshMint] IP lookup failed:", e);
-  }
+  } catch(e) {}
 
   // Step 4 — fetch real-time exchange rate
   // open.er-api.com is CORS-enabled (works on GitHub Pages); frankfurter.app is not.
@@ -372,11 +366,9 @@ async function detectCountry() {
       if (rateRes.ok) {
         const rateData = await rateRes.json();
         realRate = (rateData.rates && rateData.rates[userCurrCode]) || 1;
-        console.log("[FreshMint] Rate fetched: 1 USD =", realRate, userCurrCode);
       }
     }
   } catch(e) {
-    console.warn("[FreshMint] Rate fetch failed:", e);
     realRate = 1;
   }
 
@@ -590,7 +582,7 @@ function buildReview() {
 }
 
 window.submitOrder = async function() {
-  if (!checkHoneypot()) { console.warn("Bot detected"); return; }
+  if (!checkHoneypot()) return;
   if (!checkRateLimit()) return;
 
   const btn = document.getElementById("submit-btn");
@@ -600,7 +592,7 @@ window.submitOrder = async function() {
   let recaptchaToken = "";
   try {
     recaptchaToken = await grecaptcha.execute(RECAPTCHA_SITE, { action: "submit_order" });
-  } catch(e) { console.warn("reCAPTCHA failed:", e); }
+  } catch(e) {}
 
   btn.textContent = "Sending...";
 
@@ -662,7 +654,6 @@ window.submitOrder = async function() {
     }
 
   } catch (err) {
-    console.error("EmailJS error:", err);
     alert("Something went wrong. Please email freshmint.work@gmail.com directly.");
     btn.textContent = "Send Order ✉";
     btn.disabled    = false;
